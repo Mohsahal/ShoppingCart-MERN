@@ -51,7 +51,10 @@ function AdminProducts() {
       ? dispatch(
           editProduct({
             id: currentEditedId,
-            formData,
+            formData: {
+              ...formData,
+              image: uploadedImageUrl || formData.image,
+            },
           })
         ).then((data) => {
           console.log(data, "edit");
@@ -61,6 +64,7 @@ function AdminProducts() {
             setFormData(initialFormData);
             setOpenCreateProductsDialog(false);
             setCurrentEditedId(null);
+            setUploadedImageUrl("");
           }
         })
       : dispatch(
@@ -73,6 +77,7 @@ function AdminProducts() {
             dispatch(fetchAllProducts());
             setOpenCreateProductsDialog(false);
             setImageFile(null);
+            setUploadedImageUrl("");
             setFormData(initialFormData);
             toast({
               title: "Product add successfully",
@@ -90,10 +95,18 @@ function AdminProducts() {
   }
 
   function isFormValid() {
-    return Object.keys(formData)
-      .filter((currentKey) => currentKey !== "averageReview")
-      .map((key) => formData[key] !== "")
-      .every((item) => item);
+    // For new products, require an uploaded image URL
+    // For editing, the image is already stored in formData.image
+    const imageValid =
+      currentEditedId !== null ? !!formData.image : !!uploadedImageUrl;
+
+    return (
+      imageValid &&
+      Object.keys(formData)
+        .filter((key) => key !== "averageReview" && key !== "image")
+        .map((key) => formData[key] !== "")
+        .every((item) => item)
+    );
   }
 
   useEffect(() => {
