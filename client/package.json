@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "test": "echo \"No tests specified yet\" && exit 0",
     "preview": "vite preview",
     "electron": "electron electron-main.cjs"
   },
