@@ -1,5 +1,16 @@
-import { test, expect } from "vitest";
+import { render } from "@testing-library/react";
+import { Provider } from "react-redux";
+import { MemoryRouter } from "react-router-dom";
+import store from "./store/store";
+import App from "./App";
+import { test } from "vitest";
 
-test("Vitest is working correctly", () => {
-  expect(1 + 1).toBe(2);
+test("App renders without crashing", () => {
+  render(
+    <Provider store={store}>
+      <MemoryRouter>
+        <App />
+      </MemoryRouter>
+    </Provider>
+  );
 });
