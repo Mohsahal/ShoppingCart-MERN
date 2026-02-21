@@ -1,13 +1,14 @@
 const Order = require("../../models/Order");
 
 const getAllOrdersOfAllUsers = async (req, res) => {
+  console.log("Fetching all orders for admin...");
   try {
     const orders = await Order.find({});
 
     if (!orders.length) {
-      return res.status(404).json({
-        success: false,
-        message: "No orders found!",
+      return res.status(200).json({
+        success: true,
+        data: [],
       });
     }
 

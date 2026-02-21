@@ -1,67 +1,58 @@
 import { Button } from "@/components/ui/button";
-// import bannerOne from "../../assets/banner-1.webp";
-// import bannerTwo from "../../assets/banner-2.webp";
-// import bannerThree from "../../assets/banner-3.webp";
-
 import {
-  Airplay,
-  BabyIcon,
+  ArrowRight,
   ChevronLeftIcon,
   ChevronRightIcon,
-  CloudLightning,
-  Heater,
-  Images,
-  Shirt,
-  ShirtIcon,
-  ShoppingBasket,
-  UmbrellaIcon,
-  WashingMachine,
-  WatchIcon,
+  ShoppingBag,
+  Star,
+  Truck,
+  ShieldCheck,
+  CreditCard,
+  Zap,
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchAllFilteredProducts,
-  fetchProductDetails,
-} from "@/store/shop/products-slice";
-import ShoppingProductTile from "@/components/shopping-view/product-tile";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { useToast } from "@/components/ui/use-toast";
+import { AuthContext } from "@/context/auth-context";
+import { ShoppingContext } from "@/context/shopping-context";
+import { CommonContext } from "@/context/common-context";
+import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
-import { getFeatureImages } from "@/store/common-slice";
+import { Badge } from "@/components/ui/badge";
 
-
-
+// Using real icons from the client's original list but with better styling logic
 const categoriesWithIcon = [
-  { id: "men", label: "Men", icon: ShirtIcon },
-  { id: "women", label: "Women", icon: CloudLightning },
-  { id: "kids", label: "Kids", icon: BabyIcon },
-  { id: "accessories", label: "Accessories", icon: WatchIcon },
-  { id: "footwear", label: "Footwear", icon: UmbrellaIcon },
+  { id: "men", label: "Men", icon: "👕" },
+  { id: "women", label: "Women", icon: "👗" },
+  { id: "kids", label: "Kids", icon: "🧸" },
+  { id: "accessories", label: "Accessories", icon: "⌚" },
+  { id: "footwear", label: "Footwear", icon: "👟" },
 ];
 
 const brandsWithIcon = [
-  { id: "nike", label: "Nike", icon: Shirt },
-  { id: "adidas", label: "Adidas", icon: WashingMachine },
-  { id: "puma", label: "Puma", icon: ShoppingBasket },
-  { id: "levi", label: "Levi's", icon: Airplay },
-  { id: "zara", label: "Zara", icon: Images },
-  { id: "h&m", label: "H&M", icon: Heater },
+  { id: "nike", label: "Nike" },
+  { id: "adidas", label: "Adidas" },
+  { id: "puma", label: "Puma" },
+  { id: "levi", label: "Levi's" },
+  { id: "zara", label: "Zara" },
+  { id: "h&m", label: "H&M" },
 ];
+
 function ShoppingHome() {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const { productList, productDetails } = useSelector(
-    (state) => state.shopProducts
-  );
-  const { featureImageList } = useSelector((state) => state.commonFeature);
+  const {
+    productList,
+    productDetails,
+    fetchAllFilteredProducts,
+    fetchProductDetails,
+    addToCart,
+  } = useContext(ShoppingContext);
+  const { featureImageList, getFeatureImages } = useContext(CommonContext);
+  const { user } = useContext(AuthContext);
 
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
-  const { user } = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -76,19 +67,12 @@ function ShoppingHome() {
   }
 
   function handleGetProductDetails(getCurrentProductId) {
-    dispatch(fetchProductDetails(getCurrentProductId));
+    fetchProductDetails(getCurrentProductId);
   }
 
   function handleAddtoCart(getCurrentProductId) {
-    dispatch(
-      addToCart({
-        userId: user?.id,
-        productId: getCurrentProductId,
-        quantity: 1,
-      })
-    ).then((data) => {
-      if (data?.payload?.success) {
-        dispatch(fetchCartItems(user?.id));
+    addToCart(user?.id, getCurrentProductId, 1).then((data) => {
+      if (data?.success) {
         toast({
           title: "Product is added to cart",
         });
@@ -102,84 +86,169 @@ function ShoppingHome() {
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
-    }, 15000);
+      if (featureImageList.length > 0) {
+        setCurrentSlide((prevSlide) => (prevSlide + 1) % featureImageList.length);
+      }
+    }, 8000);
 
     return () => clearInterval(timer);
   }, [featureImageList]);
 
   useEffect(() => {
-    dispatch(
-      fetchAllFilteredProducts({
-        filterParams: {},
-        sortParams: "price-lowtohigh",
-      })
-    );
-  }, [dispatch]);
-
-  console.log(productList, "productList");
-
-  useEffect(() => {
-    dispatch(getFeatureImages());
-  }, [dispatch]);
+    fetchAllFilteredProducts({}, "price-lowtohigh");
+    getFeatureImages();
+  }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <div className="relative w-full h-[600px] overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-white">
+      {/* Hero Section */}
+      <div className="relative w-full h-[85vh] overflow-hidden bg-slate-900">
         {featureImageList && featureImageList.length > 0
           ? featureImageList.map((slide, index) => (
-              <img
-                src={slide?.image}
+              <div
                 key={index}
                 className={`${
-                  index === currentSlide ? "opacity-100" : "opacity-0"
-                } absolute top-0 left-0 w-full h-full object-cover transition-opacity duration-1000`}
-              />
+                  index === currentSlide ? "opacity-100 translate-x-0" : "opacity-0 translate-x-full"
+                } absolute inset-0 w-full h-full transition-all duration-1000 ease-in-out`}
+              >
+                <img
+                  src={slide?.image}
+                  className="w-full h-full object-cover opacity-60 scale-105"
+                  alt={`Banner ${index}`}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+                    <Badge className="bg-primary/20 text-primary border-primary/30 py-2 px-6 rounded-full mb-6 text-sm font-black tracking-[0.3em] uppercase backdrop-blur-md animate-bounce">
+                        New Collection 2024
+                    </Badge>
+                    <h1 className="text-5xl md:text-8xl font-black text-white max-w-4xl leading-[0.9] tracking-tighter mb-8 drop-shadow-2xl">
+                        ELEVATE YOUR <span className="text-primary italic">STYLE</span> GAME
+                    </h1>
+                    <p className="text-slate-300 text-lg md:text-xl max-w-2xl mb-12 font-medium leading-relaxed">
+                        Discover the latest trends in high-end fashion and lifestyle essentials. Curated globally, delivered locally.
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Button 
+                            onClick={() => navigate('/shop/listing')}
+                            className="bg-primary hover:bg-primary/90 text-white font-black px-10 py-8 rounded-2xl text-lg shadow-2xl shadow-primary/20 transform hover:-translate-y-1 transition-all flex gap-3 group"
+                        >
+                            EXPLORE NOW
+                            <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                        </Button>
+                        <Button 
+                            variant="outline"
+                            className="bg-white/10 hover:bg-white/20 text-white border-white/20 font-black px-10 py-8 rounded-2xl text-lg backdrop-blur-md"
+                        >
+                            VIEW CATEGORIES
+                        </Button>
+                    </div>
+                </div>
+              </div>
             ))
           : null}
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide(
-              (prevSlide) =>
-                (prevSlide - 1 + featureImageList.length) %
-                featureImageList.length
-            )
-          }
-          className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-white/80"
-        >
-          <ChevronLeftIcon className="w-4 h-4" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide(
-              (prevSlide) => (prevSlide + 1) % featureImageList.length
-            )
-          }
-          className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-white/80"
-        >
-          <ChevronRightIcon className="w-4 h-4" />
-        </Button>
+        
+        {/* Navigation Arrows */}
+        <div className="absolute bottom-12 right-12 flex gap-4 z-20">
+            <Button
+                variant="outline"
+                size="icon"
+                onClick={() =>
+                    setCurrentSlide(
+                    (prevSlide) =>
+                        (prevSlide - 1 + featureImageList.length) %
+                        featureImageList.length
+                    )
+                }
+                className="bg-white/10 hover:bg-white/30 border-white/20 text-white rounded-full w-14 h-14 backdrop-blur-md transition-all"
+            >
+                <ChevronLeftIcon className="w-6 h-6" />
+            </Button>
+            <Button
+                variant="outline"
+                size="icon"
+                onClick={() =>
+                    setCurrentSlide(
+                    (prevSlide) => (prevSlide + 1) % featureImageList.length
+                    )
+                }
+                className="bg-primary hover:bg-primary/90 border-none text-white rounded-full w-14 h-14 shadow-xl transition-all"
+            >
+                <ChevronRightIcon className="w-6 h-6" />
+            </Button>
+        </div>
+
+        {/* Indicators */}
+        <div className="absolute bottom-12 left-12 flex gap-2 z-20">
+            {featureImageList.map((_, index) => (
+                <div 
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`h-1.5 transition-all duration-500 rounded-full cursor-pointer ${
+                        index === currentSlide ? "w-12 bg-primary" : "w-4 bg-white/30 hover:bg-white/50"
+                    }`}
+                />
+            ))}
+        </div>
       </div>
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Shop by category
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+
+      {/* Trust Badges Bar */}
+      <div className="bg-white border-b py-10">
+         <div className="container mx-auto px-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                {[
+                    { icon: Truck, title: "Swift Global Delivery", desc: "Orders over $150" },
+                    { icon: ShieldCheck, title: "Encrypted Security", desc: "100% Secure Checkout" },
+                    { icon: CreditCard, title: "Flexible Payments", desc: "Buy Now Pay Later" },
+                    { icon: Zap, title: "Instant Support", desc: "24/7 Premium Care" }
+                ].map((item, i) => (
+                    <div key={i} className="flex items-center gap-4 group">
+                        <div className="bg-slate-50 p-3 rounded-2xl group-hover:bg-primary/10 transition-colors">
+                            <item.icon className="h-6 w-6 text-primary" />
+                        </div>
+                        <div>
+                            <p className="font-black text-slate-900 text-sm leading-none mb-1 uppercase tracking-tighter">{item.title}</p>
+                            <p className="text-xs text-slate-500 font-medium tracking-tight">{item.desc}</p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+         </div>
+      </div>
+
+      {/* Categories Grid */}
+      <section className="py-24 bg-slate-50">
+        <div className="container mx-auto px-6">
+          <div className="flex items-end justify-between mb-12">
+            <div>
+                 <Badge className="bg-primary/10 text-primary border-none rounded-full px-4 mb-4 font-black text-[10px] uppercase tracking-widest">Collections</Badge>
+                 <h2 className="text-5xl font-black text-slate-900 tracking-tighter leading-none">THE <span className="text-primary italic">STYLE</span> HUB</h2>
+            </div>
+            <p className="text-slate-500 font-medium max-w-[200px] text-xs uppercase tracking-widest leading-relaxed text-right md:block hidden">
+                Browse our curated categories for a tailored experience.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
             {categoriesWithIcon.map((categoryItem) => (
               <Card
                 onClick={() =>
                   handleNavigateToListingPage(categoryItem, "category")
                 }
-                className="cursor-pointer hover:shadow-lg transition-shadow"
+                className="group cursor-pointer border-none shadow-md hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-white"
+                key={categoryItem.id}
               >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <categoryItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{categoryItem.label}</span>
+                <CardContent className="flex flex-col items-center justify-center p-10 relative">
+                  <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                      <span className="text-8xl grayscale">{categoryItem.icon}</span>
+                  </div>
+                  <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500 transform group-hover:rotate-6">
+                      {categoryItem.icon}
+                  </div>
+                  <span className="font-black text-xl text-slate-900 group-hover:text-primary transition-colors tracking-tight uppercase">
+                      {categoryItem.label}
+                  </span>
+                  <div className="mt-4 flex items-center gap-1 text-[10px] font-black text-primary uppercase translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                      Explore More <ArrowRight size={12} />
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -187,43 +256,65 @@ function ShoppingHome() {
         </div>
       </section>
 
-      <section className="py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">Shop by Brand</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {brandsWithIcon.map((brandItem) => (
-              <Card
-                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
-                className="cursor-pointer hover:shadow-lg transition-shadow"
-              >
-                <CardContent className="flex flex-col items-center justify-center p-6">
-                  <brandItem.icon className="w-12 h-12 mb-4 text-primary" />
-                  <span className="font-bold">{brandItem.label}</span>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="py-12">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold text-center mb-8">
-            Feature Products
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {/* Feature Products Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-6">
+            <div className="text-center mb-16 space-y-4">
+                 <Badge className="bg-slate-900 text-white border-none rounded-full px-4 font-black text-[10px] uppercase tracking-widest">Direct from Vault</Badge>
+                 <h2 className="text-6xl font-black text-slate-900 tracking-tighter">CURATED <span className="text-primary italic">ESSENTIALS</span></h2>
+                 <p className="text-slate-500 font-medium max-w-xl mx-auto text-sm">
+                    A selection of our most loved and trending pieces chosen specifically for your premium lifestyle.
+                 </p>
+            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {productList && productList.length > 0
               ? productList.map((productItem) => (
                   <ShoppingProductTile
                     handleGetProductDetails={handleGetProductDetails}
                     product={productItem}
                     handleAddtoCart={handleAddtoCart}
+                    key={productItem._id}
                   />
                 ))
               : null}
           </div>
+          <div className="mt-16 text-center">
+             <Button 
+                onClick={() => navigate('/shop/listing')}
+                variant="outline"
+                className="border-slate-200 text-slate-900 font-black px-12 py-8 rounded-2xl text-lg hover:bg-slate-50 transition-all"
+             >
+                LOAD MORE PRODUCT
+             </Button>
+          </div>
         </div>
       </section>
+
+      {/* Brands Flow Section */}
+      <section className="py-24 bg-white border-t border-slate-100">
+        <div className="container mx-auto px-6">
+           <div className="flex flex-col md:flex-row justify-between items-center gap-12">
+               <div className="max-w-md">
+                   <h2 className="text-4xl font-black text-slate-900 tracking-tighter mb-4">WORLD CLASS <span className="text-primary italic">BRANDS</span></h2>
+                   <p className="text-slate-500 font-medium text-sm">Partnering with the industry giants to bring you unparalleled quality.</p>
+               </div>
+               <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-4">
+                {brandsWithIcon.map((brandItem) => (
+                <div
+                    onClick={() => handleNavigateToListingPage(brandItem, "brand")}
+                    className="cursor-pointer group bg-slate-50 hover:bg-primary transition-all duration-300 p-8 rounded-3xl flex items-center justify-center border border-slate-100"
+                    key={brandItem.id}
+                >
+                    <span className="font-black text-xl text-slate-400 group-hover:text-white transition-colors tracking-tighter uppercase grayscale group-hover:grayscale-0 italic">
+                        {brandItem.label}
+                    </span>
+                </div>
+                ))}
+            </div>
+           </div>
+        </div>
+      </section>
+
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}

@@ -1,10 +1,9 @@
 import CommonForm from "@/components/common/form";
 import { useToast } from "@/components/ui/use-toast";
 import { loginFormControls } from "@/config";
-import { loginUser } from "@/store/auth-slice";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "@/context/auth-context";
 
 const initialState = {
   email: "",
@@ -13,20 +12,20 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
-  const dispatch = useDispatch();
+  const { loginUser } = useContext(AuthContext);
   const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();
 
-    dispatch(loginUser(formData)).then((data) => {
-      if (data?.payload?.success) {
+    loginUser(formData).then((data) => {
+      if (data?.success) {
         toast({
-          title: data?.payload?.message,
+          title: data?.message,
         });
       } else {
         toast({
-          title: data?.payload?.message,
+          title: data?.message,
           variant: "destructive",
         });
       }

@@ -6,19 +6,24 @@ import { Separator } from "../ui/separator";
 
 function ProductFilter({ filters, handleFilter }) {
   return (
-    <div className="bg-background rounded-lg shadow-sm">
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-extrabold">Filters</h2>
+    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden sticky top-24">
+      <div className="p-6 border-b border-slate-100 bg-slate-50/50">
+        <h2 className="text-xl font-black text-slate-900 tracking-tight">Catalyst Filters</h2>
+        <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Refine your search</p>
       </div>
-      <div className="p-4 space-y-4">
+      <div className="p-6 space-y-8">
         {Object.keys(filterOptions).map((keyItem) => (
-          <Fragment>
-            <div>
-              <h3 className="text-base font-bold">{keyItem}</h3>
-              <div className="grid gap-2 mt-2">
+          <Fragment key={keyItem}>
+            <div className="space-y-4">
+              <h3 className="text-sm font-black text-slate-900 uppercase tracking-wider">{keyItem}</h3>
+              <div className="grid gap-3">
                 {filterOptions[keyItem].map((option) => (
-                  <Label className="flex font-medium items-center gap-2 ">
+                  <Label 
+                    key={option.id}
+                    className="flex items-center gap-3 cursor-pointer group p-2 rounded-xl hover:bg-slate-50 transition-colors"
+                  >
                     <Checkbox
+                      className="border-slate-200 data-[state=checked]:bg-primary data-[state=checked]:border-primary transition-all rounded-md"
                       checked={
                         filters &&
                         Object.keys(filters).length > 0 &&
@@ -27,12 +32,16 @@ function ProductFilter({ filters, handleFilter }) {
                       }
                       onCheckedChange={() => handleFilter(keyItem, option.id)}
                     />
-                    {option.label}
+                    <span className={`text-sm font-bold transition-colors ${
+                        filters?.[keyItem]?.indexOf(option.id) > -1 ? "text-primary" : "text-slate-600 group-hover:text-slate-900"
+                    }`}>
+                        {option.label}
+                    </span>
                   </Label>
                 ))}
               </div>
             </div>
-            <Separator />
+            <Separator className="bg-slate-100" />
           </Fragment>
         ))}
       </div>

@@ -5,7 +5,7 @@ import {
   ShoppingBasket,
 } from "lucide-react";
 import { Fragment } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 
 const adminSidebarMenuItems = [
@@ -13,40 +13,48 @@ const adminSidebarMenuItems = [
     id: "dashboard",
     label: "Dashboard",
     path: "/admin/dashboard",
-    icon: <LayoutDashboard />,
+    icon: <LayoutDashboard className="h-5 w-5" />,
   },
   {
     id: "products",
     label: "Products",
     path: "/admin/products",
-    icon: <ShoppingBasket />,
+    icon: <ShoppingBasket className="h-5 w-5" />,
   },
   {
     id: "orders",
     label: "Orders",
     path: "/admin/orders",
-    icon: <BadgeCheck />,
+    icon: <BadgeCheck className="h-5 w-5" />,
   },
 ];
 
 function MenuItems({ setOpen }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <nav className="mt-8 flex-col flex gap-2">
-      {adminSidebarMenuItems.map((menuItem) => (
-        <div
-          key={menuItem.id}
-          onClick={() => {
-            navigate(menuItem.path);
-            setOpen ? setOpen(false) : null;
-          }}
-          className="flex cursor-pointer text-xl items-center gap-2 rounded-md px-3 py-2 text-muted-foreground hover:bg-muted hover:text-foreground"
-        >
-          {menuItem.icon}
-          <span>{menuItem.label}</span>
-        </div>
-      ))}
+      {adminSidebarMenuItems.map((menuItem) => {
+        const isActive = location.pathname === menuItem.path;
+        return (
+          <div
+            key={menuItem.id}
+            onClick={() => {
+              navigate(menuItem.path);
+              setOpen ? setOpen(false) : null;
+            }}
+            className={`flex cursor-pointer font-medium items-center gap-3 rounded-xl px-4 py-3 transition-all duration-200 ${
+              isActive 
+                ? "bg-primary text-primary-foreground shadow-md shadow-primary/20" 
+                : "text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+            }`}
+          >
+            {menuItem.icon}
+            <span>{menuItem.label}</span>
+          </div>
+        );
+      })}
     </nav>
   );
 }
@@ -57,27 +65,41 @@ function AdminSideBar({ open, setOpen }) {
   return (
     <Fragment>
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="left" className="w-64">
-          <div className="flex flex-col h-full">
-            <SheetHeader className="border-b">
-              <SheetTitle className="flex gap-2 mt-5 mb-5">
-                <ChartNoAxesCombined size={30} />
-                <h1 className="text-2xl font-extrabold">Admin Panel</h1>
+        <SheetContent side="left" className="w-72 p-0">
+          <div className="flex flex-col h-full bg-white">
+            <SheetHeader className="p-6 border-b">
+              <SheetTitle className="flex items-center gap-3">
+                <div className="bg-primary p-2 rounded-lg">
+                  <ChartNoAxesCombined className="h-6 w-6 text-white" />
+                </div>
+                <h1 className="text-xl font-bold tracking-tight text-slate-900">Admin Portal</h1>
               </SheetTitle>
             </SheetHeader>
-            <MenuItems setOpen={setOpen} />
+            <div className="px-4">
+              <MenuItems setOpen={setOpen} />
+            </div>
           </div>
         </SheetContent>
       </Sheet>
-      <aside className="hidden w-64 flex-col border-r bg-background p-6 lg:flex">
+      <aside className="hidden w-72 flex-col border-r bg-white lg:flex shadow-sm">
         <div
           onClick={() => navigate("/admin/dashboard")}
-          className="flex cursor-pointer items-center gap-2"
+          className="flex cursor-pointer items-center gap-3 p-8 border-b transition-colors hover:bg-slate-50"
         >
-          <ChartNoAxesCombined size={30} />
-          <h1 className="text-2xl font-extrabold">Admin Panel</h1>
+          <div className="bg-primary p-2 rounded-lg">
+            <ChartNoAxesCombined className="h-6 w-6 text-white" />
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-slate-900">Admin Portal</h1>
         </div>
-        <MenuItems />
+        <div className="px-4 flex-1">
+          <MenuItems />
+        </div>
+        <div className="p-6 border-t mt-auto">
+          <div className="bg-slate-50 p-4 rounded-xl">
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Support</p>
+            <p className="text-sm text-slate-600">Need help with the portal? Contact the dev team.</p>
+          </div>
+        </div>
       </aside>
     </Fragment>
   );
