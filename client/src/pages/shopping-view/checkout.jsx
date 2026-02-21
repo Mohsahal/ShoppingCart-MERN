@@ -94,7 +94,7 @@ function ShoppingCheckout() {
     <div className="bg-slate-50 min-h-screen pb-20">
       {/* Cinematic Banner */}
       <div className="relative h-[40vh] w-full overflow-hidden bg-slate-900">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 scale-110" />
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1483181957632-8bda974cbc91?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 scale-110" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
               <Badge className="bg-primary/20 text-primary border-primary/30 py-1.5 px-6 rounded-full mb-4 text-[10px] font-black tracking-[0.4em] uppercase backdrop-blur-md">

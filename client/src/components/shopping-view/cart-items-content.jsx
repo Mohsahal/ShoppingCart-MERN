@@ -75,7 +75,7 @@ function UserCartItemsContent({ cartItem }) {
       
       <div className="flex-1 space-y-1">
         <h3 className="font-black text-slate-800 tracking-tight leading-none truncate max-w-[200px]">{cartItem?.title}</h3>
-        <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter">Unit Price: ${(cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price).toLocaleString()}</p>
+        <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter">Unit Price: ${((cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) || 0).toLocaleString()}</p>
         
         <div className="flex items-center gap-4 pt-2">
             <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-full border border-slate-100">
@@ -112,8 +112,9 @@ function UserCartItemsContent({ cartItem }) {
         <p className="font-black text-slate-900 text-lg tracking-tighter">
           $
           {(
-            (cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) *
-            cartItem?.quantity
+            ((cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) *
+              (cartItem?.quantity || 1)) ||
+            0
           ).toLocaleString()}
         </p>
         {cartItem?.salePrice > 0 && (

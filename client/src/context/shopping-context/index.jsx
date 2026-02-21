@@ -158,14 +158,20 @@ export default function ShoppingProvider({ children }) {
 
   async function getAllOrdersByUserId(userId) {
     setIsLoading(true);
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/order/list/${userId}`
-    );
-    if (response?.data?.success) {
-      setOrderList(response?.data?.data);
+    try {
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/shop/order/list/${userId}`
+      );
+      if (response?.data?.success) {
+        setOrderList(response?.data?.data);
+      }
+      return response.data;
+    } catch (e) {
+      console.log(e);
+      setOrderList([]); // Ensure list is cleared on error
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
-    return response.data;
   }
 
   async function getOrderDetails(id) {

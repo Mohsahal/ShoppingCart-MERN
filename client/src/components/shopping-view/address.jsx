@@ -8,6 +8,7 @@ import { ShoppingContext } from "@/context/shopping-context";
 import { AuthContext } from "@/context/auth-context";
 import { MapPinned, PlusCircle, LayoutGrid } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "../ui/button";
 
 const initialAddressFormData = {
   address: "",

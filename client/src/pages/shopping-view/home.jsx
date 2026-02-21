@@ -9,6 +9,11 @@ import {
   ShieldCheck,
   CreditCard,
   Zap,
+  Shirt,
+  Baby,
+  Watch,
+  Footprints,
+  UserCircle
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { useContext, useEffect, useState } from "react";
@@ -23,11 +28,11 @@ import { Badge } from "@/components/ui/badge";
 
 // Using real icons from the client's original list but with better styling logic
 const categoriesWithIcon = [
-  { id: "men", label: "Men", icon: "👕" },
-  { id: "women", label: "Women", icon: "👗" },
-  { id: "kids", label: "Kids", icon: "🧸" },
-  { id: "accessories", label: "Accessories", icon: "⌚" },
-  { id: "footwear", label: "Footwear", icon: "👟" },
+  { id: "men", label: "Men", icon: Shirt },
+  { id: "women", label: "Women", icon: UserCircle },
+  { id: "kids", label: "Kids", icon: Baby },
+  { id: "accessories", label: "Accessories", icon: Watch },
+  { id: "footwear", label: "Footwear", icon: Footprints },
 ];
 
 const brandsWithIcon = [
@@ -102,7 +107,7 @@ function ShoppingHome() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative w-full h-[85vh] overflow-hidden bg-slate-900">
+      <div className="relative w-full h-[65vh] md:h-[75vh] overflow-hidden bg-slate-900">
         {featureImageList && featureImageList.length > 0
           ? featureImageList.map((slide, index) => (
               <div
@@ -117,27 +122,28 @@ function ShoppingHome() {
                   alt={`Banner ${index}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-                    <Badge className="bg-primary/20 text-primary border-primary/30 py-2 px-6 rounded-full mb-6 text-sm font-black tracking-[0.3em] uppercase backdrop-blur-md animate-bounce">
-                        New Collection 2024
-                    </Badge>
-                    <h1 className="text-5xl md:text-8xl font-black text-white max-w-4xl leading-[0.9] tracking-tighter mb-8 drop-shadow-2xl">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-6">
+                    <h1 className="text-3xl sm:text-5xl md:text-8xl font-black text-white max-w-4xl leading-[0.95] md:leading-[0.9] tracking-tighter mb-4 md:mb-8 drop-shadow-2xl">
                         ELEVATE YOUR <span className="text-primary italic">STYLE</span> GAME
                     </h1>
-                    <p className="text-slate-300 text-lg md:text-xl max-w-2xl mb-12 font-medium leading-relaxed">
+                    <p className="text-slate-300 text-sm md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed px-4">
                         Discover the latest trends in high-end fashion and lifestyle essentials. Curated globally, delivered locally.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto px-6 sm:px-0">
                         <Button 
                             onClick={() => navigate('/shop/listing')}
-                            className="bg-primary hover:bg-primary/90 text-white font-black px-10 py-8 rounded-2xl text-lg shadow-2xl shadow-primary/20 transform hover:-translate-y-1 transition-all flex gap-3 group"
+                            className="bg-primary hover:bg-primary/90 text-white font-black px-8 md:px-10 py-6 md:py-8 rounded-2xl text-base md:text-lg shadow-2xl shadow-primary/20 transform hover:-translate-y-1 transition-all flex gap-3 group justify-center"
                         >
                             EXPLORE NOW
-                            <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                            <ArrowRight className="group-hover:translate-x-2 transition-transform h-5 w-5 md:h-6 md:w-6" />
                         </Button>
                         <Button 
                             variant="outline"
-                            className="bg-white/10 hover:bg-white/20 text-white border-white/20 font-black px-10 py-8 rounded-2xl text-lg backdrop-blur-md"
+                            onClick={() => {
+                                const categorySection = document.getElementById('category-section');
+                                if(categorySection) categorySection.scrollIntoView({ behavior: 'smooth' });
+                            }}
+                            className="bg-white/10 hover:bg-white/20 text-white border-white/20 font-black px-8 md:px-10 py-6 md:py-8 rounded-2xl text-base md:text-lg backdrop-blur-md justify-center"
                         >
                             VIEW CATEGORIES
                         </Button>
@@ -147,8 +153,8 @@ function ShoppingHome() {
             ))
           : null}
         
-        {/* Navigation Arrows */}
-        <div className="absolute bottom-12 right-12 flex gap-4 z-20">
+        {/* Navigation Arrows - Hidden on very small screens for cleaner UI */}
+        <div className="absolute bottom-12 right-6 md:right-12 hidden sm:flex gap-3 md:gap-4 z-20">
             <Button
                 variant="outline"
                 size="icon"
@@ -159,9 +165,9 @@ function ShoppingHome() {
                         featureImageList.length
                     )
                 }
-                className="bg-white/10 hover:bg-white/30 border-white/20 text-white rounded-full w-14 h-14 backdrop-blur-md transition-all"
+                className="bg-white/10 hover:bg-white/30 border-white/20 text-white rounded-full w-12 h-12 md:w-14 md:h-14 backdrop-blur-md transition-all"
             >
-                <ChevronLeftIcon className="w-6 h-6" />
+                <ChevronLeftIcon className="w-5 h-5 md:w-6 md:h-6" />
             </Button>
             <Button
                 variant="outline"
@@ -171,20 +177,20 @@ function ShoppingHome() {
                     (prevSlide) => (prevSlide + 1) % featureImageList.length
                     )
                 }
-                className="bg-primary hover:bg-primary/90 border-none text-white rounded-full w-14 h-14 shadow-xl transition-all"
+                className="bg-primary hover:bg-primary/90 border-none text-white rounded-full w-12 h-12 md:w-14 md:h-14 shadow-xl transition-all"
             >
-                <ChevronRightIcon className="w-6 h-6" />
+                <ChevronRightIcon className="w-5 h-5 md:w-6 md:h-6" />
             </Button>
         </div>
 
         {/* Indicators */}
-        <div className="absolute bottom-12 left-12 flex gap-2 z-20">
+        <div className="absolute bottom-6 md:bottom-12 left-1/2 -translate-x-1/2 sm:left-12 sm:translate-x-0 flex gap-2 z-20">
             {featureImageList.map((_, index) => (
                 <div 
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`h-1.5 transition-all duration-500 rounded-full cursor-pointer ${
-                        index === currentSlide ? "w-12 bg-primary" : "w-4 bg-white/30 hover:bg-white/50"
+                    className={`h-1 md:h-1.5 transition-all duration-500 rounded-full cursor-pointer ${
+                        index === currentSlide ? "w-8 md:w-12 bg-primary" : "w-2 md:w-4 bg-white/30 hover:bg-white/50"
                     }`}
                 />
             ))}
@@ -216,7 +222,7 @@ function ShoppingHome() {
       </div>
 
       {/* Categories Grid */}
-      <section className="py-24 bg-slate-50">
+      <section id="category-section" className="py-24 bg-slate-50">
         <div className="container mx-auto px-6">
           <div className="flex items-end justify-between mb-12">
             <div>
@@ -227,21 +233,21 @@ function ShoppingHome() {
                 Browse our curated categories for a tailored experience.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-items-center">
             {categoriesWithIcon.map((categoryItem) => (
               <Card
                 onClick={() =>
                   handleNavigateToListingPage(categoryItem, "category")
                 }
-                className="group cursor-pointer border-none shadow-md hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-white"
+                className="w-full max-w-[280px] group cursor-pointer border-none shadow-md hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-white"
                 key={categoryItem.id}
               >
                 <CardContent className="flex flex-col items-center justify-center p-10 relative">
                   <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                      <span className="text-8xl grayscale">{categoryItem.icon}</span>
+                      <categoryItem.icon className="w-32 h-32 grayscale" />
                   </div>
-                  <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-500 transform group-hover:rotate-6">
-                      {categoryItem.icon}
+                  <div className="mb-6 group-hover:scale-110 transition-transform duration-500 transform group-hover:rotate-6">
+                      <categoryItem.icon className="w-12 h-12 text-slate-700 group-hover:text-primary" />
                   </div>
                   <span className="font-black text-xl text-slate-900 group-hover:text-primary transition-colors tracking-tight uppercase">
                       {categoryItem.label}
@@ -266,7 +272,7 @@ function ShoppingHome() {
                     A selection of our most loved and trending pieces chosen specifically for your premium lifestyle.
                  </p>
             </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center">
             {productList && productList.length > 0
               ? productList.map((productItem) => (
                   <ShoppingProductTile

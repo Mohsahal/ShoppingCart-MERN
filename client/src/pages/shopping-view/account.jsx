@@ -13,7 +13,7 @@ function ShoppingAccount() {
     <div className="bg-slate-50 min-h-screen pb-20">
       {/* Immersive Header */}
       <div className="relative h-[35vh] w-full overflow-hidden bg-slate-900">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=2083&auto=format&fit=crop')] bg-cover bg-center opacity-30 blur-sm scale-110" />
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 blur-[2px] scale-110" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" />
           
           <div className="absolute bottom-0 left-0 w-full p-12">
