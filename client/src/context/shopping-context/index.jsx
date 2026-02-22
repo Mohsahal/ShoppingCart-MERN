@@ -24,7 +24,10 @@ export default function ShoppingProvider({ children }) {
     });
 
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/products/get?${query}`
+      `${import.meta.env.VITE_API_URL}/api/shop/products/get?${query}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (result?.data?.success) {
@@ -37,7 +40,10 @@ export default function ShoppingProvider({ children }) {
   async function fetchProductDetails(id) {
     setIsLoading(true);
     const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/products/get/${id}`
+      `${import.meta.env.VITE_API_URL}/api/shop/products/get/${id}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (result?.data?.success) {
@@ -51,7 +57,10 @@ export default function ShoppingProvider({ children }) {
   async function addToCart(userId, productId, quantity) {
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/shop/cart/add`,
-      { userId, productId, quantity }
+      { userId, productId, quantity },
+      {
+        withCredentials: true,
+      }
     );
 
     if (response?.data?.success) {
@@ -62,7 +71,10 @@ export default function ShoppingProvider({ children }) {
 
   async function fetchCartItems(userId) {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/cart/get/${userId}`
+      `${import.meta.env.VITE_API_URL}/api/shop/cart/get/${userId}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response?.data?.success) {
@@ -73,7 +85,10 @@ export default function ShoppingProvider({ children }) {
 
   async function deleteCartItem(userId, productId) {
     const response = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/shop/cart/${userId}/${productId}`
+      `${import.meta.env.VITE_API_URL}/api/shop/cart/${userId}/${productId}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response?.data?.success) {
@@ -85,7 +100,10 @@ export default function ShoppingProvider({ children }) {
   async function updateCartQuantity(userId, productId, quantity) {
     const response = await axios.put(
       `${import.meta.env.VITE_API_URL}/api/shop/cart/update-cart`,
-      { userId, productId, quantity }
+      { userId, productId, quantity },
+      {
+        withCredentials: true,
+      }
     );
 
     if (response?.data?.success) {
@@ -98,14 +116,20 @@ export default function ShoppingProvider({ children }) {
   async function addNewAddress(formData) {
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/shop/address/add`,
-      formData
+      formData,
+      {
+        withCredentials: true,
+      }
     );
     return response.data;
   }
 
   async function fetchAllAddresses(userId) {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/address/get/${userId}`
+      `${import.meta.env.VITE_API_URL}/api/shop/address/get/${userId}`,
+      {
+        withCredentials: true,
+      }
     );
     if (response?.data?.success) {
       setAddressList(response?.data?.data);
@@ -116,14 +140,20 @@ export default function ShoppingProvider({ children }) {
   async function updateAddress(userId, addressId, formData) {
     const response = await axios.put(
       `${import.meta.env.VITE_API_URL}/api/shop/address/update/${userId}/${addressId}`,
-      formData
+      formData,
+      {
+        withCredentials: true,
+      }
     );
     return response.data;
   }
 
   async function deleteAddress(userId, addressId) {
     const response = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/shop/address/delete/${userId}/${addressId}`
+      `${import.meta.env.VITE_API_URL}/api/shop/address/delete/${userId}/${addressId}`,
+      {
+        withCredentials: true,
+      }
     );
     return response.data;
   }
@@ -133,7 +163,10 @@ export default function ShoppingProvider({ children }) {
     setIsLoading(true);
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/shop/order/create`,
-      orderData
+      orderData,
+      {
+        withCredentials: true,
+      }
     );
     if (response?.data?.success) {
       setApprovalURL(response.data.approvalURL);
@@ -150,7 +183,10 @@ export default function ShoppingProvider({ children }) {
     setIsLoading(true);
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/shop/order/capture`,
-      { paymentId, payerId, orderId }
+      { paymentId, payerId, orderId },
+      {
+        withCredentials: true,
+      }
     );
     setIsLoading(false);
     return response.data;
@@ -160,7 +196,10 @@ export default function ShoppingProvider({ children }) {
     setIsLoading(true);
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/shop/order/list/${userId}`
+        `${import.meta.env.VITE_API_URL}/api/shop/order/list/${userId}`,
+        {
+          withCredentials: true,
+        }
       );
       if (response?.data?.success) {
         setOrderList(response?.data?.data);
@@ -177,7 +216,10 @@ export default function ShoppingProvider({ children }) {
   async function getOrderDetails(id) {
     setIsLoading(true);
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/order/details/${id}`
+      `${import.meta.env.VITE_API_URL}/api/shop/order/details/${id}`,
+      {
+        withCredentials: true,
+      }
     );
     if (response?.data?.success) {
       setOrderDetails(response?.data?.data);
@@ -190,7 +232,10 @@ export default function ShoppingProvider({ children }) {
   async function getSearchResults(keyword) {
     setIsLoading(true);
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/search/${keyword}`
+      `${import.meta.env.VITE_API_URL}/api/shop/search/${keyword}`,
+      {
+        withCredentials: true,
+      }
     );
     if (response?.data?.success) {
       setSearchResults(response?.data?.data);
@@ -203,14 +248,20 @@ export default function ShoppingProvider({ children }) {
   async function addReview(formData) {
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/shop/review/add`,
-      formData
+      formData,
+      {
+        withCredentials: true,
+      }
     );
     return response.data;
   }
 
   async function getReviews(productId) {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/review/${productId}`
+      `${import.meta.env.VITE_API_URL}/api/shop/review/${productId}`,
+      {
+        withCredentials: true,
+      }
     );
     if (response?.data?.success) {
       setReviews(response?.data?.data);

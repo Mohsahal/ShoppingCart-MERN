@@ -18,6 +18,7 @@ export default function AdminProvider({ children }) {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       }
     );
 
@@ -26,7 +27,10 @@ export default function AdminProvider({ children }) {
 
   async function fetchAllProducts() {
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/products/get`
+      `${import.meta.env.VITE_API_URL}/api/admin/products/get`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response?.data?.success) {
@@ -43,6 +47,7 @@ export default function AdminProvider({ children }) {
         headers: {
           "Content-Type": "application/json",
         },
+        withCredentials: true,
       }
     );
 
@@ -51,7 +56,10 @@ export default function AdminProvider({ children }) {
 
   async function deleteProduct(id) {
     const response = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/admin/products/delete/${id}`
+      `${import.meta.env.VITE_API_URL}/api/admin/products/delete/${id}`,
+      {
+        withCredentials: true,
+      }
     );
 
     return response.data;
@@ -61,7 +69,10 @@ export default function AdminProvider({ children }) {
   async function getAllOrdersForAdmin() {
     setIsLoading(true);
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/orders/get`
+      `${import.meta.env.VITE_API_URL}/api/admin/orders/get`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response?.data?.success) {
@@ -74,7 +85,10 @@ export default function AdminProvider({ children }) {
   async function getOrderDetailsForAdmin(id) {
     setIsLoading(true);
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/orders/details/${id}`
+      `${import.meta.env.VITE_API_URL}/api/admin/orders/details/${id}`,
+      {
+        withCredentials: true,
+      }
     );
 
     if (response?.data?.success) {
@@ -89,6 +103,9 @@ export default function AdminProvider({ children }) {
       `${import.meta.env.VITE_API_URL}/api/admin/orders/update/${id}`,
       {
         orderStatus,
+      },
+      {
+        withCredentials: true,
       }
     );
 
