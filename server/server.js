@@ -57,4 +57,17 @@ app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
 
+app.get("/api/health", (req, res) => res.json({ status: "ok", time: new Date().toISOString() }));
+
+// 404 Logging Middleware
+app.use((req, res) => {
+  console.log(`404 Error: ${req.method} ${req.url} - Not Found`);
+  res.status(404).json({
+    success: false,
+    message: "API Route not found",
+    requestedUrl: req.url,
+    method: req.method
+  });
+});
+
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT} - Debug active`));

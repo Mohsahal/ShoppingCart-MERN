@@ -70,7 +70,7 @@ function MenuItems() {
 }
 
 function HeaderRightContent() {
-  const { user, logoutUser } = useContext(AuthContext);
+  const { user, isAuthenticated, logoutUser } = useContext(AuthContext);
   const { cartItems, fetchCartItems } = useContext(ShoppingContext);
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const navigate = useNavigate();
@@ -100,7 +100,7 @@ function HeaderRightContent() {
         {/* Cart Sheet */}
         <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
             <Button
-            onClick={() => setOpenCartSheet(true)}
+            onClick={() => setOpenCartSheet(isAuthenticated ? true : navigate('/auth/login'))}
             variant="ghost"
             size="icon"
             className="relative rounded-full text-slate-600 hover:bg-slate-100 transition-colors"
@@ -124,46 +124,55 @@ function HeaderRightContent() {
         </Sheet>
       </div>
 
-      {/* User Dropdown */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <div className="flex items-center gap-2 cursor-pointer group">
-             <Avatar className="h-10 w-10 border-2 border-slate-100 group-hover:border-primary transition-all duration-300">
-                <AvatarFallback className="bg-slate-900 text-white font-bold">
-                {user?.userName ? user?.userName[0].toUpperCase() : <User />}
-                </AvatarFallback>
-            </Avatar>
-            <div className="hidden lg:flex flex-col text-left">
-                <span className="text-xs font-bold text-slate-900 group-hover:text-primary transition-colors leading-none">{user?.userName}</span>
-                <span className="text-[10px] text-slate-400 font-medium tracking-tighter uppercase">{user?.role}</span>
+      {/* User Actions */}
+      {isAuthenticated ? (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <div className="flex items-center gap-2 cursor-pointer group">
+               <Avatar className="h-10 w-10 border-2 border-slate-100 group-hover:border-primary transition-all duration-300">
+                  <AvatarFallback className="bg-slate-900 text-white font-bold">
+                  {user?.userName ? user?.userName[0].toUpperCase() : <User />}
+                  </AvatarFallback>
+              </Avatar>
+              <div className="hidden lg:flex flex-col text-left">
+                  <span className="text-xs font-bold text-slate-900 group-hover:text-primary transition-colors leading-none">{user?.userName}</span>
+                  <span className="text-[10px] text-slate-400 font-medium tracking-tighter uppercase">{user?.role}</span>
+              </div>
             </div>
-          </div>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="bottom" align="end" className="w-64 mt-2 p-2 rounded-2xl shadow-2xl border-none">
-          <DropdownMenuLabel className="p-4">
-            <div className="flex flex-col gap-1">
-                <p className="text-sm font-black text-slate-900">Personal Hub</p>
-                <p className="text-xs text-slate-500 font-medium truncate">{user?.email}</p>
-            </div>
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator className="bg-slate-100" />
-          <DropdownMenuItem 
-            onClick={() => navigate("/shop/account")}
-            className="p-3 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors"
-          >
-            <UserCog className="mr-3 h-4 w-4 text-slate-400" />
-            <span className="font-bold text-slate-700">Manage Account</span>
-          </DropdownMenuItem>
-          <DropdownMenuSeparator className="bg-slate-100" />
-          <DropdownMenuItem 
-            onClick={handleLogout}
-            className="p-3 rounded-xl cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 transition-colors"
-          >
-            <LogOut className="mr-3 h-4 w-4" />
-            <span className="font-bold">Sign Out</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="bottom" align="end" className="w-64 mt-2 p-2 rounded-2xl shadow-2xl border-none">
+            <DropdownMenuLabel className="p-4">
+              <div className="flex flex-col gap-1">
+                  <p className="text-sm font-black text-slate-900">Personal Hub</p>
+                  <p className="text-xs text-slate-500 font-medium truncate">{user?.email}</p>
+              </div>
+            </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-slate-100" />
+            <DropdownMenuItem 
+              onClick={() => navigate("/shop/account")}
+              className="p-3 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors"
+            >
+              <UserCog className="mr-3 h-4 w-4 text-slate-400" />
+              <span className="font-bold text-slate-700">Manage Account</span>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator className="bg-slate-100" />
+            <DropdownMenuItem 
+              onClick={handleLogout}
+              className="p-3 rounded-xl cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 transition-colors"
+            >
+              <LogOut className="mr-3 h-4 w-4" />
+              <span className="font-bold">Sign Out</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ) : (
+        <Button 
+          onClick={() => navigate('/auth/login')}
+          className="rounded-xl font-bold px-6"
+        >
+          Sign In
+        </Button>
+      )}
     </div>
   );
 }

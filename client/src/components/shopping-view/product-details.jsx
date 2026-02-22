@@ -17,6 +17,7 @@ import { useContext, useEffect, useState } from "react";
 import { ShoppingContext } from "@/context/shopping-context";
 import { AuthContext } from "@/context/auth-context";
 import { Badge } from "../ui/badge";
+import { useNavigate } from "react-router-dom";
 
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
   const [reviewMsg, setReviewMsg] = useState("");
@@ -32,12 +33,18 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   } = useContext(ShoppingContext);
 
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   function handleRatingChange(getRating) {
     setRating(getRating);
   }
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
+    if (!user) {
+      if(setOpen) setOpen(false);
+      navigate("/auth/login");
+      return;
+    }
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -73,6 +80,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   }
 
   function handleAddReview() {
+    if (!user) {
+      if(setOpen) setOpen(false);
+      navigate("/auth/login");
+      return;
+    }
     addReview({
       productId: productDetails?._id,
       userId: user?.id,

@@ -13,7 +13,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { sortOptions } from "@/config";
 import { ArrowUpDownIcon, Layers, SearchX } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ShoppingContext } from "@/context/shopping-context";
 import { AuthContext } from "@/context/auth-context";
 import Loader from "@/components/common/loader";
@@ -51,6 +51,7 @@ function ShoppingListing() {
   const [searchParams, setSearchParams] = useSearchParams();
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const categorySearchParam = searchParams.get("category");
 
@@ -85,6 +86,10 @@ function ShoppingListing() {
   }
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
+    if (!user) {
+      navigate('/auth/login');
+      return;
+    }
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {

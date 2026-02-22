@@ -8,7 +8,7 @@ const {
 
 const router = express.Router();
 
-router.get("/get", getAllOrdersOfAllUsers);
+router.get("/get-all", getAllOrdersOfAllUsers);
 router.get("/details/:id", getOrderDetailsForAdmin);
 router.put("/update/:id", updateOrderStatus);
 

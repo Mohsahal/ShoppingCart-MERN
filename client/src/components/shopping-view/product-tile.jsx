@@ -10,7 +10,7 @@ function ShoppingProductTile({
   handleAddtoCart,
 }) {
   return (
-    <Card className="w-full max-w-[280px] group overflow-hidden border-none shadow-sm hover:shadow-2xl transition-all duration-500 rounded-[2rem] bg-white relative">
+    <Card className="w-full max-w-[220px] group overflow-hidden border-none shadow-sm hover:shadow-2xl transition-all duration-500 rounded-[1.5rem] bg-white relative">
       <div onClick={() => handleGetProductDetails(product?._id)} className="cursor-pointer">
         <div className="relative aspect-[4/5] overflow-hidden bg-slate-50">
           <img
@@ -21,55 +21,55 @@ function ShoppingProductTile({
           
           {/* Overlay Actions */}
           <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-2">
-             <div className="bg-white/90 backdrop-blur-md p-2.5 rounded-full shadow-xl scale-90 group-hover:scale-100 transition-transform duration-300">
-                <Eye className="w-4 h-4 text-slate-900" />
+             <div className="bg-white/90 backdrop-blur-md p-2 rounded-full shadow-xl scale-90 group-hover:scale-100 transition-transform duration-300">
+                <Eye className="w-3.5 h-3.5 text-slate-900" />
              </div>
           </div>
 
           {/* Badges */}
-          <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+          <div className="absolute top-2 left-2 flex flex-col gap-1">
             {product?.totalStock === 0 ? (
-                <Badge className="bg-rose-500 text-white border-none shadow-md px-2 py-0.5 font-bold text-[9px] uppercase tracking-wider">
+                <Badge className="bg-rose-500 text-white border-none shadow-md px-1.5 py-0.5 font-bold text-[8px] uppercase tracking-wider">
                 Sold Out
                 </Badge>
             ) : product?.totalStock < 10 ? (
-                <Badge className="bg-orange-500 text-white border-none shadow-md px-2 py-0.5 font-bold text-[9px] uppercase tracking-wider">
-                Limited: {product?.totalStock}
+                <Badge className="bg-orange-500 text-white border-none shadow-md px-1.5 py-0.5 font-bold text-[8px] uppercase tracking-wider">
+                Limit: {product?.totalStock}
                 </Badge>
             ) : product?.salePrice > 0 ? (
-                <Badge className="bg-primary text-white border-none shadow-md px-2 py-0.5 font-bold text-[9px] uppercase tracking-wider">
+                <Badge className="bg-primary text-white border-none shadow-md px-1.5 py-0.5 font-bold text-[8px] uppercase tracking-wider">
                 Sale
                 </Badge>
             ) : null}
           </div>
           
           {/* Rating Badge */}
-          <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-md px-1.5 py-0.5 rounded-lg flex items-center gap-1 shadow-sm border border-white/20">
-             <Star className="w-2.5 h-2.5 text-yellow-500 fill-yellow-500" />
-             <span className="text-[9px] font-black text-slate-800">{product?.averageReview || "4.5"}</span>
+          <div className="absolute bottom-2 right-2 bg-white/90 backdrop-blur-md px-1 py-0.5 rounded-lg flex items-center gap-1 shadow-sm border border-white/20">
+             <Star className="w-2 h-2 text-yellow-500 fill-yellow-500" />
+             <span className="text-[8px] font-black text-slate-800">{product?.averageReview || "4.5"}</span>
           </div>
         </div>
 
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-[9px] font-black text-slate-400 continental uppercase tracking-[0.15em]">
+        <CardContent className="p-3">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[8px] font-black text-slate-400 continental uppercase tracking-[0.1em]">
               {categoryOptionsMap[product?.category]}
             </span>
-            <span className="text-[9px] font-black text-primary uppercase tracking-wider">
+            <span className="text-[8px] font-black text-primary uppercase tracking-wider">
                {brandOptionsMap[product?.brand]}
             </span>
           </div>
 
-          <h2 className="text-base font-black text-slate-900 mb-2 truncate group-hover:text-primary transition-colors tracking-tight">
+          <h2 className="text-sm font-black text-slate-900 mb-1 truncate group-hover:text-primary transition-colors tracking-tight">
             {product?.title}
           </h2>
 
-          <div className="flex items-baseline gap-1.5">
-            <span className={`text-xl font-black text-slate-900 tracking-tighter`}>
+          <div className="flex items-baseline gap-1">
+            <span className={`text-lg font-black text-slate-900 tracking-tighter`}>
               ${product?.salePrice > 0 ? product?.salePrice : product?.price}
             </span>
             {product?.salePrice > 0 && (
-              <span className="text-xs font-bold text-slate-400 line-through">
+              <span className="text-[10px] font-bold text-slate-400 line-through">
                 ${product?.price}
               </span>
             )}
@@ -77,17 +77,17 @@ function ShoppingProductTile({
         </CardContent>
       </div>
 
-      <CardFooter className="p-4 pt-0">
+      <CardFooter className="p-3 pt-0">
         {product?.totalStock === 0 ? (
-          <Button className="w-full py-4 rounded-xl bg-slate-50 text-slate-300 cursor-not-allowed border-none shadow-none font-bold uppercase tracking-widest text-[10px]">
+          <Button className="w-full py-3 rounded-xl bg-slate-50 text-slate-300 cursor-not-allowed border-none shadow-none font-bold uppercase tracking-widest text-[9px]">
             Sold Out
           </Button>
         ) : (
           <Button
             onClick={() => handleAddtoCart(product?._id, product?.totalStock)}
-            className="w-full py-5 rounded-xl font-black uppercase tracking-[0.15em] text-[10px] flex items-center gap-2 transition-all duration-300 shadow-lg shadow-primary/10 hover:shadow-primary/30"
+            className="w-full py-4 rounded-xl font-black uppercase tracking-[0.1em] text-[9px] flex items-center gap-1.5 transition-all duration-300 shadow-lg shadow-primary/10 hover:shadow-primary/30"
           >
-            <ShoppingCart className="w-3.5 h-3.5" />
+            <ShoppingCart className="w-3 h-3" />
             Add to Bag
           </Button>
         )}

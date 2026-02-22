@@ -76,6 +76,10 @@ function ShoppingHome() {
   }
 
   function handleAddtoCart(getCurrentProductId) {
+    if (!user) {
+      navigate('/auth/login');
+      return;
+    }
     addToCart(user?.id, getCurrentProductId, 1).then((data) => {
       if (data?.success) {
         toast({
