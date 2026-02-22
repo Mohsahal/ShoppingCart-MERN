@@ -143,8 +143,8 @@ function ShoppingListing() {
   if (isLoading) return <Loader />;
 
   return (
-    <div className="bg-slate-50 min-h-screen">
-        <div className="container mx-auto max-w-7xl px-6 py-12">
+    <div className="bg-slate-50">
+        <div className=" mx-auto w-full px-6 py-12">
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Sidebar - Hidden on mobile, shown on desktop */}
                 <aside className="hidden md:block w-[280px] shrink-0">
