@@ -204,7 +204,7 @@ function ShoppingHome() {
       {/* Trust Badges Bar */}
       <div className="bg-white border-b py-10">
          <div className="container mx-auto px-6">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
                 {[
                     { icon: Truck, title: "Swift Global Delivery", desc: "Orders over $150" },
                     { icon: ShieldCheck, title: "Encrypted Security", desc: "100% Secure Checkout" },
@@ -212,12 +212,12 @@ function ShoppingHome() {
                     { icon: Zap, title: "Instant Support", desc: "24/7 Premium Care" }
                 ].map((item, i) => (
                     <div key={i} className="flex items-center gap-4 group">
-                        <div className="bg-slate-50 p-3 rounded-2xl group-hover:bg-primary/10 transition-colors">
-                            <item.icon className="h-6 w-6 text-primary" />
+                        <div className="bg-slate-50 p-2.5 sm:p-3 rounded-2xl group-hover:bg-primary/10 transition-colors shrink-0">
+                            <item.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                         </div>
                         <div>
-                            <p className="font-black text-slate-900 text-sm leading-none mb-1 uppercase tracking-tighter">{item.title}</p>
-                            <p className="text-xs text-slate-500 font-medium tracking-tight">{item.desc}</p>
+                            <p className="font-black text-slate-900 text-[10px] sm:text-xs md:text-sm leading-none mb-1 uppercase tracking-tighter">{item.title}</p>
+                            <p className="text-[10px] text-slate-500 font-medium tracking-tight leading-none">{item.desc}</p>
                         </div>
                     </div>
                 ))}
@@ -237,23 +237,23 @@ function ShoppingHome() {
                 Browse our curated categories for a tailored experience.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8 justify-items-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 sm:gap-8 justify-items-center">
             {categoriesWithIcon.map((categoryItem) => (
               <Card
                 onClick={() =>
                   handleNavigateToListingPage(categoryItem, "category")
                 }
-                className="w-full max-w-[280px] group cursor-pointer border-none shadow-md hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-white"
+                className="w-full group cursor-pointer border-none shadow-md hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden bg-white"
                 key={categoryItem.id}
               >
-                <CardContent className="flex flex-col items-center justify-center p-10 relative">
+                <CardContent className="flex flex-col items-center justify-center p-8 sm:p-10 relative">
                   <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-10 transition-opacity">
                       <categoryItem.icon className="w-32 h-32 grayscale" />
                   </div>
                   <div className="mb-6 group-hover:scale-110 transition-transform duration-500 transform group-hover:rotate-6">
-                      <categoryItem.icon className="w-12 h-12 text-slate-700 group-hover:text-primary" />
+                      <categoryItem.icon className="w-10 h-10 sm:w-12 sm:h-12 text-slate-700 group-hover:text-primary" />
                   </div>
-                  <span className="font-black text-xl text-slate-900 group-hover:text-primary transition-colors tracking-tight uppercase">
+                  <span className="font-black text-lg sm:text-xl text-slate-900 group-hover:text-primary transition-colors tracking-tight uppercase">
                       {categoryItem.label}
                   </span>
                   <div className="mt-4 flex items-center gap-1 text-[10px] font-black text-primary uppercase translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
@@ -271,12 +271,12 @@ function ShoppingHome() {
         <div className="container mx-auto px-6">
             <div className="text-center mb-16 space-y-4">
                  <Badge className="bg-slate-900 text-white border-none rounded-full px-4 font-black text-[10px] uppercase tracking-widest">Direct from Vault</Badge>
-                 <h2 className="text-6xl font-black text-slate-900 tracking-tighter">CURATED <span className="text-primary italic">ESSENTIALS</span></h2>
+                 <h2 className="text-4xl sm:text-6xl font-black text-slate-900 tracking-tighter">CURATED <span className="text-primary italic">ESSENTIALS</span></h2>
                  <p className="text-slate-500 font-medium max-w-xl mx-auto text-sm">
                     A selection of our most loved and trending pieces chosen specifically for your premium lifestyle.
                  </p>
             </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 justify-items-center">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-10">
             {productList && productList.length > 0
               ? productList.map((productItem) => (
                   <ShoppingProductTile
@@ -308,14 +308,14 @@ function ShoppingHome() {
                    <h2 className="text-4xl font-black text-slate-900 tracking-tighter mb-4">WORLD CLASS <span className="text-primary italic">BRANDS</span></h2>
                    <p className="text-slate-500 font-medium text-sm">Partnering with the industry giants to bring you unparalleled quality.</p>
                </div>
-               <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-4">
+               <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 w-full">
                 {brandsWithIcon.map((brandItem) => (
                 <div
                     onClick={() => handleNavigateToListingPage(brandItem, "brand")}
-                    className="cursor-pointer group bg-slate-50 hover:bg-primary transition-all duration-300 p-8 rounded-3xl flex items-center justify-center border border-slate-100"
+                    className="cursor-pointer group bg-slate-50 hover:bg-primary transition-all duration-300 p-6 sm:p-8 rounded-2xl sm:rounded-3xl flex items-center justify-center border border-slate-100"
                     key={brandItem.id}
                 >
-                    <span className="font-black text-xl text-slate-400 group-hover:text-white transition-colors tracking-tighter uppercase grayscale group-hover:grayscale-0 italic">
+                    <span className="font-black text-base sm:text-xl text-slate-400 group-hover:text-white transition-colors tracking-tighter uppercase grayscale group-hover:grayscale-0 italic">
                         {brandItem.label}
                     </span>
                 </div>

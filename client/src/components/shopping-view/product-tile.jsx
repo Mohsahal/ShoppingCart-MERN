@@ -10,7 +10,7 @@ function ShoppingProductTile({
   handleAddtoCart,
 }) {
   return (
-    <Card className="w-full max-w-[220px] group overflow-hidden border-none shadow-sm hover:shadow-2xl transition-all duration-500 rounded-[1.5rem] bg-white relative">
+    <Card className="w-full group overflow-hidden border-none shadow-sm hover:shadow-2xl transition-all duration-500 rounded-[1.5rem] bg-white relative">
       <div onClick={() => handleGetProductDetails(product?._id)} className="cursor-pointer">
         <div className="relative aspect-[4/5] overflow-hidden bg-slate-50">
           <img

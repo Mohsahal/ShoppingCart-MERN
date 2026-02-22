@@ -11,7 +11,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/components/ui/use-toast";
 import { sortOptions } from "@/config";
-import { ArrowUpDownIcon, Layers, SearchX } from "lucide-react";
+import { ArrowUpDownIcon, Layers, SearchX, Filter } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ShoppingContext } from "@/context/shopping-context";
@@ -145,9 +146,11 @@ function ShoppingListing() {
     <div className="bg-slate-50 min-h-screen">
         <div className="container mx-auto max-w-7xl px-6 py-12">
             <div className="flex flex-col md:flex-row gap-8">
-                {/* Sidebar */}
-                <aside className="w-full md:w-[280px] shrink-0">
-                    <ProductFilter filters={filters} handleFilter={handleFilter} />
+                {/* Sidebar - Hidden on mobile, shown on desktop */}
+                <aside className="hidden md:block w-[280px] shrink-0">
+                    <div className="sticky top-24 h-[calc(100vh-120px)]">
+                        <ProductFilter filters={filters} handleFilter={handleFilter} />
+                    </div>
                 </aside>
 
                 {/* Main Content */}
@@ -165,9 +168,20 @@ function ShoppingListing() {
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Badge variant="secondary" className="bg-slate-100 text-slate-500 font-bold px-4 py-1.5 rounded-full border-none">
-                                {productList?.length} Items
-                            </Badge>
+                            <Sheet>
+                                <SheetTrigger asChild>
+                                    <Button
+                                        variant="outline"
+                                        size="icon"
+                                        className="md:hidden rounded-xl border-slate-200 text-slate-700 h-12 w-12"
+                                    >
+                                        <Filter className="h-5 w-5" />
+                                    </Button>
+                                </SheetTrigger>
+                                <SheetContent side="left" className="w-full max-w-[300px] p-0 border-none">
+                                    <ProductFilter filters={filters} handleFilter={handleFilter} />
+                                </SheetContent>
+                            </Sheet>
                             
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -197,7 +211,7 @@ function ShoppingListing() {
                     </div>
 
                     {/* Product Grid */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
                         {productList && productList.length > 0 ? (
                             productList.map((productItem) => (
                                 <ShoppingProductTile

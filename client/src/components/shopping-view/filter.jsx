@@ -6,12 +6,12 @@ import { Separator } from "../ui/separator";
 
 function ProductFilter({ filters, handleFilter }) {
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden sticky top-24">
-      <div className="p-6 border-b border-slate-100 bg-slate-50/50">
-        <h2 className="text-xl font-black text-slate-900 tracking-tight">Catalyst Filters</h2>
+    <div className="bg-white rounded-3xl shadow-sm border border-slate-100 overflow-hidden h-full flex flex-col">
+      <div className="p-4 sm:p-6 border-b border-slate-100 bg-slate-50/50">
+        <h2 className="text-lg sm:text-xl font-black text-slate-900 tracking-tight">Catalyst Filters</h2>
         <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Refine your search</p>
       </div>
-      <div className="p-6 space-y-8">
+      <div className="p-4 sm:p-6 space-y-6 sm:space-y-8 overflow-y-auto flex-1 scrollbar-thin scrollbar-thumb-slate-100">
         {Object.keys(filterOptions).map((keyItem) => (
           <Fragment key={keyItem}>
             <div className="space-y-4">

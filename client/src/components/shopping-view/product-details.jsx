@@ -115,40 +115,40 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-1 md:grid-cols-2 gap-0 p-0 overflow-hidden rounded-3xl border-none shadow-2xl max-w-[95vw] md:max-w-[85vw] lg:max-w-[75vw] xl:max-w-[1000px] max-h-[90vh]">
-        <div className="relative bg-slate-50 flex items-center justify-center p-8">
+      <DialogContent className="grid grid-cols-1 md:grid-cols-2 gap-0 p-0 overflow-hidden rounded-2xl md:rounded-3xl border-none shadow-2xl max-w-[95vw] md:max-w-[85vw] lg:max-w-[75vw] xl:max-w-[1000px] max-h-[95vh] md:max-h-[90vh]">
+        <div className="relative bg-slate-50 flex items-center justify-center p-6 md:p-8">
           <img
             src={productDetails?.image}
             alt={productDetails?.title}
-            className="aspect-square w-full max-h-[500px] object-contain mix-blend-multiply drop-shadow-2xl transition-transform duration-500 hover:scale-105"
+            className="aspect-square w-full max-h-[300px] md:max-h-[500px] object-contain mix-blend-multiply drop-shadow-2xl transition-transform duration-500 hover:scale-105"
           />
           {productDetails?.salePrice > 0 && (
-             <Badge className="absolute top-6 left-6 bg-primary text-white px-4 py-1.5 rounded-full text-sm font-black shadow-lg">
+             <Badge className="absolute top-4 left-4 md:top-6 md:left-6 bg-primary text-white px-3 md:px-4 py-1 md:py-1.5 rounded-full text-xs md:text-sm font-black shadow-lg">
                 SALE
              </Badge>
           )}
         </div>
         
-        <div className="flex flex-col bg-white overflow-hidden">
-          <DialogHeader className="p-8 pb-4">
-             <div className="space-y-2">
+        <div className="flex flex-col bg-white overflow-hidden max-h-[60vh] md:max-h-none">
+          <DialogHeader className="p-6 md:p-8 pb-4">
+             <div className="space-y-1 md:space-y-2">
                 <div className="flex items-center justify-between">
-                    <span className="text-xs font-black text-slate-400 uppercase tracking-widest">{productDetails?.category} | {productDetails?.brand}</span>
-                    <Badge variant="outline" className={`${productDetails?.totalStock > 0 ? 'text-emerald-600 border-emerald-100' : 'text-rose-600 border-rose-100'} font-bold`}>
+                    <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest">{productDetails?.category} | {productDetails?.brand}</span>
+                    <Badge variant="outline" className={`${productDetails?.totalStock > 0 ? 'text-emerald-600 border-emerald-100' : 'text-rose-600 border-rose-100'} font-bold text-[10px]`}>
                         {productDetails?.totalStock > 0 ? 'In Stock' : 'Out of Stock'}
                     </Badge>
                 </div>
-                <DialogTitle className="text-3xl font-black text-slate-900 leading-none">
+                <DialogTitle className="text-xl md:text-3xl font-black text-slate-900 leading-none">
                     {productDetails?.title}
                 </DialogTitle>
-                <DialogDescription className="text-slate-500 text-base leading-relaxed line-clamp-2">
+                <DialogDescription className="text-slate-500 text-sm md:text-base leading-relaxed line-clamp-2">
                     {productDetails?.description}
                 </DialogDescription>
              </div>
           </DialogHeader>
 
-          <div className="px-8 flex flex-col gap-6 flex-1 overflow-y-auto">
-            <div className="flex items-center justify-between bg-slate-50 p-4 rounded-2xl border border-slate-100">
+          <div className="px-6 md:px-8 flex flex-col gap-4 md:gap-6 flex-1 overflow-y-auto">
+            <div className="flex items-center justify-between bg-slate-50 p-3 md:p-4 rounded-xl md:rounded-2xl border border-slate-100">
                <div className="flex flex-col">
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Current Price</span>
                   <div className="flex items-baseline gap-2">
@@ -234,7 +234,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             </div>
           </div>
 
-          <div className="p-8 bg-slate-50 border-t border-slate-100 sticky bottom-0">
+          <div className="p-6 md:p-8 bg-slate-50 border-t border-slate-100 sticky bottom-0">
             {productDetails?.totalStock === 0 ? (
               <Button className="w-full py-7 text-lg font-black rounded-2xl bg-slate-300 text-slate-500 cursor-not-allowed shadow-none border-none">
                 OUT OF STOCK

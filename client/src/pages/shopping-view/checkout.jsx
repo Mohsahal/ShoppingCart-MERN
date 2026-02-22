@@ -100,7 +100,7 @@ function ShoppingCheckout() {
               <Badge className="bg-primary/20 text-primary border-primary/30 py-1.5 px-6 rounded-full mb-4 text-[10px] font-black tracking-[0.4em] uppercase backdrop-blur-md">
                 Secure Procurement
               </Badge>
-              <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4">Finalizing <span className="text-primary italic">Checkout</span></h1>
+              <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4">Finalizing <span className="text-primary italic">Checkout</span></h1>
               <div className="flex items-center gap-2 text-slate-400 font-bold text-sm uppercase tracking-widest">
                   <span>Cart</span>
                   <ChevronRight size={14} />
@@ -115,8 +115,8 @@ function ShoppingCheckout() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             {/* Left Column: Address Selection */}
             <div className="lg:col-span-7 space-y-8">
-                <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 p-8 sm:p-12">
-                   <div className="flex items-center gap-4 mb-10">
+                <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 p-6 sm:p-12">
+                   <div className="flex items-center gap-4 mb-6 md:mb-10">
                         <div className="bg-primary p-3 rounded-2xl shadow-lg shadow-primary/20">
                             <MapPin className="h-6 w-6 text-white" />
                         </div>
@@ -135,7 +135,7 @@ function ShoppingCheckout() {
 
             {/* Right Column: Order Summary */}
             <div className="lg:col-span-5">
-                <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-8 sm:p-10 sticky top-24">
+                <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-6 sm:p-10 sticky top-24">
                    <div className="flex items-center gap-4 mb-8">
                         <div className="bg-slate-900 p-3 rounded-2xl">
                             <Package className="h-6 w-6 text-white" />

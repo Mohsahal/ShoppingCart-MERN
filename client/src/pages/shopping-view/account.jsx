@@ -16,24 +16,24 @@ function ShoppingAccount() {
           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 blur-[2px] scale-110" />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/60 to-transparent" />
           
-          <div className="absolute bottom-0 left-0 w-full p-12">
-            <div className="container mx-auto max-w-7xl px-6 flex flex-col md:flex-row items-end justify-between gap-8">
-                <div className="flex items-center gap-8">
+          <div className="absolute bottom-0 left-0 w-full p-6 md:p-12">
+            <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col md:flex-row items-center md:items-end justify-between gap-6 md:gap-8">
+                <div className="flex flex-col md:flex-row items-center gap-6 md:gap-8 text-center md:text-left">
                     <div className="relative group">
                          <div className="absolute inset-0 bg-primary blur-2xl opacity-20 group-hover:opacity-40 transition-opacity" />
-                         <div className="relative h-24 w-24 md:h-32 md:w-32 rounded-[2rem] bg-slate-800 border-4 border-slate-700 flex items-center justify-center text-5xl font-black text-white shadow-2xl">
+                         <div className="relative h-24 w-24 md:h-32 md:w-32 rounded-[2rem] bg-slate-800 border-4 border-slate-700 flex items-center justify-center text-4xl md:text-5xl font-black text-white shadow-2xl">
                             {user?.userName?.[0].toUpperCase()}
                          </div>
                     </div>
                     <div className="space-y-2">
-                         <Badge className="bg-primary/20 text-primary border-primary/30 py-1 px-4 rounded-full text-[10px] font-black tracking-[0.3em] uppercase backdrop-blur-md">
+                         <Badge className="bg-primary/20 text-primary border-primary/30 py-1 px-4 rounded-full text-[10px] font-black tracking-[0.3em] uppercase backdrop-blur-md inline-flex mx-auto md:mx-0">
                             Verified {user?.role}
                          </Badge>
-                         <h1 className="text-4xl md:text-6xl font-black text-white tracking-tighter leading-none">{user?.userName}</h1>
-                         <p className="text-slate-400 font-bold text-sm uppercase tracking-widest flex items-center gap-2">
+                         <h1 className="text-3xl md:text-6xl font-black text-white tracking-tighter leading-none">{user?.userName}</h1>
+                         <p className="text-slate-400 font-bold text-xs md:text-sm uppercase tracking-widest flex items-center justify-center md:justify-start gap-2">
                              {user?.email}
-                             <span className="h-1 w-1 bg-slate-600 rounded-full" />
-                             Member since 2024
+                             <span className="h-1 w-1 bg-slate-600 rounded-full hidden sm:block" />
+                             <span className="hidden sm:block">Member since 2024</span>
                          </p>
                     </div>
                 </div>
@@ -44,8 +44,8 @@ function ShoppingAccount() {
       <div className="container mx-auto max-w-7xl px-6 -mt-10 relative z-10">
         <div className="bg-white rounded-[3rem] shadow-2xl shadow-slate-200/50 border border-slate-100 overflow-hidden min-h-[600px]">
           <Tabs defaultValue="orders" className="flex flex-col h-full">
-            <div className="px-10 pt-10 border-b border-slate-50">
-                <TabsList className="bg-slate-100/50 p-1.5 rounded-2xl w-full max-w-md h-auto grid grid-cols-2">
+            <div className="px-6 md:px-10 pt-6 md:pt-10 border-b border-slate-50">
+                <TabsList className="bg-slate-100/50 p-1.5 rounded-2xl w-full max-w-sm h-auto grid grid-cols-2">
                     <TabsTrigger 
                         value="orders" 
                         className="rounded-xl py-3 font-black text-xs uppercase tracking-widest gap-2 data-[state=active]:bg-white data-[state=active]:shadow-lg data-[state=active]:text-primary transition-all"
@@ -63,7 +63,7 @@ function ShoppingAccount() {
                 </TabsList>
             </div>
             
-            <div className="p-10 flex-1">
+            <div className="p-6 md:p-10 flex-1">
                 <TabsContent value="orders" className="m-0 focus-visible:outline-none">
                     <ShoppingOrders />
                 </TabsContent>

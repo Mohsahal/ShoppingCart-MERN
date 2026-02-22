@@ -211,7 +211,8 @@ function AdminDashboard() {
             </Button>
           </CardHeader>
           <CardContent>
-            <div className="rounded-xl border border-slate-100 overflow-hidden">
+            <div className="rounded-xl border border-slate-100 overflow-x-auto">
+              <div className="min-w-[500px]">
               <Table>
                 <TableHeader className="bg-slate-50/50">
                   <TableRow>
@@ -259,6 +260,7 @@ function AdminDashboard() {
                   )}
                 </TableBody>
               </Table>
+              </div>
             </div>
             
             <div className="mt-8 p-4 bg-primary/5 rounded-xl flex items-center justify-between">
