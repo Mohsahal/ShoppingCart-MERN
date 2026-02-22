@@ -12,9 +12,11 @@ export default function AdminProvider({ children }) {
   // Products
   async function addNewProduct(formData) {
     setIsLoading(true);
+    const baseUrl = import.meta.env.VITE_API_URL || "";
+    const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_URL}/api/admin/products/add`,
+        `${sanitizedBase}/api/admin/products/add`,
         formData,
         {
           headers: {
@@ -35,9 +37,11 @@ export default function AdminProvider({ children }) {
 
   async function fetchAllProducts() {
     setIsLoading(true);
+    const baseUrl = import.meta.env.VITE_API_URL || "";
+    const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/admin/products/get`,
+        `${sanitizedBase}/api/admin/products/get`,
         {
           withCredentials: true,
         }
@@ -57,9 +61,11 @@ export default function AdminProvider({ children }) {
 
   async function editProduct(id, formData) {
     setIsLoading(true);
+    const baseUrl = import.meta.env.VITE_API_URL || "";
+    const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/admin/products/edit/${id}`,
+        `${sanitizedBase}/api/admin/products/edit/${id}`,
         formData,
         {
           headers: {
@@ -80,9 +86,11 @@ export default function AdminProvider({ children }) {
 
   async function deleteProduct(id) {
     setIsLoading(true);
+    const baseUrl = import.meta.env.VITE_API_URL || "";
+    const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_API_URL}/api/admin/products/delete/${id}`,
+        `${sanitizedBase}/api/admin/products/delete/${id}`,
         {
           withCredentials: true,
         }
@@ -100,20 +108,26 @@ export default function AdminProvider({ children }) {
   // Orders
   async function getAllOrdersForAdmin() {
     setIsLoading(true);
+    const baseUrl = import.meta.env.VITE_API_URL || "";
+    // Remove trailing slash if present to avoid // issues
+    const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
+    const url = `${sanitizedBase}/api/admin/orders/get-all`;
+
     try {
-      const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/admin/orders/get-all`,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(url, {
+        withCredentials: true,
+      });
 
       if (response?.data?.success) {
         setOrderList(response?.data?.data);
       }
       return response.data;
     } catch (e) {
-      console.error("Error fetching admin orders:", e);
+      if (e.response?.status === 404) {
+        console.error(`404 Error: The admin orders endpoint was not found at ${url}. Please verify server deployment and route definitions.`);
+      } else {
+        console.error("Error fetching admin orders:", e);
+      }
       return { success: false, message: e.message };
     } finally {
       setIsLoading(false);
@@ -122,9 +136,11 @@ export default function AdminProvider({ children }) {
 
   async function getOrderDetailsForAdmin(id) {
     setIsLoading(true);
+    const baseUrl = import.meta.env.VITE_API_URL || "";
+    const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/admin/orders/details/${id}`,
+        `${sanitizedBase}/api/admin/orders/details/${id}`,
         {
           withCredentials: true,
         }
@@ -144,9 +160,11 @@ export default function AdminProvider({ children }) {
 
   async function updateOrderStatus(id, orderStatus) {
     setIsLoading(true);
+    const baseUrl = import.meta.env.VITE_API_URL || "";
+    const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
     try {
       const response = await axios.put(
-        `${import.meta.env.VITE_API_URL}/api/admin/orders/update/${id}`,
+        `${sanitizedBase}/api/admin/orders/update/${id}`,
         {
           orderStatus,
         },
