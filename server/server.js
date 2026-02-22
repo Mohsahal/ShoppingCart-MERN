@@ -5,7 +5,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const authRouter = require("./routes/auth/auth-routes");
 const adminProductsRouter = require("./routes/admin/products-routes");
-const adminOrderRouter = require("./routes/admin/order-routes");
+const adminOrdersRouter = require("./routes/admin/orders-routes");
 
 const shopProductsRouter = require("./routes/shop/products-routes");
 const shopCartRouter = require("./routes/shop/cart-routes");
@@ -27,14 +27,8 @@ mongoose
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Debugging Middleware
-app.use((req, res, next) => {
-  console.log(`Incoming Request: ${req.method} ${req.url}`);
-  next();
-});
-
-app.get("/api/admin/orders/test", (req, res) => {
-  res.json({ success: true, message: "Order routes are reachable" });
+app.get("/api/health", (req, res) => {
+  res.json({ status: "ok", time: new Date().toISOString() });
 });
 
 app.use(
@@ -56,7 +50,7 @@ app.use(cookieParser());
 app.use(express.json());
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
-app.use("/api/admin/orders", adminOrderRouter);
+app.use("/api/admin/orders", adminOrdersRouter);
 
 app.use("/api/shop/products", shopProductsRouter);
 app.use("/api/shop/cart", shopCartRouter);

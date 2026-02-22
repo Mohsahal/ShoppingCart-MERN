@@ -8,7 +8,8 @@ const {
 
 const router = express.Router();
 
-router.get("/get-all", getAllOrdersOfAllUsers);
+router.get("/test", (req, res) => res.json({ success: true, message: "Admin Orders internal test reached" }));
+router.get("/get", getAllOrdersOfAllUsers);
 router.get("/details/:id", getOrderDetailsForAdmin);
 router.put("/update/:id", updateOrderStatus);
 

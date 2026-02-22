@@ -111,7 +111,7 @@ export default function AdminProvider({ children }) {
     const baseUrl = import.meta.env.VITE_API_URL || "";
     // Remove trailing slash if present to avoid // issues
     const sanitizedBase = baseUrl.endsWith("/") ? baseUrl.slice(0, -1) : baseUrl;
-    const url = `${sanitizedBase}/api/admin/orders/get-all`;
+    const url = `${sanitizedBase}/api/admin/orders/get`;
 
     try {
       const response = await axios.get(url, {
@@ -124,7 +124,7 @@ export default function AdminProvider({ children }) {
       return response.data;
     } catch (e) {
       if (e.response?.status === 404) {
-        console.error(`404 Error: The admin orders endpoint was not found at ${url}. Please verify server deployment and route definitions.`);
+        console.error(`404 Error: The admin orders endpoint was not found at ${url}.`);
       } else {
         console.error("Error fetching admin orders:", e);
       }
