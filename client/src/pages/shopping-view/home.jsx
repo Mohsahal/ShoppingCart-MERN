@@ -127,9 +127,9 @@ function ShoppingHome() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-6">
-                    <h1 className="text-3xl sm:text-5xl md:text-8xl font-black text-white max-w-4xl leading-[0.95] md:leading-[0.9] tracking-tighter mb-4 md:mb-8 drop-shadow-2xl">
+                    {/* <h1 className="text-3xl sm:text-5xl md:text-8xl font-black text-white max-w-4xl leading-[0.95] md:leading-[0.9] tracking-tighter mb-4 md:mb-8 drop-shadow-2xl">
                         ELEVATE YOUR <span className="text-primary italic">STYLE</span> GAME
-                    </h1>
+                    </h1> */}
                     <p className="text-slate-300 text-sm md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed px-4">
                         Discover the latest trends in high-end fashion and lifestyle essentials. Curated globally, delivered locally.
                     </p>
