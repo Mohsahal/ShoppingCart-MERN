@@ -111,7 +111,7 @@ function ShoppingHome() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
-      <div className="relative w-full h-[65vh] md:h-[75vh] overflow-hidden bg-slate-900">
+      <div className="relative w-full h-[42vh] sm:h-[56vh] md:h-[70vh] overflow-hidden bg-slate-900">
         {featureImageList && featureImageList.length > 0
           ? featureImageList.map((slide, index) => (
               <div
@@ -122,21 +122,21 @@ function ShoppingHome() {
               >
                 <img
                   src={slide?.image}
-                  className="w-full h-full object-cover opacity-60 scale-105"
+                  className="w-full h-full object-contain sm:object-cover opacity-60 sm:scale-105"
                   alt={`Banner ${index}`}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-transparent to-transparent opacity-80" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4 md:px-6">
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-3 sm:px-4 md:px-6">
                     {/* <h1 className="text-3xl sm:text-5xl md:text-8xl font-black text-white max-w-4xl leading-[0.95] md:leading-[0.9] tracking-tighter mb-4 md:mb-8 drop-shadow-2xl">
                         ELEVATE YOUR <span className="text-primary italic">STYLE</span> GAME
                     </h1> */}
-                    <p className="text-slate-300 text-sm md:text-xl max-w-2xl mb-8 md:mb-12 font-medium leading-relaxed px-4">
+                    <p className="text-slate-300 text-xs sm:text-sm md:text-xl max-w-2xl mb-6 md:mb-12 font-medium leading-relaxed px-2 sm:px-4">
                         Discover the latest trends in high-end fashion and lifestyle essentials. Curated globally, delivered locally.
                     </p>
-                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto px-6 sm:px-0">
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-4 w-full sm:w-auto px-3 sm:px-0">
                         <Button 
                             onClick={() => navigate('/shop/listing')}
-                            className="bg-primary hover:bg-primary/90 text-white font-black px-8 md:px-10 py-6 md:py-8 rounded-2xl text-base md:text-lg shadow-2xl shadow-primary/20 transform hover:-translate-y-1 transition-all flex gap-3 group justify-center"
+                            className="bg-primary hover:bg-primary/90 text-white font-black px-6 md:px-10 py-4 md:py-8 rounded-2xl text-sm md:text-lg shadow-2xl shadow-primary/20 transform hover:-translate-y-1 transition-all flex gap-3 group justify-center"
                         >
                             EXPLORE NOW
                             <ArrowRight className="group-hover:translate-x-2 transition-transform h-5 w-5 md:h-6 md:w-6" />
@@ -147,7 +147,7 @@ function ShoppingHome() {
                                 const categorySection = document.getElementById('category-section');
                                 if(categorySection) categorySection.scrollIntoView({ behavior: 'smooth' });
                             }}
-                            className="bg-white/10 hover:bg-white/20 text-white border-white/20 font-black px-8 md:px-10 py-6 md:py-8 rounded-2xl text-base md:text-lg backdrop-blur-md justify-center"
+                            className="bg-white/10 hover:bg-white/20 text-white border-white/20 font-black px-6 md:px-10 py-4 md:py-8 rounded-2xl text-sm md:text-lg backdrop-blur-md justify-center"
                         >
                             VIEW CATEGORIES
                         </Button>

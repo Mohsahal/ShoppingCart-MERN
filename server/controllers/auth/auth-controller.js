@@ -7,12 +7,25 @@ const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
 
   try {
-    const checkUser = await User.findOne({ email });
-    if (checkUser)
-      return res.json({
+    // Check for existing user by email or username so we can
+    // return a clear message instead of a 500 from unique index errors.
+    const existingUser = await User.findOne({
+      $or: [{ email }, { userName }],
+    });
+
+    if (existingUser) {
+      const isEmailTaken = existingUser.email === email;
+      const isUserNameTaken = existingUser.userName === userName;
+
+      return res.status(400).json({
         success: false,
-        message: "User Already exists with the same email! Please try again",
+        message: isEmailTaken && isUserNameTaken
+          ? "Username and email already exist. Please use different ones."
+          : isEmailTaken
+          ? "User already exists with this email. Please try another email."
+          : "Username is already taken. Please choose a different username.",
       });
+    }
 
     const hashPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
@@ -22,15 +35,43 @@ const registerUser = async (req, res) => {
     });
 
     await newUser.save();
-    res.status(200).json({
+    res.status(201).json({
       success: true,
       message: "Registration successful",
     });
   } catch (e) {
-    // console.log(e);
+    console.error("Error in registerUser:", e);
+
+    // Handle duplicate key errors from MongoDB (unique indexes)
+    if (e.code === 11000) {
+      const duplicateField = Object.keys(e.keyPattern || {})[0] || "field";
+      return res.status(400).json({
+        success: false,
+        message:
+          duplicateField === "email"
+            ? "User already exists with this email. Please try another email."
+            : duplicateField === "userName"
+            ? "Username is already taken. Please choose a different username."
+            : "Duplicate value detected. Please use different details.",
+      });
+    }
+
+    // Handle validation or other known Mongoose errors gracefully
+    if (e.name === "ValidationError") {
+      const firstError = e.errors && Object.values(e.errors)[0];
+      return res.status(400).json({
+        success: false,
+        message:
+          firstError?.message ||
+          "Invalid data provided. Please check your details and try again.",
+      });
+    }
+
+    // Fallback for unexpected errors
     res.status(500).json({
       success: false,
-      message: "Some error occured",
+      message:
+        "Some error occurred while registering. Please try again in a moment.",
     });
   }
 };

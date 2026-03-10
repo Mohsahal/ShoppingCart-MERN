@@ -5,7 +5,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from "../ui/sheet";
 import { Button } from "../ui/button";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "@/context/auth-context";
@@ -181,13 +181,13 @@ function ShoppingHeader() {
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-xl border-b border-slate-100 shadow-sm">
-      <div className="container mx-auto max-w-7xl flex h-20 items-center justify-between px-6">
+    <header className="sticky top-0 z-50 w-full bg-white/90 backdrop-blur-xl border-b border-slate-100 shadow-sm">
+      <div className="container mx-auto max-w-7xl flex h-16 sm:h-20 items-center justify-between px-4 sm:px-6">
         <Link to="/shop/home" className="flex items-center gap-3 group">
           <div className="bg-primary p-2 rounded-xl group-hover:rotate-12 transition-transform duration-300">
-            <HousePlug className="h-6 w-6 text-white" />
+            <HousePlug className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
           </div>
-          <span className="font-black text-2xl tracking-tighter text-slate-900">ECOMMERCE</span>
+          <span className="font-black text-xl sm:text-2xl tracking-tighter text-slate-900">Veloura</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -196,7 +196,7 @@ function ShoppingHeader() {
         </div>
 
         {/* Mobile Navigation & Right Content */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3 sm:gap-4">
             <div className="hidden lg:block">
                 <HeaderRightContent />
             </div>
@@ -204,24 +204,28 @@ function ShoppingHeader() {
             <Sheet>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-slate-100">
-                        <Menu className="h-6 w-6 text-slate-600" />
+                        <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-slate-600" />
                         <span className="sr-only">Toggle menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-full max-w-sm p-6 border-none shadow-2xl">
-                    <div className="flex flex-col h-full gap-8 py-10">
-                        <Link to="/shop/home" className="flex items-center gap-3">
+                <SheetContent side="right" className="w-full max-w-xs sm:max-w-sm p-5 sm:p-6 border-none shadow-2xl">
+                    <div className="flex flex-col gap-6 sm:gap-8 py-6 sm:py-8">
+                        <Link to="/shop/home" className="flex items-center gap-2 sm:gap-3">
                             <div className="bg-primary p-2 rounded-xl">
-                                <HousePlug className="h-6 w-6 text-white" />
+                                <HousePlug className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
                             </div>
-                            <span className="font-black text-2xl tracking-tighter">ECOMMERCE</span>
+                            <span className="font-black text-lg sm:text-2xl tracking-tighter">Veloura</span>
                         </Link>
-                        <div className="flex-1">
-                            <MenuItems />
-                        </div>
-                        <div className="border-t pt-8">
-                            <HeaderRightContent />
-                        </div>
+                        <SheetClose asChild>
+                          <div>
+                              <MenuItems />
+                          </div>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <div className="border-t pt-6 sm:pt-8">
+                              <HeaderRightContent />
+                          </div>
+                        </SheetClose>
                     </div>
                 </SheetContent>
             </Sheet>
