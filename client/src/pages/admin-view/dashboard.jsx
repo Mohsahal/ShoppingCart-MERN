@@ -1,8 +1,6 @@
-import ProductImageUpload from "@/components/admin-view/image-upload";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useContext, useEffect, useState } from "react";
-import { CommonContext } from "@/context/common-context";
+import { useContext, useEffect } from "react";
 import { AdminContext } from "@/context/admin-context";
 import Loader from "@/components/common/loader";
 import { 
@@ -10,8 +8,6 @@ import {
   ShoppingBag, 
   Users, 
   DollarSign, 
-  Plus, 
-  Image as ImageIcon,
   Clock,
   ArrowUpRight
 } from "lucide-react";
@@ -26,17 +22,6 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 function AdminDashboard() {
-  const [imageFile, setImageFile] = useState(null);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState("");
-  const [imageLoadingState, setImageLoadingState] = useState(false);
-  
-  const { 
-    featureImageList, 
-    getFeatureImages, 
-    addFeatureImage, 
-    isLoading: commonLoading 
-  } = useContext(CommonContext);
-  
   const {
     productList,
     orderList,
@@ -45,20 +30,7 @@ function AdminDashboard() {
     isLoading: adminLoading
   } = useContext(AdminContext);
 
-  function handleUploadFeatureImage() {
-    if (!uploadedImageUrl) return;
-    
-    addFeatureImage(uploadedImageUrl).then((data) => {
-      if (data?.success) {
-        getFeatureImages();
-        setImageFile(null);
-        setUploadedImageUrl("");
-      }
-    });
-  }
-
   useEffect(() => {
-    getFeatureImages();
     fetchAllProducts();
     getAllOrdersForAdmin();
   }, []);
@@ -100,7 +72,7 @@ function AdminDashboard() {
     }
   ];
 
-  if (commonLoading || adminLoading) return <Loader />;
+  if (adminLoading) return <Loader />;
 
   return (
     <div className="flex flex-col gap-8 p-0">
@@ -140,65 +112,6 @@ function AdminDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-4">
-        {/* Banner Management */}
-        <Card className="border-none shadow-lg">
-          <CardHeader className="flex flex-row items-center justify-between">
-             <div className="flex items-center gap-2">
-                <ImageIcon className="h-5 w-5 text-primary" />
-                <CardTitle className="text-xl">Homepage Banners</CardTitle>
-             </div>
-             <Badge variant="secondary" className="font-normal">
-              {featureImageList?.length} images
-             </Badge>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="bg-slate-50 p-6 rounded-xl border-2 border-dashed border-slate-200 hover:border-primary/50 transition-colors duration-300">
-              <ProductImageUpload
-                imageFile={imageFile}
-                setImageFile={setImageFile}
-                uploadedImageUrl={uploadedImageUrl}
-                setUploadedImageUrl={setUploadedImageUrl}
-                setImageLoadingState={setImageLoadingState}
-                imageLoadingState={imageLoadingState}
-                isCustomStyling={true}
-              />
-              <Button 
-                onClick={handleUploadFeatureImage} 
-                disabled={!uploadedImageUrl || imageLoadingState}
-                className="mt-6 w-full py-6 text-lg font-semibold rounded-xl shadow-md hover:shadow-lg transition-all duration-300"
-              >
-                {imageLoadingState ? "Uploading..." : "Add New Banner"}
-                <Plus className="ml-2 h-5 w-5" />
-              </Button>
-            </div>
-
-            <div className="space-y-4">
-              <h3 className="font-semibold text-slate-700 flex items-center gap-2">
-                Current Banners
-              </h3>
-              <div className="grid grid-cols-2 gap-4">
-                {featureImageList && featureImageList.length > 0
-                  ? featureImageList.map((featureImgItem, index) => (
-                      <div key={index} className="group relative rounded-xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-md transition-all duration-300 aspect-video">
-                        <img
-                          src={featureImgItem.image}
-                          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                        />
-                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                           <Badge className="bg-white text-slate-900 hover:bg-slate-100">Banner {index + 1}</Badge>
-                        </div>
-                      </div>
-                    ))
-                  : (
-                    <div className="col-span-2 py-12 text-center text-slate-400 bg-slate-50 rounded-xl">
-                      No banners uploaded yet
-                    </div>
-                  )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Recent Orders */}
         <Card className="border-none shadow-lg">
           <CardHeader className="flex flex-row items-center justify-between">
