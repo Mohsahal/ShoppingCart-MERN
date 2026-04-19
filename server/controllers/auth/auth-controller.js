@@ -7,30 +7,35 @@ const registerUser = async (req, res) => {
   const { userName, email, password } = req.body;
 
   try {
-    // Check for existing user by email or username so we can
-    // return a clear message instead of a 500 from unique index errors.
-    const existingUser = await User.findOne({
-      $or: [{ email }, { userName }],
-    });
+    // Independent checks for email and username to handle all conflict scenarios
+    const checkEmail = await User.findOne({ email: email.toLowerCase() });
+    const checkUserName = await User.findOne({ userName: userName.toLowerCase() });
 
-    if (existingUser) {
-      const isEmailTaken = existingUser.email === email;
-      const isUserNameTaken = existingUser.userName === userName;
-
-      return res.status(400).json({
-        success: false,
-        message: isEmailTaken && isUserNameTaken
-          ? "Username and email already exist. Please use different ones."
-          : isEmailTaken
-          ? "User already exists with this email. Please try another email."
-          : "Username is already taken. Please choose a different username.",
-      });
+    if (checkEmail || checkUserName) {
+      if (checkEmail && checkUserName) {
+        return res.status(400).json({
+          success: false,
+          message: "Both email and username are already registered. Please use different ones.",
+        });
+      }
+      if (checkEmail) {
+        return res.status(400).json({
+          success: false,
+          message: "This email is already registered. Please try logging in or use another email.",
+        });
+      }
+      if (checkUserName) {
+        return res.status(400).json({
+          success: false,
+          message: "This username is already taken. Please choose a different one.",
+        });
+      }
     }
 
     const hashPassword = await bcrypt.hash(password, 12);
     const newUser = new User({
-      userName,
-      email,
+      userName: userName.toLowerCase(), // Store in lowercase for consistency
+      email: email.toLowerCase(),       // Store in lowercase for consistency
       password: hashPassword,
     });
 
@@ -81,11 +86,11 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const checkUser = await User.findOne({ email });
+    const checkUser = await User.findOne({ email: email.toLowerCase() });
     if (!checkUser)
-      return res.json({
+      return res.status(400).json({
         success: false,
-        message: "User doesn't exists! Please register first",
+        message: "User doesn't exist! Please register first",
       });
 
     const checkPasswordMatch = await bcrypt.compare(

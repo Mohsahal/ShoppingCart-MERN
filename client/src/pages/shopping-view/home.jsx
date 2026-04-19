@@ -242,6 +242,37 @@ function ShoppingHome() {
         </div>
       </section>
 
+      {/* Newsletter Section */}
+      <section className="py-20 sm:py-32 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" />
+        </div>
+        <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-2xl mx-auto text-center space-y-8">
+                <Badge className="bg-white/20 text-white border-none rounded-full px-6 py-1.5 font-black text-[10px] uppercase tracking-[0.3em]">
+                    Join the Club
+                </Badge>
+                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-tight">
+                    GET 20% OFF YOUR <span className="italic">FIRST ORDER</span>
+                </h2>
+                <p className="text-white/80 font-medium text-sm sm:text-base">
+                    Subscribe to receive updates, access to exclusive deals, and more.
+                </p>
+                <form className="flex flex-col sm:flex-row gap-3 mt-10">
+                    <input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        className="flex-1 bg-white/10 border border-white/20 rounded-2xl px-6 py-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 backdrop-blur-md font-bold"
+                    />
+                    <Button className="bg-white text-primary hover:bg-white/90 font-black px-10 py-4 rounded-2xl uppercase tracking-widest text-xs shadow-2xl">
+                        Subscribe
+                    </Button>
+                </form>
+            </div>
+        </div>
+      </section>
+
       <ProductDetailsDialog
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}

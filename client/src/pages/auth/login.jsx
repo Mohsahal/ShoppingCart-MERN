@@ -12,13 +12,15 @@ const initialState = {
 
 function AuthLogin() {
   const [formData, setFormData] = useState(initialState);
+  const [isLoading, setIsLoading] = useState(false);
   const { loginUser } = useContext(AuthContext);
   const { toast } = useToast();
 
   function onSubmit(event) {
     event.preventDefault();
-
+    setIsLoading(true);
     loginUser(formData).then((data) => {
+      setIsLoading(false);
       if (data?.success) {
         toast({
           title: data?.message,
@@ -33,18 +35,18 @@ function AuthLogin() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
-          Sign in to your account
+    <div className="mx-auto w-full max-w-md space-y-10 py-10">
+      <div className="text-center space-y-4">
+        <h1 className="text-4xl font-black tracking-tighter text-slate-900 uppercase">
+          Welcome <span className="text-primary italic">Back</span>
         </h1>
-        <p className="mt-2">
-          Don't have an account
+        <p className="text-slate-500 font-medium">
+          Don't have an account?
           <Link
-            className="font-medium ml-2 text-primary hover:underline"
+            className="font-black ml-2 text-primary hover:underline uppercase tracking-wider text-xs"
             to="/auth/register"
           >
-            Register
+            Register Now
           </Link>
         </p>
       </div>
@@ -54,6 +56,7 @@ function AuthLogin() {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        isLoading={isLoading}
       />
     </div>
   );

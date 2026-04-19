@@ -9,52 +9,84 @@ export default function AuthProvider({ children }) {
   const [isLoading, setIsLoading] = useState(true);
 
   async function registerUser(formData) {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/register`,
-      formData,
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/register`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
 
-    return response.data;
+      return response.data;
+    } catch (error) {
+      console.error("Registration error:", error);
+      return (
+        error.response?.data || {
+          success: false,
+          message: "An unexpected error occurred during registration.",
+        }
+      );
+    }
   }
 
   async function loginUser(formData) {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/login`,
-      formData,
-      {
-        withCredentials: true,
-      }
-    );
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/login`,
+        formData,
+        {
+          withCredentials: true,
+        }
+      );
 
-    if (response.data.success) {
-      setUser(response.data.user);
-      setIsAuthenticated(true);
-    } else {
+      if (response.data.success) {
+        setUser(response.data.user);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+
+      return response.data;
+    } catch (error) {
+      console.error("Login error:", error);
       setUser(null);
       setIsAuthenticated(false);
+      return (
+        error.response?.data || {
+          success: false,
+          message: "An unexpected error occurred during login.",
+        }
+      );
     }
-
-    return response.data;
   }
 
   async function logoutUser() {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/auth/logout`,
-      {},
-      {
-        withCredentials: true,
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/auth/logout`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.success) {
+        setUser(null);
+        setIsAuthenticated(false);
       }
-    );
 
-    if (response.data.success) {
-      setUser(null);
-      setIsAuthenticated(false);
+      return response.data;
+    } catch (error) {
+      console.error("Logout error:", error);
+      return (
+        error.response?.data || {
+          success: false,
+          message: "An unexpected error occurred during logout.",
+        }
+      );
     }
-
-    return response.data;
   }
 
   async function checkAuth() {

@@ -17,12 +17,13 @@ function CommonForm({
   onSubmit,
   buttonText,
   isBtnDisabled,
+  isLoading,
 }) {
   function renderInputsByComponentType(getControlItem) {
     let element = null;
     const value = formData[getControlItem.name] || "";
 
-    const inputClasses = "py-6 rounded-xl border-slate-200 focus:ring-primary focus:border-primary transition-all bg-white font-medium text-slate-700 placeholder:text-slate-300";
+    const inputClasses = "py-7 rounded-2xl border-slate-100 focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all bg-slate-50/50 focus:bg-white font-bold text-slate-900 placeholder:text-slate-400 shadow-sm";
 
     switch (getControlItem.componentType) {
       case "input":
@@ -129,6 +130,7 @@ function CommonForm({
       </div>
       <Button 
         disabled={isBtnDisabled} 
+        isLoading={isLoading}
         type="submit" 
         className="mt-10 w-full py-8 rounded-2xl font-black text-lg tracking-tighter uppercase shadow-xl shadow-primary/20 transform hover:-translate-y-1 transition-all disabled:opacity-50 disabled:transform-none"
       >
