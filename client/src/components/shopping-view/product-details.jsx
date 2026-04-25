@@ -115,12 +115,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-1 md:grid-cols-2 gap-0 p-0 overflow-hidden rounded-2xl md:rounded-3xl border-none shadow-2xl max-w-[95vw] md:max-w-[85vw] lg:max-w-[75vw] xl:max-w-[1000px] max-h-[95vh] md:max-h-[90vh]">
-        <div className="relative bg-slate-50 flex items-center justify-center p-6 md:p-8">
+      <DialogContent className="grid grid-cols-1 gap-0 overflow-hidden rounded-2xl border-none p-0 shadow-2xl max-h-[88vh] w-[94vw] sm:w-[88vw] lg:w-full lg:max-w-[980px] lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)]">
+        <div className="relative flex min-h-[220px] items-center justify-center bg-slate-50 p-4 sm:p-5 lg:min-h-[560px] lg:p-6">
           <img
             src={productDetails?.image}
             alt={productDetails?.title}
-            className="aspect-square w-full max-h-[300px] md:max-h-[500px] object-contain mix-blend-multiply drop-shadow-2xl transition-transform duration-500 hover:scale-105"
+            className="aspect-square w-full max-h-[220px] object-contain mix-blend-multiply drop-shadow-2xl transition-transform duration-500 hover:scale-105 sm:max-h-[300px] lg:max-h-[430px]"
           />
           {productDetails?.salePrice > 0 && (
              <Badge className="absolute top-4 left-4 md:top-6 md:left-6 bg-primary text-white px-3 md:px-4 py-1 md:py-1.5 rounded-full text-xs md:text-sm font-black shadow-lg">
@@ -129,8 +129,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
           )}
         </div>
         
-        <div className="flex flex-col bg-white overflow-hidden max-h-[60vh] md:max-h-none">
-          <DialogHeader className="p-6 md:p-8 pb-4">
+        <div className="flex min-h-0 flex-col bg-white">
+          <DialogHeader className="p-5 md:p-6 pb-4">
              <div className="space-y-1 md:space-y-2">
                 <div className="flex items-center justify-between">
                     <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest">{productDetails?.category} | {productDetails?.brand}</span>
@@ -147,8 +147,8 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
              </div>
           </DialogHeader>
 
-          <div className="px-6 md:px-8 flex flex-col gap-4 md:gap-6 flex-1 overflow-y-auto">
-            <div className="flex items-center justify-between bg-slate-50 p-3 md:p-4 rounded-xl md:rounded-2xl border border-slate-100">
+          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-5 md:gap-5 md:px-6 pb-5">
+            <div className="flex flex-col gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3 md:flex-row md:items-center md:justify-between md:rounded-2xl md:p-4">
                <div className="flex flex-col">
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Current Price</span>
                   <div className="flex items-baseline gap-2">
@@ -166,13 +166,13 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 min-h-0">
               <div className="flex items-center gap-2">
                  <MessageSquare className="h-4 w-4 text-primary" />
                  <h3 className="text-sm font-black text-slate-800 uppercase tracking-wider">Product Sentiments</h3>
               </div>
               
-              <div className="space-y-4 max-h-[200px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200">
+              <div className="max-h-[180px] space-y-4 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200 md:max-h-[220px]">
                 {reviews && reviews.length > 0 ? (
                   reviews.map((reviewItem) => (
                     <div key={reviewItem?._id} className="flex gap-4 bg-slate-50/50 p-4 rounded-2xl border border-slate-50">
@@ -234,14 +234,14 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             </div>
           </div>
 
-          <div className="p-6 md:p-8 bg-slate-50 border-t border-slate-100 sticky bottom-0">
+          <div className="mt-auto border-t border-slate-100 bg-slate-50 p-5 md:p-6">
             {productDetails?.totalStock === 0 ? (
-              <Button className="w-full py-7 text-lg font-black rounded-2xl bg-slate-300 text-slate-500 cursor-not-allowed shadow-none border-none">
+              <Button className="w-full py-5 text-base font-black rounded-2xl bg-slate-300 text-slate-500 cursor-not-allowed shadow-none border-none">
                 OUT OF STOCK
               </Button>
             ) : (
               <Button
-                className="w-full py-7 text-lg font-black rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex gap-3 items-center justify-center group"
+                className="w-full py-5 text-base font-black rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex gap-3 items-center justify-center group"
                 onClick={() =>
                   handleAddToCart(
                     productDetails?._id,
