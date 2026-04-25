@@ -211,7 +211,7 @@ function ShoppingListing() {
                     </div>
 
                     {/* Product Grid */}
-                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-8">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6">
                         {productList && productList.length > 0 ? (
                             productList.map((productItem) => (
                                 <ShoppingProductTile

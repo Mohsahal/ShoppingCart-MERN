@@ -27,9 +27,19 @@ mongoose
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-app.get("/api/health", (req, res) => {
-  res.json({ status: "ok", time: new Date().toISOString() });
-});
+const healthResponse = (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    service: "shoppingcart-api",
+    time: new Date().toISOString(),
+  });
+};
+
+// Uptime monitors commonly ping "/" or "/health"
+app.get("/", healthResponse);
+app.get("/health", healthResponse);
+app.get("/healthz", healthResponse);
+app.get("/api/health", healthResponse);
 
 app.use(
   cors({
@@ -60,8 +70,6 @@ app.use("/api/shop/search", shopSearchRouter);
 app.use("/api/shop/review", shopReviewRouter);
 
 app.use("/api/common/feature", commonFeatureRouter);
-
-app.get("/api/health", (req, res) => res.json({ status: "ok", time: new Date().toISOString() }));
 
 // 404 Logging Middleware
 app.use((req, res) => {

@@ -115,12 +115,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
   return (
     <Dialog open={open} onOpenChange={handleDialogClose}>
-      <DialogContent className="grid grid-cols-1 gap-0 overflow-hidden rounded-2xl border-none p-0 shadow-2xl max-h-[88vh] w-[94vw] sm:w-[88vw] lg:w-full lg:max-w-[980px] lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1fr)]">
-        <div className="relative flex min-h-[220px] items-center justify-center bg-slate-50 p-4 sm:p-5 lg:min-h-[560px] lg:p-6">
+      <DialogContent className="grid grid-cols-1 gap-0 overflow-hidden rounded-2xl border-none p-0 shadow-2xl max-h-[84vh] w-[92vw] sm:w-[86vw] lg:w-full lg:max-w-[900px] lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1fr)]">
+        <div className="relative flex min-h-[200px] items-center justify-center bg-slate-50 p-4 sm:p-5 lg:min-h-[500px] lg:p-5">
           <img
             src={productDetails?.image}
             alt={productDetails?.title}
-            className="aspect-square w-full max-h-[220px] object-contain mix-blend-multiply drop-shadow-2xl transition-transform duration-500 hover:scale-105 sm:max-h-[300px] lg:max-h-[430px]"
+            className="aspect-square w-full max-h-[200px] object-contain mix-blend-multiply drop-shadow-2xl transition-transform duration-500 hover:scale-105 sm:max-h-[270px] lg:max-h-[380px]"
           />
           {productDetails?.salePrice > 0 && (
              <Badge className="absolute top-4 left-4 md:top-6 md:left-6 bg-primary text-white px-3 md:px-4 py-1 md:py-1.5 rounded-full text-xs md:text-sm font-black shadow-lg">
@@ -130,7 +130,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         </div>
         
         <div className="flex min-h-0 flex-col bg-white">
-          <DialogHeader className="p-5 md:p-6 pb-4">
+          <DialogHeader className="p-4 md:p-5 pb-3">
              <div className="space-y-1 md:space-y-2">
                 <div className="flex items-center justify-between">
                     <span className="text-[10px] md:text-xs font-black text-slate-400 uppercase tracking-widest">{productDetails?.category} | {productDetails?.brand}</span>
@@ -138,7 +138,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
                         {productDetails?.totalStock > 0 ? 'In Stock' : 'Out of Stock'}
                     </Badge>
                 </div>
-                <DialogTitle className="text-xl md:text-3xl font-black text-slate-900 leading-none">
+                <DialogTitle className="text-lg md:text-2xl font-black text-slate-900 leading-none">
                     {productDetails?.title}
                 </DialogTitle>
                 <DialogDescription className="text-slate-500 text-sm md:text-base leading-relaxed line-clamp-2">
@@ -147,12 +147,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
              </div>
           </DialogHeader>
 
-          <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto px-5 md:gap-5 md:px-6 pb-5">
+          <div className="flex min-h-0 flex-1 flex-col gap-3.5 overflow-y-auto px-4 md:gap-4 md:px-5 pb-4">
             <div className="flex flex-col gap-3 rounded-xl border border-slate-100 bg-slate-50 p-3 md:flex-row md:items-center md:justify-between md:rounded-2xl md:p-4">
                <div className="flex flex-col">
                   <span className="text-xs font-bold text-slate-400 uppercase tracking-tighter">Current Price</span>
                   <div className="flex items-baseline gap-2">
-                    <span className="text-2xl font-black text-slate-900">${productDetails?.salePrice > 0 ? productDetails?.salePrice : productDetails?.price}</span>
+                    <span className="text-xl font-black text-slate-900">${productDetails?.salePrice > 0 ? productDetails?.salePrice : productDetails?.price}</span>
                     {productDetails?.salePrice > 0 && (
                         <span className="text-sm font-bold text-slate-400 line-through">${productDetails?.price}</span>
                     )}
@@ -202,7 +202,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
               </div>
             </div>
 
-            <div className="bg-slate-900 p-6 rounded-2xl space-y-4">
+            <div className="bg-slate-900 p-4 rounded-2xl space-y-3">
               <div className="flex items-center gap-2">
                  <Star className="h-4 w-4 text-primary" />
                  <h3 className="text-xs font-black text-white uppercase tracking-wider">Leave a Review</h3>
@@ -234,7 +234,7 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
             </div>
           </div>
 
-          <div className="mt-auto border-t border-slate-100 bg-slate-50 p-5 md:p-6">
+          <div className="mt-auto border-t border-slate-100 bg-slate-50 p-4 md:p-5">
             {productDetails?.totalStock === 0 ? (
               <Button className="w-full py-5 text-base font-black rounded-2xl bg-slate-300 text-slate-500 cursor-not-allowed shadow-none border-none">
                 OUT OF STOCK
