@@ -1,8 +1,13 @@
 
+import bannerOne from "../../assets/banner-1.webp";
+import bannerTwo from "../../assets/banner-2.webp";
+import bannerThree from "../../assets/banner-3.webp";
 
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
   ShoppingBag,
   Star,
   Truck,
@@ -51,9 +56,10 @@ function ShoppingHome() {
     fetchProductDetails,
     addToCart,
   } = useContext(ShoppingContext);
-  const { getFeatureImages } = useContext(CommonContext);
+  const { featureImageList, getFeatureImages } = useContext(CommonContext);
   const { user } = useContext(AuthContext);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -85,6 +91,18 @@ function ShoppingHome() {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
+  const slides = featureImageList && featureImageList.length > 0 
+    ? featureImageList.map(item => item.image) 
+    : [bannerOne, bannerTwo, bannerThree];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
+    }, 5000);
+
+    return () => clearInterval(timer);
+  }, [slides]);
+
   useEffect(() => {
     fetchAllFilteredProducts({}, "price-lowtohigh");
     getFeatureImages();
@@ -92,49 +110,67 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Hero Section */}
-      <section className="relative w-full overflow-hidden bg-white">
-        <div className="absolute inset-0 pointer-events-none bg-gradient-to-br from-slate-50 via-transparent to-primary/5" />
-        <div className="relative z-10">
-          <div className="container mx-auto px-4 sm:px-6 py-10 sm:py-14 lg:py-16 flex flex-col lg:flex-row items-center gap-10">
-            <div className="max-w-xl text-center lg:text-left space-y-5 sm:space-y-6">
-              <Badge className="bg-primary/5 text-primary border-none rounded-full px-4 py-1 text-[10px] uppercase tracking-[0.25em]">
-                New Collection
-              </Badge>
-              <h1 className="text-3xl sm:text-3xl md:text-4xl font-black tracking-tight text-slate-900 leading-tight">
-                Elevate your wardrobe with curated{" "}
-                <span className="text-primary italic">style essentials</span>.
-              </h1>
-              <p className="text-slate-600 text-sm md:text-base leading-relaxed">
-                Discover premium fashion for every occasion, handpicked from
-                world-class brands.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start">
-                <Button
-                  onClick={() => navigate("/shop/listing")}
-                  className="bg-primary hover:bg-primary/90 text-white font-black px-6 py-4 rounded-2xl text-sm shadow-xl shadow-primary/20 flex items-center justify-center gap-2"
-                >
-                  Explore products
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+      {/* Banner Slider Section */}
+      <section className="relative w-full h-[400px] sm:h-[600px] overflow-hidden bg-slate-100">
+        {slides.map((slide, index) => (
+          <img
+            src={slide}
+            key={index}
+            className={`${
+              index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"
+            } absolute top-0 left-0 w-full h-full object-cover transition-all duration-1000 ease-in-out`}
+          />
+        ))}
+        
+        {/* Overlay Content */}
+        <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center text-center p-4">
+            <Badge className="bg-white/20 backdrop-blur-md text-white border-none rounded-full px-6 py-1.5 font-black text-[10px] uppercase tracking-[0.4em] mb-6">
+                New Arrival 2026
+            </Badge>
+            <h2 className="text-4xl sm:text-7xl font-black text-white tracking-tighter mb-8 max-w-4xl leading-tight">
+                THE FUTURE OF <span className="italic text-primary">PREMIUM</span> FASHION
+            </h2>
+            <Button 
+                onClick={() => navigate("/shop/listing")}
+                className="bg-white text-slate-900 hover:bg-primary hover:text-white font-black px-10 py-6 rounded-2xl text-sm uppercase tracking-widest transition-all duration-300 shadow-2xl"
+            >
+                Explore Collection
+            </Button>
+        </div>
 
-            <div className="hidden lg:block flex-1">
-              <div className="grid grid-cols-2 gap-4 max-w-md mx-auto">
-                {categoriesWithIcon.slice(0, 4).map((categoryItem) => (
-                  <div key={categoryItem.id} className="rounded-2xl bg-white border border-slate-100 px-4 py-5 flex flex-col items-start gap-3 shadow-sm">
-                    <div className="rounded-xl bg-primary/5 p-2.5">
-                      <categoryItem.icon className="h-5 w-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-xs text-slate-500 uppercase tracking-[0.25em]">{categoryItem.label}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() =>
+            setCurrentSlide(
+              (prevSlide) =>
+                (prevSlide - 1 + slides.length) % slides.length
+            )
+          }
+          className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-12 w-12 hidden sm:flex items-center justify-center transition-all"
+        >
+          <ChevronLeft className="w-6 h-6" />
+        </Button>
+        <Button
+          variant="outline"
+          size="icon"
+          onClick={() =>
+            setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length)
+          }
+          className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-12 w-12 hidden sm:flex items-center justify-center transition-all"
+        >
+          <ChevronRight className="w-6 h-6" />
+        </Button>
+
+        {/* Slide Indicators */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+            {slides.map((_, index) => (
+                <button 
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    className={`h-1.5 rounded-full transition-all duration-500 ${index === currentSlide ? 'w-8 bg-white' : 'w-2 bg-white/30'}`}
+                />
+            ))}
         </div>
       </section>
 
@@ -198,23 +234,31 @@ function ShoppingHome() {
         </div>
       </section>
 
-      {/* Feature Products Section */}
-      <section className="py-12 sm:py-24 bg-slate-50/50">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center mb-10 sm:mb-16 space-y-2">
-            <h2 className="text-3xl sm:text-6xl font-black text-slate-900 tracking-tighter">CURATED <span className="text-primary italic">ESSENTIALS</span></h2>
-            <p className="text-slate-500 font-medium max-w-xl mx-auto text-xs sm:text-sm">Trending pieces chosen for your premium lifestyle.</p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-10">
-            {productList?.length > 0 && productList.map((productItem) => (
-              <ShoppingProductTile
-                handleGetProductDetails={handleGetProductDetails}
-                product={productItem}
-                handleAddtoCart={handleAddtoCart}
-                key={productItem._id}
-              />
-            ))}
-          </div>
+      {/* Featured Collection Banner Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+            <div className="relative rounded-[2rem] overflow-hidden group cursor-pointer" onClick={() => navigate("/shop/listing")}>
+                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
+                <img 
+                    src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop" 
+                    alt="Featured" 
+                    className="w-full h-[400px] sm:h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+                <div className="absolute inset-0 z-20 flex flex-col justify-center p-8 sm:p-16 space-y-6">
+                    <Badge className="w-fit bg-primary text-white border-none rounded-full px-4 py-1 text-[10px] uppercase tracking-widest">
+                        Limited Edition
+                    </Badge>
+                    <h3 className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-tight max-w-md">
+                        UNLEASH YOUR <span className="text-primary italic">SIGNATURE</span> LOOK
+                    </h3>
+                    <p className="text-white/70 max-w-sm text-sm sm:text-base font-medium">
+                        Experience the perfect blend of comfort and avant-garde style with our latest seasonal drop.
+                    </p>
+                    <Button className="w-fit bg-white text-slate-900 hover:bg-primary hover:text-white font-black px-8 py-4 rounded-xl text-xs uppercase tracking-widest transition-all">
+                        Shop Collection
+                    </Button>
+                </div>
+            </div>
         </div>
       </section>
 
