@@ -31,6 +31,14 @@ export default function CommonProvider({ children }) {
     return response.data;
   }
 
+  async function deleteFeatureImage(id) {
+    const apiUrl = import.meta.env.VITE_API_URL || "";
+    const response = await axios.delete(
+      `${apiUrl}/api/common/feature/${id}`
+    );
+    return response.data;
+  }
+
   return (
     <CommonContext.Provider
       value={{
@@ -38,6 +46,7 @@ export default function CommonProvider({ children }) {
         isLoading,
         getFeatureImages,
         addFeatureImage,
+        deleteFeatureImage,
       }}
     >
       {children}
