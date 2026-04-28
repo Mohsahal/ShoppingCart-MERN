@@ -91,9 +91,14 @@ function ShoppingHome() {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
+  // Force https:// to fix Mixed Content errors on HTTPS deployments
+  // (Cloudinary may have stored http:// URLs in the DB)
+  const toHttps = (url) => (url ? url.replace(/^http:\/\//, "https://") : url);
+
   const slides = featureImageList && featureImageList.length > 0 
-    ? featureImageList.map(item => item.image) 
+    ? featureImageList.map(item => toHttps(item.image)) 
     : [bannerOne, bannerTwo, bannerThree];
+
 
   useEffect(() => {
     console.log("Current Slides Source:", featureImageList && featureImageList.length > 0 ? "Database" : "Local Assets");

@@ -27,27 +27,21 @@ mongoose
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// HEALTH CHECKS - MUST BE AT THE TOP
-const healthResponse = (req, res) => {
-  res.status(200).json({
-    status: "ok",
-    service: "shoppingcart-api",
-    timestamp: new Date().toISOString(),
-    uptime: process.uptime()
-  });
-};
-
-app.get("/", healthResponse);
-app.get("/health", healthResponse);
-app.get("/healthz", healthResponse);
-app.get("/api/health", healthResponse);
-app.head("/", healthResponse); // Explicitly handle HEAD requests
+// HEALTH CHECKS - MUST BE AT THE TOP (before CORS and other middleware)
+app.get("/", (req, res) => res.status(200).json({ status: "ok", service: "shoppingcart-api", uptime: process.uptime() }));
+app.get("/health", (req, res) => res.status(200).json({ status: "ok" }));
+app.get("/healthz", (req, res) => res.status(200).json({ status: "ok" }));
+app.get("/api/health", (req, res) => res.status(200).json({ status: "ok" }));
+// HEAD handler - must send 200 with no body
+app.head("/", (req, res) => res.status(200).end());
+app.head("/health", (req, res) => res.status(200).end());
+app.head("/healthz", (req, res) => res.status(200).end());
 
 
 app.use(
   cors({
     origin: process.env.CLIENT_BASE_URL,
-    methods: ["GET", "POST", "DELETE", "PUT"],
+    methods: ["GET", "POST", "DELETE", "PUT", "HEAD"],
     allowedHeaders: [
       "Content-Type",
       "Authorization",
