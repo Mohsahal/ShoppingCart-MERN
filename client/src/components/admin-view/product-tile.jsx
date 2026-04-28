@@ -11,7 +11,7 @@ function AdminProductTile({
   handleDelete,
 }) {
   return (
-    <Card className="w-full max-w-sm mx-auto overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 rounded-2xl group border border-slate-100 bg-white">
+    <Card className="w-full max-w-sm mx-auto overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 rounded-2xl group border border-slate-100 bg-white flex flex-col h-full">
       <div className="relative aspect-square overflow-hidden bg-slate-50">
         <img
           src={product?.image}
@@ -43,14 +43,24 @@ function AdminProductTile({
         )}
       </div>
       
-      <CardContent className="p-5">
-        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{product?.brand}</p>
-        <h2 className="text-lg font-bold text-slate-800 line-clamp-1 group-hover:text-primary transition-colors cursor-default">
+      <CardContent className="p-5 flex-1 flex flex-col">
+        <div className="flex justify-between items-start mb-2">
+            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">{product?.brand}</p>
+            <div className="flex items-center gap-1 bg-slate-50 px-2 py-0.5 rounded-md border border-slate-100">
+                <span className="text-[10px] font-bold text-slate-600">Stock: {product?.totalStock}</span>
+            </div>
+        </div>
+        
+        <h2 className="text-lg font-bold text-slate-800 line-clamp-1 group-hover:text-primary transition-colors cursor-default mb-1">
             {product?.title}
         </h2>
         
-        <div className="flex items-baseline gap-2 mt-3">
-          <span className={`text-2xl font-black text-slate-900`}>
+        <p className="text-xs text-slate-500 line-clamp-2 mb-4 min-h-[32px]">
+            {product?.description}
+        </p>
+        
+        <div className="flex items-baseline gap-2 mt-auto">
+          <span className="text-2xl font-black text-primary">
             ${product?.salePrice > 0 ? product?.salePrice : product?.price}
           </span>
           {product?.salePrice > 0 && (
