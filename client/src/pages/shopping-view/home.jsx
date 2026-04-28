@@ -96,6 +96,10 @@ function ShoppingHome() {
     : [bannerOne, bannerTwo, bannerThree];
 
   useEffect(() => {
+    console.log("Current Slides Source:", featureImageList && featureImageList.length > 0 ? "Database" : "Local Assets");
+  }, [featureImageList]);
+
+  useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
     }, 5000);

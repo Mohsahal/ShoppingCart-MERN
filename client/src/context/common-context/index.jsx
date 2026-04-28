@@ -9,8 +9,9 @@ export default function CommonProvider({ children }) {
 
   async function getFeatureImages() {
     setIsLoading(true);
+    const apiUrl = import.meta.env.VITE_API_URL || "";
     const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/common/feature/get`
+      `${apiUrl}/api/common/feature/get`
     );
 
     if (response?.data?.success) {
@@ -21,8 +22,9 @@ export default function CommonProvider({ children }) {
   }
 
   async function addFeatureImage(image) {
+    const apiUrl = import.meta.env.VITE_API_URL || "";
     const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/common/feature/add`,
+      `${apiUrl}/api/common/feature/add`,
       { image }
     );
 

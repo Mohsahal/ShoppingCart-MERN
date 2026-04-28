@@ -27,19 +27,22 @@ mongoose
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// HEALTH CHECKS - MUST BE AT THE TOP
 const healthResponse = (req, res) => {
   res.status(200).json({
     status: "ok",
     service: "shoppingcart-api",
-    time: new Date().toISOString(),
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
   });
 };
 
-// Uptime monitors commonly ping "/" or "/health"
 app.get("/", healthResponse);
 app.get("/health", healthResponse);
 app.get("/healthz", healthResponse);
 app.get("/api/health", healthResponse);
+app.head("/", healthResponse); // Explicitly handle HEAD requests
+
 
 app.use(
   cors({
