@@ -27,18 +27,21 @@ mongoose
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// HEALTH CHECKS — app.all() handles GET, HEAD, POST and every other method
-// This ensures Render port detection + UptimeRobot + any monitor always gets 200
-const healthHandler = (req, res) => {
-  // For HEAD requests, send no body (RFC compliant)
-  if (req.method === "HEAD") return res.status(200).end();
-  return res.status(200).json({ status: "ok", service: "shoppingcart-api", uptime: process.uptime() });
-};
-
-app.all("/", healthHandler);
-app.all("/health", healthHandler);
-app.all("/healthz", healthHandler);
-app.all("/api/health", healthHandler);
+// Health check middleware — app.use() runs BEFORE any route matching,
+// handles ALL HTTP methods (GET, HEAD, OPTIONS, etc.) for health endpoints.
+app.use(function healthCheck(req, res, next) {
+  const healthPaths = ["/", "/health", "/healthz", "/api/health"];
+  if (healthPaths.indexOf(req.path) !== -1) {
+    console.log(`Health check OK: ${req.method} ${req.path}`);
+    if (req.method === "HEAD") return res.status(200).end();
+    return res.status(200).json({
+      status: "ok",
+      service: "shoppingcart-api",
+      uptime: process.uptime(),
+    });
+  }
+  next();
+});
 
 app.use(
   cors({
