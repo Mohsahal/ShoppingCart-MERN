@@ -84,4 +84,21 @@ app.use((req, res) => {
   });
 });
 
-app.listen(PORT, () => console.log(`Server is now running on port ${PORT} - Debug active`));
+// Create raw HTTP server — intercepts requests BEFORE Express.
+// Health check paths respond immediately at TCP level, rest goes to Express.
+const http = require("http");
+const httpServer = http.createServer((req, res) => {
+  const url = (req.url || "").split("?")[0]; // strip query string
+  if (url === "/" || url === "/health" || url === "/healthz") {
+    console.log(`[RAW] Health OK: ${req.method} ${url}`);
+    res.writeHead(200, { "Content-Type": "application/json" });
+    // HEAD must not have a body per RFC 7231
+    res.end(req.method === "HEAD" ? "" : JSON.stringify({ status: "ok", service: "shoppingcart-api", uptime: process.uptime() }));
+    return;
+  }
+  // All other requests → Express
+  app(req, res);
+});
+
+httpServer.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
+
