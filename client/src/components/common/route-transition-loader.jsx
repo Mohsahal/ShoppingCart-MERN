@@ -1,26 +1,29 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 import Loader from "./loader";
 
 function RouteTransitionLoader() {
   const location = useLocation();
-  const [isNavigating, setIsNavigating] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    // When the location changes, set navigating to true
-    setIsNavigating(true);
-
-    // Hide the loader after a short delay to simulate transition and allow page content to load
+    // Show loader on route change
+    setShouldRender(true);
+    
+    // Auto-hide after 800ms
     const timer = setTimeout(() => {
-      setIsNavigating(false);
-    }, 600); // 600ms loading screen
+      setShouldRender(false);
+    }, 800);
 
     return () => clearTimeout(timer);
   }, [location.pathname, location.search]);
 
-  if (!isNavigating) return null;
-
-  return <Loader />;
+  return (
+    <AnimatePresence>
+      {shouldRender && <Loader key="route-loader" />}
+    </AnimatePresence>
+  );
 }
 
 export default RouteTransitionLoader;

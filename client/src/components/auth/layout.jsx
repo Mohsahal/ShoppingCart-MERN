@@ -25,9 +25,9 @@ function AuthLayout() {
       
       {/* Right side - Form Area */}
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-white relative">
-        <div className="absolute top-8 left-8 sm:top-12 sm:left-12 lg:hidden">
+        <div className="absolute top-8 left-8 sm:top-12 sm:left-12">
           <Link to="/shop/home" className="flex items-center gap-2 group">
-            <span className="text-2xl font-black tracking-tighter uppercase italic text-slate-900">
+            <span className="text-2xl font-black tracking-tighter uppercase italic text-slate-900 group-hover:text-primary transition-colors">
               Veloura
             </span>
           </Link>
