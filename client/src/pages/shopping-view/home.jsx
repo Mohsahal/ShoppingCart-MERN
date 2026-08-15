@@ -99,6 +99,11 @@ function ShoppingHome() {
     ? featureImageList.map(item => toHttps(item.image)) 
     : [bannerOne, bannerTwo, bannerThree];
 
+  const mobileSlides = [
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&h=1000&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&h=1000&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&h=1000&auto=format&fit=crop"
+  ];
 
   useEffect(() => {
     console.log("Current Slides Source:", featureImageList && featureImageList.length > 0 ? "Database" : "Local Assets");
@@ -120,14 +125,28 @@ function ShoppingHome() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Banner Slider Section */}
-      <section className="relative w-full h-[400px] sm:h-[600px] overflow-hidden bg-slate-100">
+      <section className="relative w-full h-[500px] sm:h-[600px] overflow-hidden bg-slate-900">
+        {/* Desktop Images */}
         {slides.map((slide, index) => (
           <img
             src={slide}
-            key={index}
+            key={`desktop-${index}`}
             className={`${
               index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"
-            } absolute top-0 left-0 w-full h-full object-cover transition-all duration-1000 ease-in-out`}
+            } absolute top-0 left-0 w-full h-full object-cover transition-all duration-1000 ease-in-out hidden sm:block`}
+            alt="Hero Banner"
+          />
+        ))}
+
+        {/* Mobile Images (Portrait) */}
+        {mobileSlides.map((slide, index) => (
+          <img
+            src={slide}
+            key={`mobile-${index}`}
+            className={`${
+              index === currentSlide % mobileSlides.length ? "opacity-100 scale-100" : "opacity-0 scale-105"
+            } absolute top-0 left-0 w-full h-full object-cover object-top transition-all duration-1000 ease-in-out sm:hidden`}
+            alt="Hero Banner Mobile"
           />
         ))}
         
@@ -271,6 +290,42 @@ function ShoppingHome() {
         </div>
       </section>
 
+      {/* Featured Products Section */}
+      <section className="py-16 sm:py-24 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <Badge className="bg-primary/5 text-primary border-none rounded-full px-4 mb-3 font-black text-[10px] uppercase tracking-widest">
+              Top Picks
+            </Badge>
+            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter">
+              TRENDING <span className="text-primary italic">NOW</span>
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {productList && productList.length > 0
+              ? productList.slice(0, 8).map((productItem) => (
+                  <ShoppingProductTile
+                    key={productItem._id || productItem.id}
+                    handleGetProductDetails={handleGetProductDetails}
+                    product={productItem}
+                    handleAddtoCart={handleAddtoCart}
+                  />
+                ))
+              : null}
+          </div>
+          
+          <div className="mt-12 text-center">
+            <Button 
+              onClick={() => navigate("/shop/listing")}
+              className="bg-white text-slate-900 border-2 border-slate-200 hover:border-primary hover:bg-primary hover:text-white font-black px-8 py-6 rounded-2xl text-xs uppercase tracking-widest transition-all duration-300 shadow-sm"
+            >
+              View All Products
+            </Button>
+          </div>
+        </div>
+      </section>
+
       {/* Brands Flow Section */}
       <section className="py-16 sm:py-24 bg-white border-t border-slate-100">
         <div className="container mx-auto px-4">
@@ -291,6 +346,57 @@ function ShoppingHome() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Style Journal Section */}
+      <section className="py-20 bg-slate-50 border-t border-slate-100">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
+            <div>
+              <Badge className="bg-primary/5 text-primary border-none rounded-full px-4 mb-3 font-black text-[10px] uppercase tracking-widest">
+                Editorial
+              </Badge>
+              <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter">
+                STYLE <span className="text-primary italic">JOURNAL</span>
+              </h2>
+            </div>
+            <Button variant="link" className="text-primary font-bold hover:no-underline flex items-center gap-2 p-0">
+              Read All Articles <ArrowRight className="w-4 h-4" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                title: "The Fall Collection Lookbook",
+                category: "Fashion",
+                image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
+              },
+              {
+                title: "Sustainable Materials We Love",
+                category: "Sustainability",
+                image: "https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=1000&auto=format&fit=crop",
+              },
+              {
+                title: "How to Style Oversized Blazers",
+                category: "Style Guide",
+                image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop",
+              }
+            ].map((article, i) => (
+              <div key={i} className="group cursor-pointer">
+                <div className="overflow-hidden rounded-3xl mb-5 relative">
+                  <img src={article.image} className="w-full h-[350px] object-cover group-hover:scale-105 transition-transform duration-700" alt={article.title} />
+                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-sm">
+                    {article.category}
+                  </div>
+                </div>
+                <h3 className="text-xl font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors pr-4">
+                  {article.title}
+                </h3>
+              </div>
+            ))}
           </div>
         </div>
       </section>

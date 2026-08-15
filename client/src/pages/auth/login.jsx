@@ -35,29 +35,32 @@ function AuthLogin() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-10 py-10">
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl font-black tracking-tighter text-slate-900 uppercase">
+    <div className="mx-auto w-full max-w-md space-y-8 p-10 bg-white">
+      <div className="space-y-2 relative z-10">
+        <h1 className="text-4xl font-black tracking-tighter text-slate-900 uppercase leading-none">
           Welcome <span className="text-primary italic">Back</span>
         </h1>
         <p className="text-slate-500 font-medium">
           Don't have an account?
           <Link
-            className="font-black ml-2 text-primary hover:underline uppercase tracking-wider text-xs"
+            className="font-black ml-2 text-primary hover:underline uppercase tracking-wider text-xs transition-all"
             to="/auth/register"
           >
             Register Now
           </Link>
         </p>
       </div>
-      <CommonForm
-        formControls={loginFormControls}
-        buttonText={"Sign In"}
-        formData={formData}
-        setFormData={setFormData}
-        onSubmit={onSubmit}
-        isLoading={isLoading}
-      />
+      
+      <div className="relative z-10 mt-8">
+        <CommonForm
+          formControls={loginFormControls}
+          buttonText={"Sign In"}
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={onSubmit}
+          isLoading={isLoading}
+        />
+      </div>
     </div>
   );
 }
