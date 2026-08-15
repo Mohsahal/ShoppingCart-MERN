@@ -16,6 +16,7 @@ import ShoppingAccount from "./pages/shopping-view/account";
 import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unauth-page";
 import Loader from "./components/common/loader";
+import RouteTransitionLoader from "./components/common/route-transition-loader";
 import { useContext } from "react";
 import { AuthContext } from "./context/auth-context";
 import PaypalReturnPage from "./pages/shopping-view/paypal-return";
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
+      <RouteTransitionLoader />
       <Routes>
         <Route
           path="/"

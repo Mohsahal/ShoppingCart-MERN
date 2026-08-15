@@ -79,3 +79,46 @@
     @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
   }
 }
+@layer utilities {
+  .animate-text-reveal {
+    animation: text-reveal 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+}
+
+@keyframes text-reveal {
+  0% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes logo-spin-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg) scale(1);
+    filter: drop-shadow(0 0 15px rgba(15, 23, 42, 0.3));
+  }
+  50% {
+    transform: translateY(-10px) rotate(180deg) scale(1.05);
+    filter: drop-shadow(0 15px 25px rgba(15, 23, 42, 0.5));
+  }
+}
+
+@keyframes gradient-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@layer utilities {
+  .animate-logo-spin-float {
+    animation: logo-spin-float 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+  .animate-gradient-flow {
+    background-size: 200% auto;
+    animation: gradient-flow 3s ease infinite;
+  }
+}
