@@ -18,17 +18,6 @@ function Loader() {
         >
           Veloura
         </motion.h1>
-        
-        {/* Sleek minimal loading ring */}
-        <motion.div 
-          initial={{ scale: 0.8, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.5 }}
-          className="relative w-8 h-8"
-        >
-          <div className="absolute inset-0 border-[2px] border-slate-100 rounded-full" />
-          <div className="absolute inset-0 border-[2px] border-slate-900 border-t-transparent rounded-full animate-spin" />
-        </motion.div>
       </div>
     </motion.div>
   );

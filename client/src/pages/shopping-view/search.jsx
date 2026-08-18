@@ -28,7 +28,7 @@ function SearchProducts() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (keyword && keyword.trim() !== "" && keyword.trim().length > 3) {
+    if (keyword && keyword.trim() !== "" && keyword.trim().length > 2) {
       const timeoutId = setTimeout(() => {
         setSearchParams(new URLSearchParams(`?keyword=${keyword}`));
         getSearchResults(keyword);

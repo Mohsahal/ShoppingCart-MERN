@@ -353,8 +353,8 @@ function ShoppingHome() {
       {/* Style Journal Section */}
       <section className="py-20 bg-slate-50 border-t border-slate-100">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 gap-4">
-            <div>
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-6 text-center md:text-left">
+            <div className="flex flex-col items-center md:items-start">
               <Badge className="bg-primary/5 text-primary border-none rounded-full px-4 mb-3 font-black text-[10px] uppercase tracking-widest">
                 Editorial
               </Badge>
@@ -362,7 +362,11 @@ function ShoppingHome() {
                 STYLE <span className="text-primary italic">JOURNAL</span>
               </h2>
             </div>
-            <Button variant="link" className="text-primary font-bold hover:no-underline flex items-center gap-2 p-0">
+            <Button 
+              variant="link" 
+              className="text-primary font-bold hover:no-underline flex items-center gap-2 p-0"
+              onClick={() => toast({ title: "Style Journal coming soon!", description: "Stay tuned for our latest fashion editorials." })}
+            >
               Read All Articles <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
@@ -402,29 +406,29 @@ function ShoppingHome() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-20 sm:py-32 bg-primary relative overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-           <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
-           <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" />
+      <section className="py-20 sm:py-32 bg-white relative overflow-hidden border-t border-slate-100">
+        <div className="absolute inset-0 opacity-40">
+           <div className="absolute top-0 left-0 w-96 h-96 bg-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
+           <div className="absolute bottom-0 right-0 w-96 h-96 bg-slate-100 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" />
         </div>
         <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-2xl mx-auto text-center space-y-8">
-                <Badge className="bg-white/20 text-white border-none rounded-full px-6 py-1.5 font-black text-[10px] uppercase tracking-[0.3em]">
+                <Badge className="bg-slate-100 text-slate-900 border-none rounded-full px-6 py-1.5 font-black text-[10px] uppercase tracking-[0.3em]">
                     Join the Club
                 </Badge>
-                <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-tight">
-                    GET 20% OFF YOUR <span className="italic">FIRST ORDER</span>
+                <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
+                    GET 20% OFF YOUR <span className="italic text-primary">FIRST ORDER</span>
                 </h2>
-                <p className="text-white/80 font-medium text-sm sm:text-base">
+                <p className="text-slate-500 font-medium text-sm sm:text-base">
                     Subscribe to receive updates, access to exclusive deals, and more.
                 </p>
                 <form className="flex flex-col sm:flex-row gap-3 mt-10">
                     <input 
                         type="email" 
                         placeholder="Enter your email" 
-                        className="flex-1 bg-white/10 border border-white/20 rounded-2xl px-6 py-4 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/30 backdrop-blur-md font-bold"
+                        className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200 font-bold"
                     />
-                    <Button className="bg-white text-primary hover:bg-white/90 font-black px-10 py-4 rounded-2xl uppercase tracking-widest text-xs shadow-2xl">
+                    <Button className="bg-slate-900 text-white hover:bg-primary font-black px-10 py-4 rounded-2xl uppercase tracking-widest text-xs shadow-xl transition-colors">
                         Subscribe
                     </Button>
                 </form>

@@ -17,19 +17,31 @@ import CheckAuth from "./components/common/check-auth";
 import UnauthPage from "./pages/unauth-page";
 import Loader from "./components/common/loader";
 import RouteTransitionLoader from "./components/common/route-transition-loader";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AuthContext } from "./context/auth-context";
 import PaypalReturnPage from "./pages/shopping-view/paypal-return";
 import PaymentSuccessPage from "./pages/shopping-view/payment-success";
 import SearchProducts from "./pages/shopping-view/search";
 
+import CookieConsent from "./components/common/cookie-consent";
+
 function App() {
   const { user, isAuthenticated, isLoading } = useContext(AuthContext);
+  const [showStartupLogo, setShowStartupLogo] = useState(true);
 
-  if (isLoading) return <Loader />;
+  // Guarantee the startup logo shows for at least 1.5s on initial load/refresh
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowStartupLogo(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading || showStartupLogo) return <Loader />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">
+      <CookieConsent />
       <RouteTransitionLoader />
       <Routes>
         <Route
