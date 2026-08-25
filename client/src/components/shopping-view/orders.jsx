@@ -13,8 +13,7 @@ import ShoppingOrderDetailsView from "./order-details";
 import { Badge } from "../ui/badge";
 import { ShoppingContext } from "@/context/shopping-context";
 import { AuthContext } from "@/context/auth-context";
-import Loader from "../common/loader";
-import { Eye, FileSearch, History } from "lucide-react";
+import { Eye, FileSearch, History, Loader2 } from "lucide-react";
 
 function ShoppingOrders() {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -33,7 +32,24 @@ function ShoppingOrders() {
     if (orderDetails !== null) setOpenDetailsDialog(true);
   }, [orderDetails]);
 
-  if (isLoading) return <Loader />;
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="bg-primary/10 p-3 rounded-2xl">
+            <History className="h-6 w-6 text-primary" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-black text-slate-900 tracking-tighter uppercase">Order Journal</h2>
+            <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1">A historical record of your procurement</p>
+          </div>
+        </div>
+        <div className="bg-white rounded-[2rem] border border-slate-100 shadow-sm p-24 flex flex-col items-center justify-center">
+          <Loader2 className="h-8 w-8 text-primary animate-spin" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

@@ -13,8 +13,7 @@ import {
 import AdminOrderDetailsView from "./order-details";
 import { Badge } from "../ui/badge";
 import { AdminContext } from "@/context/admin-context";
-import Loader from "../common/loader";
-import { BadgeCheck, Eye, Calendar, DollarSign, Package } from "lucide-react";
+import { BadgeCheck, Eye, Calendar, DollarSign, Package, Loader2 } from "lucide-react";
 
 function AdminOrdersView() {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
@@ -31,8 +30,6 @@ function AdminOrdersView() {
   useEffect(() => {
     if (orderDetails !== null) setOpenDetailsDialog(true);
   }, [orderDetails]);
-
-  if (isLoading) return <Loader />;
 
   return (
     <div className="flex flex-col gap-6">
@@ -72,7 +69,15 @@ function AdminOrdersView() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {orderList && orderList.length > 0 ? (
+                {isLoading ? (
+                  <TableRow>
+                    <TableCell colSpan={5} className="py-24 text-center">
+                      <div className="flex flex-col items-center justify-center gap-3">
+                        <Loader2 className="h-8 w-8 text-primary animate-spin" />
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ) : orderList && orderList.length > 0 ? (
                   orderList.map((orderItem) => (
                     <TableRow key={orderItem?._id} className="hover:bg-slate-50/30 transition-colors border-b border-slate-50">
                       <TableCell className="px-8 py-6 font-medium text-slate-800">

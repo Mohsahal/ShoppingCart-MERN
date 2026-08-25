@@ -12,8 +12,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { addProductFormElements } from "@/config";
 import { useContext, Fragment, useEffect, useState } from "react";
 import { AdminContext } from "@/context/admin-context";
-import Loader from "@/components/common/loader";
-import { ShoppingBasket, Plus, TrendingUp } from "lucide-react";
+import { ShoppingBasket, Plus, TrendingUp, Loader2 } from "lucide-react";
 
 const initialFormData = {
   image: null,
@@ -110,8 +109,6 @@ function AdminProducts() {
     fetchAllProducts();
   }, []);
 
-  if (isLoading) return <Loader />;
-
   return (
     <Fragment>
       <div className="flex flex-col gap-6">
@@ -140,7 +137,7 @@ function AdminProducts() {
               </div>
               <div>
                 <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Total Items</p>
-                <p className="text-lg font-bold text-slate-900">{productList?.length}</p>
+                <p className="text-lg font-bold text-slate-900">{productList?.length || 0}</p>
               </div>
            </div>
            <div className="h-8 w-[1px] bg-slate-100" />
@@ -151,14 +148,18 @@ function AdminProducts() {
               <div>
                 <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">In Stock</p>
                 <p className="text-lg font-bold text-slate-900">
-                  {productList?.filter(p => p.totalStock > 0).length}
+                  {productList?.filter(p => p.totalStock > 0).length || 0}
                 </p>
               </div>
            </div>
         </div>
 
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-2">
-          {productList && productList.length > 0
+          {isLoading ? (
+            <div className="col-span-full py-24 bg-white rounded-3xl border border-slate-100 flex flex-col items-center justify-center gap-4">
+              <Loader2 className="h-8 w-8 text-primary animate-spin" />
+            </div>
+          ) : productList && productList.length > 0
             ? productList.map((productItem) => (
                 <div key={productItem._id} className="transition-all duration-300 hover:-translate-y-1">
                   <AdminProductTile

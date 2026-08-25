@@ -2,14 +2,14 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useContext, useEffect } from "react";
 import { AdminContext } from "@/context/admin-context";
-import Loader from "@/components/common/loader";
 import { 
   LayoutDashboard, 
   ShoppingBag, 
   Users, 
   DollarSign, 
   Clock,
-  ArrowUpRight
+  ArrowUpRight,
+  Loader2
 } from "lucide-react";
 import { 
   Table, 
@@ -72,7 +72,21 @@ function AdminDashboard() {
     }
   ];
 
-  if (adminLoading) return <Loader />;
+  if (adminLoading) {
+    return (
+      <div className="flex flex-col gap-8 p-0">
+        <div className="flex items-center justify-between">
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
+            <LayoutDashboard className="h-8 w-8 text-primary" />
+            Dashboard Overview
+          </h1>
+        </div>
+        <div className="py-24 bg-white rounded-3xl border border-slate-100 flex flex-col items-center justify-center gap-4">
+          <Loader2 className="h-8 w-8 text-primary animate-spin" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-8 p-0">

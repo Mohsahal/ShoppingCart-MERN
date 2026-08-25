@@ -1,4 +1,9 @@
 require("dotenv").config();
+const dns = require("dns");
+try {
+  dns.setServers(["8.8.8.8", "1.1.1.1", "8.8.4.4"]);
+} catch (e) {}
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
@@ -16,13 +21,13 @@ const shopReviewRouter = require("./routes/shop/review-routes");
 
 const commonFeatureRouter = require("./routes/common/feature-routes");
 
-//create a database connection -> u can also
-//create a separate file for this and then import/use that file here
-
+// Connect to MongoDB with reconnect options
 mongoose
-  .connect(process.env.MONGO_URL)
-  .then(() => console.log("MongoDB connected"))
-  .catch((error) => console.log(error));
+  .connect(process.env.MONGO_URL, {
+    serverSelectionTimeoutMS: 5000,
+  })
+  .then(() => console.log("MongoDB connected successfully"))
+  .catch((error) => console.log("MongoDB connection error:", error));
 
 const app = express();
 const PORT = process.env.PORT || 5000;

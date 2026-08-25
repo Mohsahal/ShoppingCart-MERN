@@ -1,4 +1,4 @@
-import { HousePlug, LogOut, Menu, ShoppingCart, UserCog, User, Search } from "lucide-react";
+import { HousePlug, LogOut, Menu, ShoppingCart, UserCog, User, Search, ShoppingBag } from "lucide-react";
 import {
   Link,
   useLocation,
@@ -76,21 +76,21 @@ function MenuItems() {
   }
 
   return (
-    <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-8 lg:flex-row">
+    <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-7 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => {
         const isActive = isMenuItemActive(menuItem);
         return (
           <Label
             onClick={() => handleNavigate(menuItem)}
-            className={`text-[11px] uppercase tracking-[0.2em] font-black cursor-pointer transition-colors duration-300 relative group ${
-              isActive ? "text-slate-900" : "text-slate-400 hover:text-slate-900"
+            className={`text-sm font-semibold cursor-pointer transition-colors duration-200 relative py-1 ${
+              isActive ? "text-slate-900" : "text-slate-500 hover:text-slate-900"
             }`}
             key={menuItem.id}
           >
             {menuItem.label}
-            <span className={`absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-slate-900 transition-all duration-300 ${
-              isActive ? "opacity-100 scale-100" : "opacity-0 scale-0 group-hover:opacity-100 group-hover:scale-100"
-            }`} />
+            {isActive && (
+              <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-slate-900 rounded-full" />
+            )}
           </Label>
         );
       })}
@@ -193,7 +193,7 @@ function HeaderRightContent() {
       ) : (
         <Button 
           onClick={() => navigate('/auth/login')}
-          className="rounded-none bg-slate-900 text-white hover:bg-slate-800 font-black px-8 py-5 text-[10px] uppercase tracking-[0.2em] transition-colors"
+          className="rounded-xl bg-slate-900 text-white hover:bg-slate-800 font-semibold px-5 py-2.5 text-xs transition-colors shadow-sm"
         >
           Sign In
         </Button>
@@ -206,10 +206,15 @@ function ShoppingHeader() {
   const { isAuthenticated } = useContext(AuthContext);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white/80 backdrop-blur-2xl border-b border-slate-100">
-      <div className="container mx-auto max-w-7xl flex h-20 items-center justify-between px-4 sm:px-6">
-        <Link to="/shop/home" className="flex items-center gap-3 group">
-          <span className="font-black text-2xl tracking-tighter uppercase italic text-slate-900 group-hover:text-slate-500 transition-colors">Veloura</span>
+    <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-slate-200">
+      <div className="container mx-auto max-w-7xl flex h-16 items-center justify-between px-4 sm:px-6">
+        <Link to="/shop/home" className="flex items-center gap-2.5 group">
+          <div className="h-9 w-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-sm group-hover:bg-slate-800 transition-colors">
+            <ShoppingBag className="h-5 w-5 text-white" />
+          </div>
+          <span className="font-extrabold text-xl tracking-tight text-slate-900 group-hover:text-slate-700 transition-colors">
+            VELOURA
+          </span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -225,15 +230,18 @@ function ShoppingHeader() {
 
             <Sheet>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon" className="lg:hidden rounded-full hover:bg-slate-100">
-                        <Menu className="h-5 w-5 sm:h-6 sm:w-6 text-slate-600" />
+                    <Button variant="ghost" size="icon" className="lg:hidden rounded-lg hover:bg-slate-100">
+                        <Menu className="h-5 w-5 text-slate-700" />
                         <span className="sr-only">Toggle menu</span>
                     </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-full max-w-xs sm:max-w-sm p-5 sm:p-6 border-none shadow-2xl">
                     <div className="flex flex-col gap-6 sm:gap-8 py-6 sm:py-8">
-                        <Link to="/shop/home" className="flex items-center gap-2 sm:gap-3 group">
-                            <span className="font-black text-2xl tracking-tighter uppercase italic text-slate-900">Veloura</span>
+                        <Link to="/shop/home" className="flex items-center gap-2.5">
+                            <div className="h-9 w-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-sm">
+                              <ShoppingBag className="h-5 w-5 text-white" />
+                            </div>
+                            <span className="font-extrabold text-xl tracking-tight text-slate-900">VELOURA</span>
                         </Link>
                         <SheetClose asChild>
                           <div>

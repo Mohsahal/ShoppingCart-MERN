@@ -1,4 +1,3 @@
-
 import bannerOne from "../../assets/banner-1.webp";
 import bannerTwo from "../../assets/banner-2.webp";
 import bannerThree from "../../assets/banner-3.webp";
@@ -8,19 +7,17 @@ import {
   ArrowRight,
   ChevronLeft,
   ChevronRight,
-  ShoppingBag,
-  Star,
   Truck,
   ShieldCheck,
-  CreditCard,
-  Zap,
+  RotateCcw,
+  Headphones,
   Shirt,
   Baby,
   Watch,
   Footprints,
-  UserCircle
+  UserCircle,
+  Sparkles,
 } from "lucide-react";
-import { Card, CardContent } from "@/components/ui/card";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/components/ui/use-toast";
@@ -35,8 +32,8 @@ const categoriesWithIcon = [
   { id: "men", label: "Men", icon: Shirt },
   { id: "women", label: "Women", icon: UserCircle },
   { id: "kids", label: "Kids", icon: Baby },
-  { id: "accessories", label: "Accessories", icon: Watch },
   { id: "footwear", label: "Footwear", icon: Footprints },
+  { id: "accessories", label: "Accessories", icon: Watch },
 ];
 
 const brandsWithIcon = [
@@ -55,6 +52,7 @@ function ShoppingHome() {
     fetchAllFilteredProducts,
     fetchProductDetails,
     addToCart,
+    isLoading,
   } = useContext(ShoppingContext);
   const { featureImageList, getFeatureImages } = useContext(CommonContext);
   const { user } = useContext(AuthContext);
@@ -75,14 +73,14 @@ function ShoppingHome() {
     fetchProductDetails(getCurrentProductId);
   }
 
-  function handleAddtoCart(getCurrentProductId) {
+  function handleAddtoCart(getCurrentProductId, totalStock = 10) {
     if (!user) {
       navigate('/auth/login');
       return;
     }
     addToCart(user?.id, getCurrentProductId, 1).then((data) => {
       if (data?.success) {
-        toast({ title: "Product is added to cart" });
+        toast({ title: "Product added to cart" });
       }
     });
   }
@@ -91,8 +89,6 @@ function ShoppingHome() {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
-  // Force https:// to fix Mixed Content errors on HTTPS deployments
-  // (Cloudinary may have stored http:// URLs in the DB)
   const toHttps = (url) => (url ? url.replace(/^http:\/\//, "https://") : url);
 
   const slides = featureImageList && featureImageList.length > 0 
@@ -104,10 +100,6 @@ function ShoppingHome() {
     "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&h=1000&auto=format&fit=crop",
     "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&h=1000&auto=format&fit=crop"
   ];
-
-  useEffect(() => {
-    console.log("Current Slides Source:", featureImageList && featureImageList.length > 0 ? "Database" : "Local Assets");
-  }, [featureImageList]);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -124,8 +116,8 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Banner Slider Section */}
-      <section className="relative w-full h-[500px] sm:h-[600px] overflow-hidden bg-slate-900">
+      {/* Hero Banner Section */}
+      <section className="relative w-full h-[460px] sm:h-[560px] overflow-hidden bg-slate-900">
         {/* Desktop Images */}
         {slides.map((slide, index) => (
           <img
@@ -138,7 +130,7 @@ function ShoppingHome() {
           />
         ))}
 
-        {/* Mobile Images (Portrait) */}
+        {/* Mobile Images */}
         {mobileSlides.map((slide, index) => (
           <img
             src={slide}
@@ -150,34 +142,38 @@ function ShoppingHome() {
           />
         ))}
         
-        {/* Overlay Content */}
-        <div className="absolute inset-0 bg-black/20 flex flex-col items-center justify-center text-center p-4">
-            <Badge className="bg-white/20 backdrop-blur-md text-white border-none rounded-full px-6 py-1.5 font-black text-[10px] uppercase tracking-[0.4em] mb-6">
-                New Arrival 2026
+        {/* Dark Gradient Overlay & Text */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 flex flex-col items-center justify-center text-center px-4">
+            <Badge className="bg-white/20 backdrop-blur-md text-white border-none rounded-full px-4 py-1 font-medium text-xs tracking-wider mb-4">
+                <Sparkles className="w-3.5 h-3.5 mr-1.5 inline" /> New Season Collection
             </Badge>
-            <h2 className="text-4xl sm:text-7xl font-black text-white tracking-tighter mb-8 max-w-4xl leading-tight">
-                THE FUTURE OF <span className="italic text-primary">PREMIUM</span> FASHION
-            </h2>
+            <h1 className="text-3xl sm:text-6xl font-extrabold text-white tracking-tight mb-4 max-w-3xl leading-tight">
+                Elevate Your Everyday Style
+            </h1>
+            <p className="text-sm sm:text-lg text-slate-200 max-w-xl mb-8 font-normal">
+                Discover curated apparel, footwear, and luxury essentials tailored for modern comfort and versatility.
+            </p>
             <Button 
                 onClick={() => navigate("/shop/listing")}
-                className="bg-white text-slate-900 hover:bg-primary hover:text-white font-black px-10 py-6 rounded-2xl text-sm uppercase tracking-widest transition-all duration-300 shadow-2xl"
+                className="bg-white text-slate-900 hover:bg-slate-100 font-semibold px-8 py-6 rounded-xl text-sm transition-all duration-200 shadow-xl flex items-center gap-2"
             >
-                Explore Collection
+                Shop Collection
+                <ArrowRight className="w-4 h-4" />
             </Button>
         </div>
 
+        {/* Slider Controls */}
         <Button
           variant="outline"
           size="icon"
           onClick={() =>
             setCurrentSlide(
-              (prevSlide) =>
-                (prevSlide - 1 + slides.length) % slides.length
+              (prevSlide) => (prevSlide - 1 + slides.length) % slides.length
             )
           }
-          className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/50 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-12 w-12 hidden sm:flex items-center justify-center transition-all"
+          className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/70 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-10 w-10 hidden sm:flex items-center justify-center transition-all shadow-md"
         >
-          <ChevronLeft className="w-6 h-6" />
+          <ChevronLeft className="w-5 h-5" />
         </Button>
         <Button
           variant="outline"
@@ -185,40 +181,40 @@ function ShoppingHome() {
           onClick={() =>
             setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length)
           }
-          className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/50 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-12 w-12 hidden sm:flex items-center justify-center transition-all"
+          className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/70 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-10 w-10 hidden sm:flex items-center justify-center transition-all shadow-md"
         >
-          <ChevronRight className="w-6 h-6" />
+          <ChevronRight className="w-5 h-5" />
         </Button>
 
         {/* Slide Indicators */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
             {slides.map((_, index) => (
                 <button 
                     key={index}
                     onClick={() => setCurrentSlide(index)}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${index === currentSlide ? 'w-8 bg-white' : 'w-2 bg-white/30'}`}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'w-6 bg-white' : 'w-2 bg-white/40'}`}
                 />
             ))}
         </div>
       </section>
 
-      {/* Trust Badges Bar - Optimized 2x2 Grid for Mobile */}
-      <div className="bg-white border-y py-8 sm:py-10">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-8">
+      {/* Trust & Service Highlights */}
+      <div className="bg-slate-50 border-b border-slate-200 py-6 sm:py-8">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Truck, title: "Swift Delivery", desc: "Over $150" },
-              { icon: ShieldCheck, title: "Secure Pay", desc: "100% Encrypted" },
-              { icon: CreditCard, title: "Flexible", desc: "Buy Now Pay Later" },
-              { icon: Zap, title: "24/7 Care", desc: "Premium Support" }
+              { icon: Truck, title: "Free Shipping", desc: "On all orders over $100" },
+              { icon: ShieldCheck, title: "Secure Payment", desc: "100% protected checkout" },
+              { icon: RotateCcw, title: "Easy Returns", desc: "30-day money-back guarantee" },
+              { icon: Headphones, title: "24/7 Support", desc: "Dedicated customer service" }
             ].map((item, i) => (
-              <div key={i} className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-3 group">
-                <div className="bg-slate-50 p-3 rounded-2xl group-hover:bg-primary/10 transition-colors shrink-0">
-                  <item.icon className="h-5 w-5 text-primary" />
+              <div key={i} className="flex items-center gap-3.5 p-2">
+                <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-200 shrink-0 text-slate-900">
+                  <item.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-black text-slate-900 text-[11px] sm:text-sm uppercase tracking-tighter">{item.title}</p>
-                  <p className="text-[10px] text-slate-500 font-medium">{item.desc}</p>
+                  <p className="font-semibold text-slate-900 text-sm">{item.title}</p>
+                  <p className="text-xs text-slate-500">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -226,34 +222,29 @@ function ShoppingHome() {
         </div>
       </div>
 
-      {/* Categories Section - Grid for both Mobile and Desktop (No Scroll) */}
-      <section id="category-section" className="py-12 sm:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="text-center md:text-left mb-8">
-            <Badge className="bg-primary/5 text-primary border-none rounded-full px-4 mb-3 font-black text-[10px] uppercase tracking-widest">
-              Collections
-            </Badge>
-            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
-              The <span className="text-primary italic">Style</span> Hub
+      {/* Shop by Category */}
+      <section id="category-section" className="py-14 sm:py-20 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+              Shop by Category
             </h2>
+            <p className="text-sm text-slate-500 max-w-md mx-auto">
+              Explore our wide selection of essentials across all styles and categories.
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 sm:gap-6">
             {categoriesWithIcon.map((categoryItem) => (
               <div
                 key={categoryItem.id}
                 onClick={() => handleNavigateToListingPage(categoryItem, "category")}
-                className="group cursor-pointer border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 rounded-2xl sm:rounded-3xl overflow-hidden bg-white p-5 sm:p-8 flex flex-col items-center justify-center relative text-center"
+                className="group cursor-pointer border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-900 transition-all duration-200 rounded-2xl bg-white p-6 flex flex-col items-center justify-center text-center"
               >
-                <div className="absolute top-0 right-0 p-2 opacity-[0.04] group-hover:opacity-10 transition-opacity">
-                  <categoryItem.icon className="w-16 h-16 sm:w-24 sm:h-24" />
+                <div className="mb-4 bg-slate-100 group-hover:bg-slate-900 group-hover:text-white transition-colors duration-200 p-4 rounded-2xl text-slate-700">
+                  <categoryItem.icon className="w-7 h-7 transition-transform duration-200 group-hover:scale-110" />
                 </div>
-                <div className="mb-3 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
-                  <div className="bg-primary/5 p-3 sm:p-4 rounded-2xl sm:rounded-3xl">
-                    <categoryItem.icon className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
-                  </div>
-                </div>
-                <span className="font-black text-xs sm:text-base text-slate-900 uppercase tracking-tight">
+                <span className="font-semibold text-sm sm:text-base text-slate-900">
                   {categoryItem.label}
                 </span>
               </div>
@@ -262,141 +253,175 @@ function ShoppingHome() {
         </div>
       </section>
 
-      {/* Featured Collection Banner Section */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-            <div className="relative rounded-[2rem] overflow-hidden group cursor-pointer" onClick={() => navigate("/shop/listing")}>
-                <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10" />
+      {/* Trending Products Section */}
+      <section className="py-14 sm:py-20 bg-slate-50 border-y border-slate-200">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-1">
+                Trending Products
+              </h2>
+              <p className="text-sm text-slate-500">
+                Discover our top selling styles and newest arrivals.
+              </p>
+            </div>
+            <Button 
+              variant="outline"
+              onClick={() => navigate("/shop/listing")}
+              className="border-slate-300 text-slate-800 hover:bg-white hover:border-slate-900 font-semibold px-5 rounded-xl text-xs flex items-center gap-1.5"
+            >
+              View All Products
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {isLoading ? (
+              Array.from({ length: 8 }).map((_, index) => (
+                <div key={index} className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm p-0 animate-pulse border border-slate-100">
+                  <div className="aspect-[4/5] bg-slate-200 w-full" />
+                  <div className="p-4 space-y-2.5">
+                    <div className="flex justify-between items-center">
+                      <div className="h-2.5 bg-slate-200 rounded w-12" />
+                      <div className="h-2.5 bg-slate-200 rounded w-12" />
+                    </div>
+                    <div className="h-4 bg-slate-200 rounded w-3/4" />
+                    <div className="h-4 bg-slate-200 rounded w-1/3" />
+                    <div className="h-9 bg-slate-200 rounded-xl w-full mt-2" />
+                  </div>
+                </div>
+              ))
+            ) : productList && productList.length > 0 ? (
+              productList.slice(0, 8).map((productItem) => (
+                <ShoppingProductTile
+                  key={productItem._id || productItem.id}
+                  handleGetProductDetails={handleGetProductDetails}
+                  product={productItem}
+                  handleAddtoCart={handleAddtoCart}
+                />
+              ))
+            ) : (
+              <div className="col-span-full bg-white rounded-2xl p-12 text-center text-slate-500 border border-slate-200">
+                No products available at the moment.
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Promo Banner */}
+      <section className="py-14 sm:py-20 bg-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+            <div 
+              className="relative rounded-3xl overflow-hidden group cursor-pointer shadow-lg" 
+              onClick={() => navigate("/shop/listing")}
+            >
+                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent z-10" />
                 <img 
                     src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop" 
-                    alt="Featured" 
-                    className="w-full h-[400px] sm:h-[500px] object-cover group-hover:scale-105 transition-transform duration-700"
+                    alt="Featured Collection" 
+                    className="w-full h-[360px] sm:h-[440px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="absolute inset-0 z-20 flex flex-col justify-center p-8 sm:p-16 space-y-6">
-                    <Badge className="w-fit bg-primary text-white border-none rounded-full px-4 py-1 text-[10px] uppercase tracking-widest">
-                        Limited Edition
+                <div className="absolute inset-0 z-20 flex flex-col justify-center p-6 sm:p-14 space-y-4 max-w-lg">
+                    <Badge className="w-fit bg-white/20 text-white backdrop-blur-md border-none rounded-full px-3 py-1 text-xs font-medium">
+                        Exclusive Release
                     </Badge>
-                    <h3 className="text-3xl sm:text-5xl font-black text-white tracking-tighter leading-tight max-w-md">
-                        UNLEASH YOUR <span className="text-primary italic">SIGNATURE</span> LOOK
+                    <h3 className="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-snug">
+                        Timeless Aesthetics & Modern Essentials
                     </h3>
-                    <p className="text-white/70 max-w-sm text-sm sm:text-base font-medium">
-                        Experience the perfect blend of comfort and avant-garde style with our latest seasonal drop.
+                    <p className="text-slate-200 text-sm sm:text-base font-normal leading-relaxed">
+                        Upgrade your wardrobe with tailored silhouettes, premium fabrics, and understated luxury.
                     </p>
-                    <Button className="w-fit bg-white text-slate-900 hover:bg-primary hover:text-white font-black px-8 py-4 rounded-xl text-xs uppercase tracking-widest transition-all">
-                        Shop Collection
+                    <Button className="w-fit bg-white text-slate-900 hover:bg-slate-100 font-semibold px-6 py-2.5 rounded-xl text-xs tracking-wider transition-all mt-2">
+                        Explore Collection
                     </Button>
                 </div>
             </div>
         </div>
       </section>
 
-      {/* Featured Products Section */}
-      <section className="py-16 sm:py-24 bg-slate-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <Badge className="bg-primary/5 text-primary border-none rounded-full px-4 mb-3 font-black text-[10px] uppercase tracking-widest">
-              Top Picks
-            </Badge>
-            <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter">
-              TRENDING <span className="text-primary italic">NOW</span>
+      {/* Shop by Brand Section */}
+      <section className="py-14 sm:py-20 bg-slate-50 border-t border-slate-200">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="text-center mb-10">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+              Shop by Brand
             </h2>
+            <p className="text-sm text-slate-500 max-w-md mx-auto">
+              Authentic collections from world-renowned fashion and sportswear labels.
+            </p>
           </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {productList && productList.length > 0
-              ? productList.slice(0, 8).map((productItem) => (
-                  <ShoppingProductTile
-                    key={productItem._id || productItem.id}
-                    handleGetProductDetails={handleGetProductDetails}
-                    product={productItem}
-                    handleAddtoCart={handleAddtoCart}
-                  />
-                ))
-              : null}
-          </div>
-          
-          <div className="mt-12 text-center">
-            <Button 
-              onClick={() => navigate("/shop/listing")}
-              className="bg-white text-slate-900 border-2 border-slate-200 hover:border-primary hover:bg-primary hover:text-white font-black px-8 py-6 rounded-2xl text-xs uppercase tracking-widest transition-all duration-300 shadow-sm"
-            >
-              View All Products
-            </Button>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
+            {brandsWithIcon.map((brandItem) => (
+              <div
+                key={brandItem.id}
+                onClick={() => handleNavigateToListingPage(brandItem, "brand")}
+                className="cursor-pointer group bg-white hover:bg-slate-900 transition-all duration-200 p-6 sm:p-8 rounded-2xl flex flex-col items-center justify-center border border-slate-200 hover:border-slate-900 shadow-sm hover:shadow-md text-center"
+              >
+                <span className="font-bold text-base sm:text-lg text-slate-800 group-hover:text-white transition-colors">
+                  {brandItem.label}
+                </span>
+                <span className="text-[11px] text-slate-400 group-hover:text-slate-300 mt-1 transition-colors">
+                  View Collection
+                </span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Brands Flow Section */}
-      <section className="py-16 sm:py-24 bg-white border-t border-slate-100">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row justify-between items-center gap-10">
-            <div className="text-center lg:text-left">
-              <h2 className="text-3xl font-black text-slate-900 tracking-tighter">WORLD CLASS <span className="text-primary italic">BRANDS</span></h2>
-            </div>
-            <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3 w-full">
-              {brandsWithIcon.map((brandItem) => (
-                <div
-                  key={brandItem.id}
-                  onClick={() => handleNavigateToListingPage(brandItem, "brand")}
-                  className="cursor-pointer group bg-slate-50 hover:bg-primary transition-all duration-300 p-5 sm:p-8 rounded-2xl flex items-center justify-center border border-slate-100"
-                >
-                  <span className="font-black text-sm sm:text-lg text-slate-400 group-hover:text-white transition-colors uppercase italic">
-                    {brandItem.label}
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Style Journal Section */}
-      <section className="py-20 bg-slate-50 border-t border-slate-100">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 gap-6 text-center md:text-left">
-            <div className="flex flex-col items-center md:items-start">
-              <Badge className="bg-primary/5 text-primary border-none rounded-full px-4 mb-3 font-black text-[10px] uppercase tracking-widest">
-                Editorial
-              </Badge>
-              <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter">
-                STYLE <span className="text-primary italic">JOURNAL</span>
+      {/* Style Journal / Blog Section */}
+      <section className="py-14 sm:py-20 bg-white border-t border-slate-200">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-1">
+                Style Journal
               </h2>
+              <p className="text-sm text-slate-500">
+                Trends, styling advice, and seasonal lookbooks.
+              </p>
             </div>
             <Button 
               variant="link" 
-              className="text-primary font-bold hover:no-underline flex items-center gap-2 p-0"
-              onClick={() => toast({ title: "Style Journal coming soon!", description: "Stay tuned for our latest fashion editorials." })}
+              className="text-slate-900 font-semibold hover:no-underline flex items-center gap-1.5 p-0 text-sm"
+              onClick={() => toast({ title: "Style Journal coming soon", description: "Stay tuned for fresh fashion editorials." })}
             >
               Read All Articles <ArrowRight className="w-4 h-4" />
             </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
-                title: "The Fall Collection Lookbook",
-                category: "Fashion",
+                title: "The Essential Guide to Layering for Autumn",
+                category: "Style Guide",
                 image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1000&auto=format&fit=crop",
               },
               {
-                title: "Sustainable Materials We Love",
+                title: "Sustainable Fashion & Conscious Wardrobe Choices",
                 category: "Sustainability",
                 image: "https://images.unsplash.com/photo-1612423284934-2850a4ea6b0f?q=80&w=1000&auto=format&fit=crop",
               },
               {
-                title: "How to Style Oversized Blazers",
-                category: "Style Guide",
+                title: "How to Build a Capsule Wardrobe with Versatile Classics",
+                category: "Trends",
                 image: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=1000&auto=format&fit=crop",
               }
             ].map((article, i) => (
               <div key={i} className="group cursor-pointer">
-                <div className="overflow-hidden rounded-3xl mb-5 relative">
-                  <img src={article.image} className="w-full h-[350px] object-cover group-hover:scale-105 transition-transform duration-700" alt={article.title} />
-                  <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest text-slate-900 shadow-sm">
+                <div className="overflow-hidden rounded-2xl mb-4 relative aspect-[16/10]">
+                  <img 
+                    src={article.image} 
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                    alt={article.title} 
+                  />
+                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-slate-800 shadow-sm">
                     {article.category}
                   </div>
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 leading-snug group-hover:text-primary transition-colors pr-4">
+                <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug group-hover:text-slate-600 transition-colors">
                   {article.title}
                 </h3>
               </div>
@@ -406,29 +431,29 @@ function ShoppingHome() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-20 sm:py-32 bg-white relative overflow-hidden border-t border-slate-100">
-        <div className="absolute inset-0 opacity-40">
-           <div className="absolute top-0 left-0 w-96 h-96 bg-slate-100 rounded-full -translate-x-1/2 -translate-y-1/2 blur-3xl" />
-           <div className="absolute bottom-0 right-0 w-96 h-96 bg-slate-100 rounded-full translate-x-1/2 translate-y-1/2 blur-3xl" />
-        </div>
-        <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-2xl mx-auto text-center space-y-8">
-                <Badge className="bg-slate-100 text-slate-900 border-none rounded-full px-6 py-1.5 font-black text-[10px] uppercase tracking-[0.3em]">
-                    Join the Club
-                </Badge>
-                <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tighter leading-tight">
-                    GET 20% OFF YOUR <span className="italic text-primary">FIRST ORDER</span>
+      <section className="py-14 sm:py-20 bg-slate-900 text-white">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6">
+            <div className="max-w-xl mx-auto text-center space-y-4">
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                    Get 20% Off Your First Order
                 </h2>
-                <p className="text-slate-500 font-medium text-sm sm:text-base">
-                    Subscribe to receive updates, access to exclusive deals, and more.
+                <p className="text-slate-400 text-sm font-normal">
+                    Subscribe to receive product updates, exclusive deals, and seasonal style drops directly to your inbox.
                 </p>
-                <form className="flex flex-col sm:flex-row gap-3 mt-10">
+                <form 
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    toast({ title: "Subscribed successfully!", description: "Welcome to the Veloura community." });
+                  }} 
+                  className="flex flex-col sm:flex-row gap-2.5 pt-4"
+                >
                     <input 
                         type="email" 
-                        placeholder="Enter your email" 
-                        className="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-6 py-4 text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-200 font-bold"
+                        required
+                        placeholder="Enter your email address" 
+                        className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-white text-sm"
                     />
-                    <Button className="bg-slate-900 text-white hover:bg-primary font-black px-10 py-4 rounded-2xl uppercase tracking-widest text-xs shadow-xl transition-colors">
+                    <Button type="submit" className="bg-white text-slate-900 hover:bg-slate-100 font-semibold px-6 py-3 rounded-xl text-sm transition-colors">
                         Subscribe
                     </Button>
                 </form>

@@ -17,7 +17,6 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ShoppingContext } from "@/context/shopping-context";
 import { AuthContext } from "@/context/auth-context";
-import Loader from "@/components/common/loader";
 import { Badge } from "@/components/ui/badge";
 
 function createSearchParamsHelper(filterParams) {
@@ -140,8 +139,6 @@ function ShoppingListing() {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
-  if (isLoading) return <Loader />;
-
   return (
     <div className="bg-slate-50">
         <div className=" mx-auto w-full px-6 py-12">
@@ -156,26 +153,26 @@ function ShoppingListing() {
                 {/* Main Content */}
                 <main className="flex-1 space-y-8">
                     {/* Header Bar */}
-                    <div className="bg-white p-6 rounded-3xl shadow-sm border border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                             <div className="bg-primary/10 p-3 rounded-2xl">
-                                <Layers className="h-6 w-6 text-primary" />
+                    <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3.5">
+                             <div className="bg-slate-100 p-2.5 rounded-xl text-slate-800">
+                                <Layers className="h-5 w-5" />
                              </div>
                              <div>
-                                <h1 className="text-2xl font-black text-slate-900 tracking-tighter">THE CATALOG</h1>
-                                <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">Showing {productList?.length || 0} unique pieces</p>
+                                <h1 className="text-xl sm:text-2xl font-bold text-slate-900">All Products</h1>
+                                <p className="text-xs text-slate-500 font-normal">Showing {productList?.length || 0} items</p>
                              </div>
                         </div>
 
-                        <div className="flex items-center gap-4">
+                        <div className="flex items-center gap-3">
                             <Sheet>
                                 <SheetTrigger asChild>
                                     <Button
                                         variant="outline"
                                         size="icon"
-                                        className="md:hidden rounded-xl border-slate-200 text-slate-700 h-12 w-12"
+                                        className="md:hidden rounded-xl border-slate-300 text-slate-700 h-10 w-10"
                                     >
-                                        <Filter className="h-5 w-5" />
+                                        <Filter className="h-4 w-4" />
                                     </Button>
                                 </SheetTrigger>
                                 <SheetContent side="left" className="w-full max-w-[300px] p-0 border-none">
@@ -187,19 +184,19 @@ function ShoppingListing() {
                                 <DropdownMenuTrigger asChild>
                                     <Button
                                     variant="outline"
-                                    className="rounded-xl border-slate-200 text-slate-700 font-bold gap-2 px-6 h-12 hover:bg-slate-50 transition-all"
+                                    className="rounded-xl border-slate-300 text-slate-700 font-medium gap-2 px-4 h-10 hover:bg-slate-50 transition-all text-xs"
                                     >
-                                    <ArrowUpDownIcon className="h-4 w-4 text-primary" />
-                                    <span>Sort Logic</span>
+                                    <ArrowUpDownIcon className="h-3.5 w-3.5 text-slate-600" />
+                                    <span>Sort By</span>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-[240px] p-2 rounded-2xl border-none shadow-2xl">
+                                <DropdownMenuContent align="end" className="w-[220px] p-2 rounded-xl border border-slate-200 shadow-xl bg-white">
                                     <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>
                                     {sortOptions.map((sortItem) => (
                                         <DropdownMenuRadioItem
                                             value={sortItem.id}
                                             key={sortItem.id}
-                                            className="p-3 rounded-xl cursor-pointer font-bold text-slate-600 focus:text-primary focus:bg-primary/5 transition-all"
+                                            className="p-2.5 rounded-lg cursor-pointer font-medium text-xs text-slate-700 hover:bg-slate-100 transition-all"
                                         >
                                             {sortItem.label}
                                         </DropdownMenuRadioItem>
@@ -212,7 +209,22 @@ function ShoppingListing() {
 
                     {/* Product Grid */}
                     <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6">
-                        {productList && productList.length > 0 ? (
+                        {isLoading ? (
+                            Array.from({ length: 12 }).map((_, index) => (
+                                <div key={index} className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm p-0 animate-pulse border border-slate-100">
+                                    <div className="aspect-[4/5] bg-slate-200 w-full" />
+                                    <div className="p-3.5 space-y-2.5">
+                                        <div className="flex justify-between items-center">
+                                            <div className="h-2.5 bg-slate-200 rounded w-12" />
+                                            <div className="h-2.5 bg-slate-200 rounded w-12" />
+                                        </div>
+                                        <div className="h-4 bg-slate-200 rounded w-3/4" />
+                                        <div className="h-4 bg-slate-200 rounded w-1/3" />
+                                        <div className="h-9 bg-slate-200 rounded-xl w-full mt-2" />
+                                    </div>
+                                </div>
+                            ))
+                        ) : productList && productList.length > 0 ? (
                             productList.map((productItem) => (
                                 <ShoppingProductTile
                                     key={productItem._id}

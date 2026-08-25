@@ -28,11 +28,11 @@ function SearchProducts() {
   const { toast } = useToast();
 
   useEffect(() => {
-    if (keyword && keyword.trim() !== "" && keyword.trim().length > 3) {
+    if (keyword && keyword.trim() !== "" && keyword.trim().length > 2) {
       const timeoutId = setTimeout(() => {
         setSearchParams(new URLSearchParams(`?keyword=${keyword}`));
         getSearchResults(keyword);
-      }, 1000);
+      }, 500);
       return () => clearTimeout(timeoutId);
     } else {
       setSearchParams(new URLSearchParams(`?keyword=${keyword}`));
@@ -63,7 +63,7 @@ function SearchProducts() {
     addToCart(user?.id, getCurrentProductId, 1).then((data) => {
       if (data?.success) {
         toast({
-          title: "Product is added to cart",
+          title: "Product added to cart",
         });
       }
     });
@@ -78,39 +78,46 @@ function SearchProducts() {
   }, [productDetails]);
 
   return (
-    <div className="bg-white min-h-screen">
-        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-20 sm:py-32 space-y-24">
-            
+    <div className="bg-slate-50 min-h-screen">
+        <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16 space-y-10">
             {/* Search Input Section */}
-            <div className="max-w-5xl mx-auto w-full relative">
-                <Input
-                    value={keyword}
-                    name="keyword"
-                    onChange={(event) => setKeyword(event.target.value)}
-                    className="w-full h-auto border-0 border-b-[3px] border-slate-900 bg-transparent text-4xl sm:text-7xl lg:text-[7rem] font-black italic tracking-tighter text-slate-900 rounded-none px-0 py-4 sm:py-8 focus-visible:ring-0 focus-visible:border-primary placeholder:text-slate-100 transition-colors uppercase"
-                    placeholder="SEARCH"
-                    autoFocus
-                />
-                <div className="absolute right-0 top-1/2 -translate-y-1/2">
-                    {isLoading ? (
-                        <Loader2 className="h-8 w-8 sm:h-12 sm:w-12 text-primary animate-spin" />
-                    ) : (
-                        <span className="text-xs sm:text-sm font-black tracking-[0.3em] uppercase text-slate-300">Type</span>
-                    )}
-                </div>
+            <div className="max-w-2xl mx-auto space-y-6 text-center">
+                 <div className="space-y-2">
+                    <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight">Search Our Products</h1>
+                    <p className="text-slate-500 text-sm">Find apparel, footwear, accessories, and designer brands</p>
+                 </div>
+                 
+                 <div className="relative group">
+                    <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
+                        <Search className="h-5 w-5 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
+                    </div>
+                    <Input
+                        value={keyword}
+                        name="keyword"
+                        onChange={(event) => setKeyword(event.target.value)}
+                        className="py-6 pl-14 pr-14 text-base font-normal bg-white border-slate-300 rounded-2xl shadow-sm focus-visible:ring-slate-900 focus-visible:border-slate-900 transition-all placeholder:text-slate-400"
+                        placeholder="Search by product name, brand, or category..."
+                    />
+                    <div className="absolute inset-y-0 right-5 flex items-center">
+                         {isLoading ? (
+                            <Loader2 className="h-5 w-5 text-slate-700 animate-spin" />
+                         ) : null}
+                    </div>
+                 </div>
             </div>
 
-            {/* Results Section */}
-            <div className="space-y-16">
-                <div className="flex items-end justify-between border-b border-slate-900 pb-4">
-                    <h2 className="text-xl sm:text-3xl font-black tracking-tighter text-slate-900 uppercase">Archive</h2>
-                    <span className="text-xs sm:text-sm font-bold tracking-[0.2em] text-slate-400 uppercase">
-                        [{searchResults.length}] Matches
-                    </span>
+            {/* Results Grid */}
+            <div className="space-y-6">
+                <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                    <div className="flex items-center gap-3">
+                        <span className="text-sm font-semibold text-slate-900">Search Results</span>
+                        <div className="h-1 w-1 bg-slate-300 rounded-full" />
+                        <span className="text-xs text-slate-500">{searchResults.length} {searchResults.length === 1 ? 'Product' : 'Products'} Found</span>
+                    </div>
                 </div>
 
                 {searchResults.length > 0 ? (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
                         {searchResults.map((item) => (
                         <ShoppingProductTile
                             key={item._id}
@@ -121,10 +128,20 @@ function SearchProducts() {
                         ))}
                     </div>
                 ) : (
-                    <div className="pt-20 text-center">
-                        <p className="text-slate-300 text-2xl sm:text-4xl font-black tracking-tighter uppercase italic">
-                            {keyword.length > 0 ? "Nothing Found." : "Awaiting Input."}
-                        </p>
+                    <div className="bg-white rounded-2xl p-16 text-center border border-slate-200 flex flex-col items-center justify-center space-y-4">
+                         <div className="bg-slate-50 p-6 rounded-full text-slate-300">
+                            <FilterX className="h-10 w-10" />
+                         </div>
+                         <div className="space-y-1">
+                             <h3 className="text-lg font-bold text-slate-900">
+                               {keyword.trim().length > 0 ? "No Products Found" : "Start typing to search"}
+                             </h3>
+                             <p className="text-slate-500 text-sm max-w-sm mx-auto">
+                               {keyword.trim().length > 0
+                                 ? "We couldn't find any items matching your search. Try checking the spelling or searching for another term."
+                                 : "Search across our collection of men, women, kids, footwear, and accessories."}
+                             </p>
+                         </div>
                     </div>
                 )}
             </div>
