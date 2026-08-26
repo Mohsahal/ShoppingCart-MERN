@@ -25,12 +25,12 @@ function AuthRegister() {
       setIsLoading(false);
       if (data?.success) {
         toast({
-          title: data?.message,
+          title: data?.message || "Registration successful",
         });
         navigate("/auth/login");
       } else {
         toast({
-          title: data?.message,
+          title: data?.message || "Registration failed",
           variant: "destructive",
         });
       }
@@ -38,26 +38,26 @@ function AuthRegister() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-8 p-10 bg-white">
-      <div className="space-y-2 relative z-10">
-        <h1 className="text-4xl font-black tracking-tighter text-slate-900 uppercase leading-none">
-          Create <span className="text-primary italic">Account</span>
+    <div className="mx-auto w-full max-w-md space-y-6">
+      <div className="space-y-1.5">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+          Create an Account
         </h1>
-        <p className="text-slate-500 font-medium">
-          Already have an account?
+        <p className="text-sm text-slate-500 font-normal">
+          Already have an account?{" "}
           <Link
-            className="font-black ml-2 text-primary hover:underline uppercase tracking-wider text-xs transition-all"
+            className="font-semibold text-slate-900 hover:underline"
             to="/auth/login"
           >
-            Login Here
+            Sign in
           </Link>
         </p>
       </div>
       
-      <div className="relative z-10 mt-8">
+      <div className="pt-2">
         <CommonForm
           formControls={registerFormControls}
-          buttonText={"Sign Up"}
+          buttonText={"Create Account"}
           formData={formData}
           setFormData={setFormData}
           onSubmit={onSubmit}

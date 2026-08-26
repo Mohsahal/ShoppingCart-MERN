@@ -1,4 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
+import { ShoppingBag } from "lucide-react";
 
 function AuthLayout() {
   return (
@@ -10,31 +11,38 @@ function AuthLayout() {
           alt="Fashion Editorial"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Very subtle gradient to ensure text readability if we wanted text, but we keep it minimal */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
         
-        <div className="absolute bottom-12 left-12 text-white">
-          <h1 className="text-5xl font-black tracking-tighter uppercase mb-2">
-            Veloura <span className="italic font-light">Studio</span>
-          </h1>
-          <p className="font-medium text-white/80 tracking-widest uppercase text-xs">
-            Elevating everyday essentials
+        <div className="absolute bottom-12 left-12 text-white max-w-md space-y-2">
+          <div className="flex items-center gap-2.5 mb-3">
+            <div className="h-9 w-9 rounded-xl bg-white flex items-center justify-center text-slate-900 shadow-sm">
+              <ShoppingBag className="h-5 w-5 text-slate-900" />
+            </div>
+            <span className="font-extrabold text-2xl tracking-tight text-white">
+              VELOURA
+            </span>
+          </div>
+          <p className="text-sm font-normal text-slate-200 leading-relaxed">
+            Elevating everyday fashion essentials with timeless luxury, quality fabrics, and modern style.
           </p>
         </div>
       </div>
       
       {/* Right side - Form Area */}
       <div className="flex flex-1 flex-col items-center justify-center px-4 py-12 sm:px-6 lg:px-8 bg-white relative">
-        <div className="absolute top-8 left-8 sm:top-12 sm:left-12">
-          <Link to="/shop/home" className="flex items-center gap-2 group">
-            <span className="text-2xl font-black tracking-tighter uppercase italic text-slate-900 group-hover:text-primary transition-colors">
-              Veloura
+        <div className="absolute top-8 left-8 sm:top-10 sm:left-10">
+          <Link to="/shop/home" className="flex items-center gap-2.5 group">
+            <div className="h-9 w-9 rounded-xl bg-slate-900 flex items-center justify-center text-white shadow-sm group-hover:bg-slate-800 transition-colors">
+              <ShoppingBag className="h-5 w-5 text-white" />
+            </div>
+            <span className="font-extrabold text-xl tracking-tight text-slate-900 group-hover:text-slate-700 transition-colors">
+              VELOURA
             </span>
           </Link>
         </div>
         
         {/* Form Container */}
-        <div className="w-full max-w-md">
+        <div className="w-full max-w-md pt-8">
           <Outlet />
         </div>
       </div>

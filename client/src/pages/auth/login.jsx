@@ -23,11 +23,11 @@ function AuthLogin() {
       setIsLoading(false);
       if (data?.success) {
         toast({
-          title: data?.message,
+          title: data?.message || "Logged in successfully",
         });
       } else {
         toast({
-          title: data?.message,
+          title: data?.message || "Failed to log in",
           variant: "destructive",
         });
       }
@@ -35,23 +35,23 @@ function AuthLogin() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-8 p-10 bg-white">
-      <div className="space-y-2 relative z-10">
-        <h1 className="text-4xl font-black tracking-tighter text-slate-900 uppercase leading-none">
-          Welcome <span className="text-primary italic">Back</span>
+    <div className="mx-auto w-full max-w-md space-y-6">
+      <div className="space-y-1.5">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+          Sign In
         </h1>
-        <p className="text-slate-500 font-medium">
-          Don't have an account?
+        <p className="text-sm text-slate-500 font-normal">
+          Don't have an account?{" "}
           <Link
-            className="font-black ml-2 text-primary hover:underline uppercase tracking-wider text-xs transition-all"
+            className="font-semibold text-slate-900 hover:underline"
             to="/auth/register"
           >
-            Register Now
+            Create an account
           </Link>
         </p>
       </div>
       
-      <div className="relative z-10 mt-8">
+      <div className="pt-2">
         <CommonForm
           formControls={loginFormControls}
           buttonText={"Sign In"}
