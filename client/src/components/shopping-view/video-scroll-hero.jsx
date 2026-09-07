@@ -3,29 +3,6 @@ import { ArrowRight, ShoppingBag, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 
-const ONLINE_FASHION_VIDEOS = [
-  {
-    id: "luxury-fashion",
-    label: "Runway & Boutique",
-    url: "/videos/hero-luxury-fashion.mp4",
-  },
-  {
-    id: "evening-luxury",
-    label: "Evening Luxury",
-    url: "/videos/evening-luxury.mp4",
-  },
-  {
-    id: "boutique-dress",
-    label: "Boutique Collection",
-    url: "/videos/boutique-dress.mp4",
-  },
-  {
-    id: "editorial-mood",
-    label: "Editorial Mood",
-    url: "https://cdn.coverr.co/videos/coverr-woman-posing-behind-curtains-7898/1080p.mp4",
-  },
-];
-
 export default function VideoScrollHero({ 
   videoSrc = "/videos/hero-luxury-fashion.mp4",
   audioSrc = "/audio/luxury-soundtrack.mp3"
@@ -34,82 +11,81 @@ export default function VideoScrollHero({
   const sectionRef = useRef(null);
   const videoRef = useRef(null);
   const audioRef = useRef(null);
+  const isAudioActiveRef = useRef(false);
   const navigate = useNavigate();
 
-  // Handle seamless continuous video playback and repeated looping
+  // Video autoplay & seamless continuous looping
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = true; // Video stream stays muted so browser never blocks autoplay
+    video.muted = true;
     video.play().catch(() => {});
   }, [activeVideo]);
 
-  // Handle initial audio soundtrack setup and user gesture unlocker
+  // Audio Manager: fully automated background playback and scroll sync (no buttons)
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.volume = 0.5;
+    audio.volume = 0.85;
     audio.loop = true;
 
-    // Attempt autoplay if near top of the page
-    const scrollY = window.scrollY || window.pageYOffset;
-    if (scrollY < 200) {
-      audio.play().catch(() => {});
-    }
+    const playAudio = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const heroHeight = sectionRef.current?.offsetHeight || 600;
 
-    // Unlock audio on first user touch, click, scroll or keypress when near top
-    const handleFirstGesture = () => {
-      const currentScroll = window.scrollY || window.pageYOffset;
-      if (audio && currentScroll < 300) {
-        audio.play().catch(() => {});
+      if (scrollY < heroHeight * 0.45) {
+        audio.play().then(() => {
+          isAudioActiveRef.current = true;
+        }).catch(() => {});
       }
     };
 
-    window.addEventListener("click", handleFirstGesture, { once: true });
-    window.addEventListener("touchstart", handleFirstGesture, { once: true });
-    window.addEventListener("scroll", handleFirstGesture, { once: true });
-    window.addEventListener("keydown", handleFirstGesture, { once: true });
+    // 1. Attempt automated autoplay on load
+    playAudio();
 
-    return () => {
-      window.removeEventListener("click", handleFirstGesture);
-      window.removeEventListener("touchstart", handleFirstGesture);
-      window.removeEventListener("scroll", handleFirstGesture);
-      window.removeEventListener("keydown", handleFirstGesture);
+    // 2. Automated unlocker on user interaction
+    const unlockAudio = () => {
       if (audio) {
-        audio.pause();
+        playAudio();
       }
     };
-  }, [audioSrc]);
 
-  // Turn audio OFF when scrolling down, and resume ON when scrolling back to hero
-  useEffect(() => {
-    const audio = audioRef.current;
-    if (!audio) return;
+    window.addEventListener("pointerdown", unlockAudio, { passive: true });
+    window.addEventListener("click", unlockAudio, { passive: true });
+    window.addEventListener("touchstart", unlockAudio, { passive: true });
+    window.addEventListener("keydown", unlockAudio, { passive: true });
 
+    // 3. Scroll listener: Turn audio OFF on scroll down, turn ON when scrolling back up
     const handleScroll = () => {
       const scrollY = window.scrollY || window.pageYOffset;
       const heroHeight = sectionRef.current?.offsetHeight || 600;
 
-      // When user scrolls down past the hero section -> Turn audio OFF
-      if (scrollY > heroHeight * 0.4) {
+      if (scrollY > heroHeight * 0.45) {
         if (!audio.paused) {
           audio.pause();
         }
       } else {
-        // When user scrolls back up into the hero section -> Turn audio back ON
-        if (audio.paused) {
+        if (audio.paused && isAudioActiveRef.current) {
           audio.play().catch(() => {});
         }
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+
     return () => {
+      window.removeEventListener("pointerdown", unlockAudio);
+      window.removeEventListener("click", unlockAudio);
+      window.removeEventListener("touchstart", unlockAudio);
+      window.removeEventListener("keydown", unlockAudio);
       window.removeEventListener("scroll", handleScroll);
+      if (audio) {
+        audio.pause();
+      }
     };
-  }, []);
+  }, [audioSrc]);
 
   return (
     <section 
@@ -133,7 +109,7 @@ export default function VideoScrollHero({
         <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-black/25 to-black/40 pointer-events-none" />
       </div>
 
-      {/* Synchronized Repeating Luxury Audio Element (Hidden in background) */}
+      {/* Synchronized Repeating Luxury Audio Element (Hidden & Automated) */}
       <audio
         ref={audioRef}
         src={audioSrc}
