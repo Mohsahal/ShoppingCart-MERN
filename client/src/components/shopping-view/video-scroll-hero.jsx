@@ -23,12 +23,12 @@ export default function VideoScrollHero({
     video.play().catch(() => {});
   }, [activeVideo]);
 
-  // Audio Manager: fully automated background playback and scroll sync (no buttons)
+  // Audio Manager: comprehensive automated background audio playback and scroll sync
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.volume = 0.85;
+    audio.volume = 1.0;
     audio.loop = true;
 
     const playAudio = () => {
@@ -36,37 +36,56 @@ export default function VideoScrollHero({
       const heroHeight = sectionRef.current?.offsetHeight || 600;
 
       if (scrollY < heroHeight * 0.45) {
+        audio.volume = 1.0;
         audio.play().then(() => {
           isAudioActiveRef.current = true;
-        }).catch(() => {});
+        }).catch(() => {
+          // Autoplay policy waiting for user interaction
+        });
       }
     };
 
-    // 1. Attempt automated autoplay on load
+    // 1. Attempt immediate autoplay on load
     playAudio();
 
-    // 2. Automated unlocker on user interaction
+    // 2. Universal automated unlocker on any document-level user interaction
     const unlockAudio = () => {
       if (audio) {
         playAudio();
       }
     };
 
-    window.addEventListener("pointerdown", unlockAudio, { passive: true });
-    window.addEventListener("click", unlockAudio, { passive: true });
-    window.addEventListener("touchstart", unlockAudio, { passive: true });
-    window.addEventListener("keydown", unlockAudio, { passive: true });
+    const interactionEvents = [
+      "pointerdown",
+      "mousedown",
+      "mouseup",
+      "click",
+      "touchstart",
+      "touchend",
+      "keydown",
+      "keyup",
+      "mousemove",
+      "wheel",
+      "focus"
+    ];
 
-    // 3. Scroll listener: Turn audio OFF on scroll down, turn ON when scrolling back up
+    interactionEvents.forEach((evt) => {
+      window.addEventListener(evt, unlockAudio, { passive: true });
+      document.addEventListener(evt, unlockAudio, { passive: true });
+    });
+
+    // 3. Scroll listener: Turn audio OFF when scrolling down, turn ON when scrolling back up
     const handleScroll = () => {
       const scrollY = window.scrollY || window.pageYOffset;
       const heroHeight = sectionRef.current?.offsetHeight || 600;
 
       if (scrollY > heroHeight * 0.45) {
+        // Scrolled down past hero -> turn audio OFF
         if (!audio.paused) {
           audio.pause();
         }
       } else {
+        // Scrolled back up to hero -> turn audio back ON
         if (audio.paused && isAudioActiveRef.current) {
           audio.play().catch(() => {});
         }
@@ -76,10 +95,10 @@ export default function VideoScrollHero({
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("pointerdown", unlockAudio);
-      window.removeEventListener("click", unlockAudio);
-      window.removeEventListener("touchstart", unlockAudio);
-      window.removeEventListener("keydown", unlockAudio);
+      interactionEvents.forEach((evt) => {
+        window.removeEventListener(evt, unlockAudio);
+        document.removeEventListener(evt, unlockAudio);
+      });
       window.removeEventListener("scroll", handleScroll);
       if (audio) {
         audio.pause();
@@ -87,9 +106,22 @@ export default function VideoScrollHero({
     };
   }, [audioSrc]);
 
+  const handleHeroInteraction = () => {
+    const audio = audioRef.current;
+    if (audio && audio.paused) {
+      audio.volume = 1.0;
+      audio.play().then(() => {
+        isAudioActiveRef.current = true;
+      }).catch(() => {});
+    }
+  };
+
   return (
     <section 
       ref={sectionRef}
+      onClick={handleHeroInteraction}
+      onPointerDown={handleHeroInteraction}
+      onMouseEnter={handleHeroInteraction}
       className="relative w-full h-[540px] sm:h-[640px] lg:h-[720px] overflow-hidden bg-slate-950 flex flex-col justify-center items-center select-none"
     >
       {/* Background Autoplaying & Seamlessly Repeating Video */}
