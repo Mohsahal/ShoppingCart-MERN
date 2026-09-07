@@ -7,7 +7,6 @@ import { useSearchParams } from "react-router-dom";
 import { ShoppingContext } from "@/context/shopping-context";
 import { AuthContext } from "@/context/auth-context";
 import { Search, Sparkles, FilterX, Loader2 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 
 function SearchProducts() {
   const [keyword, setKeyword] = useState("");
@@ -78,29 +77,29 @@ function SearchProducts() {
   }, [productDetails]);
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-slate-950 text-slate-100 min-h-screen">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16 space-y-10">
             {/* Search Input Section */}
             <div className="max-w-2xl mx-auto space-y-6 text-center">
                  <div className="space-y-2">
-                    <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight">Search Our Products</h1>
-                    <p className="text-slate-500 text-sm">Find apparel, footwear, accessories, and designer brands</p>
+                    <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight">Search Our Products</h1>
+                    <p className="text-slate-400 text-sm">Find apparel, footwear, accessories, and designer brands</p>
                  </div>
                  
                  <div className="relative group">
                     <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-                        <Search className="h-5 w-5 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
+                        <Search className="h-5 w-5 text-slate-400 group-focus-within:text-white transition-colors" />
                     </div>
                     <Input
                         value={keyword}
                         name="keyword"
                         onChange={(event) => setKeyword(event.target.value)}
-                        className="py-6 pl-14 pr-14 text-base font-normal bg-white border-slate-300 rounded-2xl shadow-sm focus-visible:ring-slate-900 focus-visible:border-slate-900 transition-all placeholder:text-slate-400"
+                        className="py-6 pl-14 pr-14 text-base font-normal bg-slate-900 border-slate-800 text-white rounded-2xl shadow-xl focus-visible:ring-white focus-visible:border-white transition-all placeholder:text-slate-500"
                         placeholder="Search by product name, brand, or category..."
                     />
                     <div className="absolute inset-y-0 right-5 flex items-center">
                          {isLoading ? (
-                            <Loader2 className="h-5 w-5 text-slate-700 animate-spin" />
+                            <Loader2 className="h-5 w-5 text-slate-300 animate-spin" />
                          ) : null}
                     </div>
                  </div>
@@ -108,11 +107,11 @@ function SearchProducts() {
 
             {/* Results Grid */}
             <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                <div className="flex items-center justify-between border-b border-slate-900 pb-4">
                     <div className="flex items-center gap-3">
-                        <span className="text-sm font-semibold text-slate-900">Search Results</span>
-                        <div className="h-1 w-1 bg-slate-300 rounded-full" />
-                        <span className="text-xs text-slate-500">{searchResults.length} {searchResults.length === 1 ? 'Product' : 'Products'} Found</span>
+                        <span className="text-sm font-bold text-white">Search Results</span>
+                        <div className="h-1 w-1 bg-slate-700 rounded-full" />
+                        <span className="text-xs text-slate-400">{searchResults.length} {searchResults.length === 1 ? 'Product' : 'Products'} Found</span>
                     </div>
                 </div>
 
@@ -128,15 +127,15 @@ function SearchProducts() {
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-white rounded-2xl p-16 text-center border border-slate-200 flex flex-col items-center justify-center space-y-4">
-                         <div className="bg-slate-50 p-6 rounded-full text-slate-300">
+                    <div className="bg-slate-900/60 rounded-3xl p-16 text-center border border-slate-800 flex flex-col items-center justify-center space-y-4">
+                         <div className="bg-slate-950 p-6 rounded-full text-slate-500">
                             <FilterX className="h-10 w-10" />
                          </div>
                          <div className="space-y-1">
-                             <h3 className="text-lg font-bold text-slate-900">
+                             <h3 className="text-lg font-bold text-white">
                                {keyword.trim().length > 0 ? "No Products Found" : "Start typing to search"}
                              </h3>
-                             <p className="text-slate-500 text-sm max-w-sm mx-auto">
+                             <p className="text-slate-400 text-sm max-w-sm mx-auto">
                                {keyword.trim().length > 0
                                  ? "We couldn't find any items matching your search. Try checking the spelling or searching for another term."
                                  : "Search across our collection of men, women, kids, footwear, and accessories."}

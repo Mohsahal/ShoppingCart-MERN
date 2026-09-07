@@ -37,13 +37,13 @@ function AuthLogin() {
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="space-y-1.5">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
           Sign In
         </h1>
-        <p className="text-sm text-slate-500 font-normal">
+        <p className="text-sm text-slate-400 font-normal">
           Don't have an account?{" "}
           <Link
-            className="font-semibold text-slate-900 hover:underline"
+            className="font-semibold text-white hover:text-slate-300 underline"
             to="/auth/register"
           >
             Create an account
@@ -66,3 +66,4 @@ function AuthLogin() {
 }
 
 export default AuthLogin;
+

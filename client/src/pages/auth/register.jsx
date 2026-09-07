@@ -40,13 +40,13 @@ function AuthRegister() {
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="space-y-1.5">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
           Create an Account
         </h1>
-        <p className="text-sm text-slate-500 font-normal">
+        <p className="text-sm text-slate-400 font-normal">
           Already have an account?{" "}
           <Link
-            className="font-semibold text-slate-900 hover:underline"
+            className="font-semibold text-white hover:text-slate-300 underline"
             to="/auth/login"
           >
             Sign in
@@ -69,3 +69,4 @@ function AuthRegister() {
 }
 
 export default AuthRegister;
+

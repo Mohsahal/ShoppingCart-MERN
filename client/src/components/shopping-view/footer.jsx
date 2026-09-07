@@ -3,16 +3,16 @@ import { Link } from "react-router-dom";
 
 function ShoppingFooter() {
   return (
-    <footer className="bg-slate-900 text-white pt-16 pb-10 border-t border-slate-800">
+    <footer className="bg-slate-950 text-white pt-16 pb-10 border-t border-slate-900">
       <div className="container mx-auto max-w-7xl px-4 sm:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
           {/* Brand Section */}
           <div className="space-y-4">
             <Link to="/shop/home" className="flex items-center gap-2.5">
-               <div className="h-8 w-8 rounded-lg bg-white flex items-center justify-center text-slate-900 shadow-sm">
-                 <ShoppingBag className="h-4 w-4 text-slate-900" />
+               <div className="h-8 w-8 rounded-xl bg-white flex items-center justify-center text-slate-950 shadow-md">
+                 <ShoppingBag className="h-4 w-4 text-slate-950" />
                </div>
-               <span className="text-xl font-bold tracking-tight text-white">
+               <span className="text-xl font-extrabold tracking-tight text-white">
                 VELOURA
                </span>
             </Link>
@@ -24,9 +24,9 @@ function ShoppingFooter() {
                 <a
                     key={i} 
                     href="#" 
-                    className="w-9 h-9 rounded-full bg-slate-800 flex items-center justify-center hover:bg-white hover:text-slate-900 transition-colors group"
+                    className="w-9 h-9 rounded-full bg-slate-900 border border-slate-800 flex items-center justify-center hover:bg-white hover:text-slate-950 transition-colors group"
                 >
-                  <Icon className="w-4 h-4 text-slate-400 group-hover:text-slate-900 transition-colors" />
+                  <Icon className="w-4 h-4 text-slate-400 group-hover:text-slate-950 transition-colors" />
                 </a>
               ))}
             </div>
@@ -34,7 +34,7 @@ function ShoppingFooter() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-white">Quick Links</h4>
+            <h4 className="text-sm font-bold mb-4 text-white uppercase tracking-wider">Quick Links</h4>
             <ul className="space-y-2.5">
               {["About Us", "Contact Us", "Store Locator", "Careers", "Sustainability"].map((item) => (
                 <li key={item}>
@@ -48,7 +48,7 @@ function ShoppingFooter() {
 
           {/* Customer Care */}
           <div>
-            <h4 className="text-sm font-semibold mb-4 text-white">Customer Care</h4>
+            <h4 className="text-sm font-bold mb-4 text-white uppercase tracking-wider">Customer Care</h4>
             <ul className="space-y-2.5">
               {["Size Guide", "Shipping & Delivery", "Returns & Exchanges", "Order Tracking", "FAQ"].map((item) => (
                 <li key={item}>
@@ -62,7 +62,7 @@ function ShoppingFooter() {
 
           {/* Contact Info */}
           <div className="space-y-3">
-            <h4 className="text-sm font-semibold mb-4 text-white">Contact Us</h4>
+            <h4 className="text-sm font-bold mb-4 text-white uppercase tracking-wider">Contact Us</h4>
             <div className="space-y-3">
                <div className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
@@ -81,7 +81,7 @@ function ShoppingFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-slate-800 pt-8 mt-8">
+        <div className="border-t border-slate-900 pt-8 mt-8">
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
                 <p>
                     © 2026 Veloura Inc. All rights reserved.

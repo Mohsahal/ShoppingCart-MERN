@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import CommonForm from "../common/form";
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 import { Label } from "../ui/label";
-import { Separator } from "../ui/separator";
 import { Badge } from "../ui/badge";
 import { useToast } from "../ui/use-toast";
 import { AdminContext } from "@/context/admin-context";
@@ -35,77 +34,75 @@ function AdminOrderDetailsView({ orderDetails }) {
     });
   }
   return (
-    <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden rounded-3xl border-none shadow-2xl">
-      <DialogHeader className="bg-slate-900 px-8 py-8 text-white">
+    <DialogContent className="sm:max-w-[650px] p-0 overflow-hidden rounded-3xl border border-slate-200 bg-white text-slate-900 shadow-2xl">
+      <DialogHeader className="bg-slate-50 px-6 sm:px-8 py-6 text-slate-900 border-b border-slate-200">
         <div className="flex items-center justify-between">
             <div className="space-y-1">
-                <DialogTitle className="text-2xl font-black tracking-tight flex items-center gap-2">
-                    <ClipboardList className="h-6 w-6 text-primary-foreground" />
+                <DialogTitle className="text-xl font-black tracking-tight flex items-center gap-2 text-slate-900">
+                    <ClipboardList className="h-5 w-5 text-slate-900" />
                     Order Manifest
                 </DialogTitle>
-                <DialogDescription className="text-slate-400 text-xs font-mono">ID: {orderDetails?._id}</DialogDescription>
+                <DialogDescription className="text-slate-500 text-xs font-mono">ID: {orderDetails?._id}</DialogDescription>
             </div>
-            <Badge className="bg-primary text-white hover:bg-primary px-4 py-1.5 rounded-full font-bold">
-                {orderDetails?.orderStatus.toUpperCase()}
+            <Badge className="bg-slate-900 text-white px-3 py-1 rounded-full font-bold text-[10px] tracking-wider uppercase">
+                {orderDetails?.orderStatus?.toUpperCase()}
             </Badge>
         </div>
       </DialogHeader>
 
-      <div className="p-8 space-y-8 max-h-[70vh] overflow-y-auto">
+      <div className="p-6 sm:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
         {/* Core Info Grid */}
-        <div className="grid grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-100">
-          <div className="space-y-4">
+        <div className="grid grid-cols-2 gap-4 bg-slate-50 p-5 rounded-2xl border border-slate-200">
+          <div className="space-y-3">
             <div className="flex items-center gap-2 text-slate-500">
-               <Package size={16} />
-               <p className="text-xs font-bold uppercase tracking-wider">Order Summary</p>
+               <Package size={14} />
+               <p className="text-[10px] font-bold uppercase tracking-wider">Order Summary</p>
             </div>
-            <div className="space-y-2">
-                <div className="flex justify-between">
-                    <span className="text-sm font-medium text-slate-600">Ordered On</span>
-                    <span className="text-sm font-bold text-slate-900">{new Date(orderDetails?.orderDate).toLocaleDateString()}</span>
+            <div className="space-y-1.5">
+                <div className="flex justify-between text-xs">
+                    <span className="text-slate-500">Ordered On</span>
+                    <span className="font-bold text-slate-900">{new Date(orderDetails?.orderDate).toLocaleDateString()}</span>
                 </div>
-                <div className="flex justify-between">
-                    <span className="text-sm font-medium text-slate-600">Total Revenue</span>
-                    <span className="text-sm font-bold text-slate-900">${orderDetails?.totalAmount.toLocaleString()}</span>
+                <div className="flex justify-between text-xs">
+                    <span className="text-slate-500">Revenue</span>
+                    <span className="font-bold text-slate-900">${orderDetails?.totalAmount?.toLocaleString()}</span>
                 </div>
             </div>
           </div>
           
-          <div className="space-y-4 border-l border-slate-200 pl-6">
+          <div className="space-y-3 border-l border-slate-200 pl-4">
             <div className="flex items-center gap-2 text-slate-500">
-               <CreditCard size={16} />
-               <p className="text-xs font-bold uppercase tracking-wider">Payment Details</p>
+               <CreditCard size={14} />
+               <p className="text-[10px] font-bold uppercase tracking-wider">Payment Details</p>
             </div>
-            <div className="space-y-2">
-                <div className="flex justify-between">
-                    <span className="text-sm font-medium text-slate-600">Method</span>
-                    <span className="text-sm font-bold text-slate-900 capitalize">{orderDetails?.paymentMethod}</span>
+            <div className="space-y-1.5">
+                <div className="flex justify-between text-xs">
+                    <span className="text-slate-500">Method</span>
+                    <span className="font-bold text-slate-900 capitalize">{orderDetails?.paymentMethod}</span>
                 </div>
-                <div className="flex justify-between">
-                    <span className="text-sm font-medium text-slate-600">Status</span>
-                    <Badge variant="outline" className="bg-white font-bold capitalize">{orderDetails?.paymentStatus}</Badge>
+                <div className="flex justify-between text-xs items-center">
+                    <span className="text-slate-500">Status</span>
+                    <Badge variant="outline" className="bg-slate-100 text-slate-700 border-slate-200 font-bold capitalize text-[10px] px-2 py-0.5">{orderDetails?.paymentStatus}</Badge>
                 </div>
             </div>
           </div>
         </div>
 
         {/* Items List */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                  <Package className="h-4 w-4 text-primary" />
-                  Order Items ({orderDetails?.cartItems?.length})
-              </h3>
-          </div>
+        <div className="space-y-3">
+          <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest flex items-center gap-2">
+              <Package className="h-3.5 w-3.5 text-slate-900" />
+              Order Items ({orderDetails?.cartItems?.length})
+          </h3>
           <div className="space-y-2">
             {orderDetails?.cartItems && orderDetails?.cartItems.length > 0
               ? orderDetails?.cartItems.map((item) => (
-                  <div key={item?._id} className="flex items-center justify-between p-4 bg-white border border-slate-100 rounded-xl hover:shadow-sm transition-shadow">
+                  <div key={item?._id} className="flex items-center justify-between p-3.5 bg-slate-50 border border-slate-200 rounded-xl">
                     <div className="flex flex-col">
-                        <span className="text-sm font-bold text-slate-900">{item.title}</span>
-                        <span className="text-xs text-slate-500 font-medium">Quantity: {item.quantity}</span>
+                        <span className="text-xs font-bold text-slate-900">{item.title}</span>
+                        <span className="text-[11px] text-slate-500">Quantity: {item.quantity}</span>
                     </div>
-                    <span className="font-bold text-slate-900">${(item.price * item.quantity).toLocaleString()}</span>
+                    <span className="font-bold text-slate-900 text-xs">${(item.price * item.quantity).toLocaleString()}</span>
                   </div>
                 ))
               : null}
@@ -113,31 +110,31 @@ function AdminOrderDetailsView({ orderDetails }) {
         </div>
 
         {/* Shipping Info */}
-        <div className="space-y-4">
-           <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-primary" />
+        <div className="space-y-3">
+           <h3 className="text-xs font-bold text-slate-600 uppercase tracking-widest flex items-center gap-2">
+                <MapPin className="h-3.5 w-3.5 text-slate-900" />
                 Shipping & Logistic Details
             </h3>
-            <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
-                <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-1">
-                        <Label className="text-[10px] text-slate-400 uppercase font-bold">Recipient</Label>
-                        <p className="text-sm font-bold text-slate-900">{user?.userName}</p>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <div className="grid grid-cols-2 gap-3">
+                    <div className="space-y-0.5">
+                        <Label className="text-[9px] text-slate-400 uppercase font-bold">Recipient</Label>
+                        <p className="text-xs font-bold text-slate-900">{user?.userName}</p>
                     </div>
-                    <div className="space-y-1">
-                        <Label className="text-[10px] text-slate-400 uppercase font-bold">Phone</Label>
-                        <p className="text-sm font-bold text-slate-900">{orderDetails?.addressInfo?.phone}</p>
+                    <div className="space-y-0.5">
+                        <Label className="text-[9px] text-slate-400 uppercase font-bold">Phone</Label>
+                        <p className="text-xs font-bold text-slate-900">{orderDetails?.addressInfo?.phone}</p>
                     </div>
-                    <div className="col-span-2 space-y-1">
-                        <Label className="text-[10px] text-slate-400 uppercase font-bold">Address</Label>
-                        <p className="text-sm font-medium text-slate-700 leading-relaxed">
+                    <div className="col-span-2 space-y-0.5 pt-1">
+                        <Label className="text-[9px] text-slate-400 uppercase font-bold">Address</Label>
+                        <p className="text-xs font-normal text-slate-700 leading-relaxed">
                             {orderDetails?.addressInfo?.address}, {orderDetails?.addressInfo?.city} - {orderDetails?.addressInfo?.pincode}
                         </p>
                     </div>
                     {orderDetails?.addressInfo?.notes && (
-                        <div className="col-span-2 space-y-1">
-                            <Label className="text-[10px] text-slate-400 uppercase font-bold">Delivery Instructions</Label>
-                            <p className="text-xs italic text-slate-500">"{orderDetails?.addressInfo?.notes}"</p>
+                        <div className="col-span-2 space-y-0.5 pt-1">
+                            <Label className="text-[9px] text-slate-400 uppercase font-bold">Delivery Instructions</Label>
+                            <p className="text-[11px] italic text-slate-500">"{orderDetails?.addressInfo?.notes}"</p>
                         </div>
                     )}
                 </div>
@@ -145,11 +142,11 @@ function AdminOrderDetailsView({ orderDetails }) {
         </div>
 
         {/* Action Section */}
-        <div className="pt-6 border-t border-slate-100">
-          <div className="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+        <div className="pt-4 border-t border-slate-200">
+          <div className="bg-slate-50 rounded-2xl p-5 border border-slate-200">
             <div className="flex items-center gap-2 mb-4">
-                <Truck className="h-4 w-4 text-primary" />
-                <h3 className="text-sm font-bold text-primary">Logistics Control</h3>
+                <Truck className="h-4 w-4 text-slate-900" />
+                <h3 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Logistics Control</h3>
             </div>
             <CommonForm
                 formControls={[
@@ -170,6 +167,7 @@ function AdminOrderDetailsView({ orderDetails }) {
                 setFormData={setFormData}
                 buttonText={"Commit Status Change"}
                 onSubmit={handleUpdateStatus}
+                isLight={true}
             />
           </div>
         </div>
@@ -179,3 +177,5 @@ function AdminOrderDetailsView({ orderDetails }) {
 }
 
 export default AdminOrderDetailsView;
+
+

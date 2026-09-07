@@ -58,23 +58,23 @@ function AdminFeatures() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-3">
-            <div className="bg-primary p-2 rounded-xl">
-              <LayoutDashboard className="h-6 w-6 text-white" />
+          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-3">
+            <div className="bg-slate-900 text-white p-2 rounded-xl">
+              <LayoutDashboard className="h-5 w-5" />
             </div>
             Banner Management
           </h1>
-          <p className="text-slate-500 text-sm ml-[52px]">
-            Upload and manage the homepage slider banners.
+          <p className="text-slate-500 text-xs ml-[52px]">
+            Upload and manage the promotional hero and slider banners.
           </p>
         </div>
-        <div className="bg-white border border-slate-100 shadow-sm rounded-2xl px-6 py-3 flex items-center gap-3">
-          <Image className="h-5 w-5 text-primary" />
+        <div className="bg-white border border-slate-200/80 shadow-sm rounded-2xl px-6 py-3 flex items-center gap-3">
+          <Image className="h-4 w-4 text-slate-900" />
           <div>
-            <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">
+            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
               Total Banners
             </p>
-            <p className="text-lg font-bold text-slate-900">
+            <p className="text-base font-bold text-slate-900">
               {featureImageList?.length ?? 0}
             </p>
           </div>
@@ -82,9 +82,9 @@ function AdminFeatures() {
       </div>
 
       {/* Upload Section */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
-        <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-          <Plus className="h-5 w-5 text-primary" />
+      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 sm:p-8">
+        <h2 className="text-base font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <Plus className="h-4 w-4 text-slate-900" />
           Upload New Banner
         </h2>
         <div className="max-w-2xl">
@@ -101,7 +101,7 @@ function AdminFeatures() {
           <Button
             onClick={handleUploadBanner}
             disabled={!uploadedImageUrl || imageLoadingState || isSubmitting}
-            className="mt-6 px-8 py-5 rounded-xl font-bold tracking-wide text-sm uppercase transition-all"
+            className="mt-6 px-8 py-5 rounded-xl font-bold tracking-wider text-xs uppercase bg-slate-900 hover:bg-slate-800 text-white transition-all shadow-md"
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">
@@ -119,9 +119,9 @@ function AdminFeatures() {
       </div>
 
       {/* Current Banners Grid */}
-      <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-8">
-        <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-          <Image className="h-5 w-5 text-primary" />
+      <div className="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 sm:p-8">
+        <h2 className="text-base font-bold text-slate-900 mb-6 flex items-center gap-2">
+          <Image className="h-4 w-4 text-slate-900" />
           Current Banners
         </h2>
 
@@ -130,7 +130,7 @@ function AdminFeatures() {
             {featureImageList.map((item, index) => (
               <div
                 key={item._id}
-                className="group relative rounded-2xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-lg transition-all duration-300 bg-slate-50"
+                className="group relative rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:border-slate-300 transition-all duration-300 bg-slate-100"
               >
                 <div className="aspect-video w-full overflow-hidden">
                   <img
@@ -144,12 +144,12 @@ function AdminFeatures() {
                     onClick={() => handleDeleteBanner(item._id)}
                     variant="destructive"
                     size="icon"
-                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-12 w-12 shadow-xl"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-full h-11 w-11 shadow-2xl"
                   >
-                    <Trash2 className="h-5 w-5" />
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-slate-900/80 via-slate-900/40 to-transparent p-4">
                   <p className="text-white text-xs font-bold uppercase tracking-widest">
                     Banner {index + 1}
                   </p>
@@ -158,14 +158,14 @@ function AdminFeatures() {
             ))}
           </div>
         ) : (
-          <div className="py-20 rounded-2xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-4">
-            <div className="bg-slate-100 p-5 rounded-full">
-              <Image className="h-10 w-10 text-slate-300" />
+          <div className="py-16 rounded-2xl border border-dashed border-slate-200 bg-slate-50 flex flex-col items-center justify-center gap-3">
+            <div className="bg-slate-200/60 p-4 rounded-full">
+              <Image className="h-8 w-8 text-slate-500" />
             </div>
-            <p className="text-slate-500 font-medium">
+            <p className="text-slate-700 font-bold text-sm">
               No banners uploaded yet.
             </p>
-            <p className="text-slate-400 text-sm">
+            <p className="text-slate-400 text-xs">
               Upload your first banner using the form above.
             </p>
           </div>
@@ -176,3 +176,5 @@ function AdminFeatures() {
 }
 
 export default AdminFeatures;
+
+

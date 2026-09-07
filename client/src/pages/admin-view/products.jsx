@@ -114,40 +114,40 @@ function AdminProducts() {
       <div className="flex flex-col gap-6">
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-1">
-            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900 flex items-center gap-2">
-              <ShoppingBasket className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-slate-900 flex items-center gap-2.5">
+              <ShoppingBasket className="h-7 w-7 text-slate-900" />
               Product Inventory
             </h1>
-            <p className="text-slate-500 text-sm">Manage your catalog, prices and stock levels.</p>
+            <p className="text-slate-500 text-xs font-medium">Manage your luxury catalog, prices and stock levels.</p>
           </div>
           <Button 
             onClick={() => setOpenCreateProductsDialog(true)}
-            className="rounded-xl shadow-md hover:shadow-lg transition-all flex gap-2 items-center px-6 py-5"
+            className="rounded-xl shadow-md bg-slate-900 hover:bg-slate-800 text-white font-bold flex gap-2 items-center px-5 py-4 text-xs tracking-wider uppercase transition-all"
           >
-            <Plus className="h-5 w-5" />
-            Add New Product
+            <Plus className="h-4 w-4" />
+            Add Product
           </Button>
         </div>
 
         {/* Quick Stats Mini Bar */}
-        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-8 px-8">
+        <div className="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex items-center gap-8 px-6">
            <div className="flex items-center gap-3">
-              <div className="bg-primary/10 p-2 rounded-lg">
-                 <TrendingUp className="h-4 w-4 text-primary" />
+              <div className="bg-slate-100 p-2 rounded-xl text-slate-800">
+                 <TrendingUp className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">Total Items</p>
-                <p className="text-lg font-bold text-slate-900">{productList?.length || 0}</p>
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">Total Items</p>
+                <p className="text-base font-bold text-slate-900">{productList?.length || 0}</p>
               </div>
            </div>
-           <div className="h-8 w-[1px] bg-slate-100" />
+           <div className="h-6 w-[1px] bg-slate-200" />
            <div className="flex items-center gap-3">
-              <div className="bg-green-100 p-2 rounded-lg">
-                 <ShoppingBasket className="h-4 w-4 text-green-600" />
+              <div className="bg-emerald-50 border border-emerald-100 p-2 rounded-xl text-emerald-600">
+                 <ShoppingBasket className="h-4 w-4" />
               </div>
               <div>
-                <p className="text-xs text-slate-500 font-medium uppercase tracking-wider">In Stock</p>
-                <p className="text-lg font-bold text-slate-900">
+                <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider">In Stock</p>
+                <p className="text-base font-bold text-slate-900">
                   {productList?.filter(p => p.totalStock > 0).length || 0}
                 </p>
               </div>
@@ -156,8 +156,8 @@ function AdminProducts() {
 
         <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-2">
           {isLoading ? (
-            <div className="col-span-full py-24 bg-white rounded-3xl border border-slate-100 flex flex-col items-center justify-center gap-4">
-              <Loader2 className="h-8 w-8 text-primary animate-spin" />
+            <div className="col-span-full py-24 bg-white rounded-3xl border border-slate-200 flex flex-col items-center justify-center gap-4 shadow-sm">
+              <Loader2 className="h-8 w-8 text-slate-900 animate-spin" />
             </div>
           ) : productList && productList.length > 0
             ? productList.map((productItem) => (
@@ -172,10 +172,10 @@ function AdminProducts() {
                 </div>
               ))
             : (
-                <div className="col-span-full py-20 bg-white rounded-3xl border border-dashed border-slate-200 flex flex-col items-center justify-center gap-4">
-                  <ShoppingBasket className="h-12 w-12 text-slate-300" />
-                  <p className="text-slate-500 font-medium">Your inventory is empty. Start by adding a product!</p>
-                  <Button variant="outline" onClick={() => setOpenCreateProductsDialog(true)}>Create First Product</Button>
+                <div className="col-span-full py-20 bg-white rounded-3xl border border-dashed border-slate-300 flex flex-col items-center justify-center gap-4 shadow-sm">
+                  <ShoppingBasket className="h-12 w-12 text-slate-400" />
+                  <p className="text-slate-600 font-medium text-sm">Your inventory is empty. Start by adding a product!</p>
+                  <Button variant="outline" className="border-slate-200 bg-white text-slate-900 hover:bg-slate-50" onClick={() => setOpenCreateProductsDialog(true)}>Create First Product</Button>
                 </div>
             )}
         </div>
@@ -189,19 +189,19 @@ function AdminProducts() {
           setFormData(initialFormData);
         }}
       >
-        <SheetContent side="right" className="overflow-auto w-full sm:max-w-lg p-0 border-l-0 shadow-2xl">
+        <SheetContent side="right" className="overflow-auto w-full sm:max-w-lg p-0 border-l border-slate-200 bg-white text-slate-900 shadow-2xl">
           <div className="bg-white h-full flex flex-col">
-            <SheetHeader className="p-8 border-b bg-slate-50/50">
-              <SheetTitle className="text-2xl font-bold flex items-center gap-2">
-                <div className="bg-primary p-2 rounded-lg">
-                   <Plus className="h-5 w-5 text-white" />
+            <SheetHeader className="p-6 sm:p-8 border-b border-slate-200 bg-slate-50/70">
+              <SheetTitle className="text-xl font-bold flex items-center gap-2 text-slate-900">
+                <div className="bg-slate-900 text-white p-2 rounded-xl">
+                   <Plus className="h-4 w-4" />
                 </div>
                 {currentEditedId !== null ? "Modify Product" : "Create New Product"}
               </SheetTitle>
-              <p className="text-slate-500 text-sm">Fill in the details below to {currentEditedId !== null ? 'update' : 'add'} your product.</p>
+              <p className="text-slate-500 text-xs">Fill in the details below to {currentEditedId !== null ? 'update' : 'add'} your product.</p>
             </SheetHeader>
-            <div className="flex-1 overflow-y-auto p-8 space-y-8">
-              <div className="bg-slate-50 p-6 rounded-2xl border border-slate-100">
+            <div className="flex-1 overflow-y-auto p-6 sm:p-8 space-y-6">
+              <div className="bg-slate-50 p-5 rounded-2xl border border-slate-200">
                 <ProductImageUpload
                   imageFile={imageFile}
                   setImageFile={setImageFile}
@@ -221,6 +221,7 @@ function AdminProducts() {
                   buttonText={currentEditedId !== null ? "Update Product" : "Publish Product"}
                   formControls={addProductFormElements}
                   isBtnDisabled={!isFormValid() || imageLoadingState}
+                  isLight={true}
                 />
               </div>
             </div>
@@ -232,3 +233,5 @@ function AdminProducts() {
 }
 
 export default AdminProducts;
+
+

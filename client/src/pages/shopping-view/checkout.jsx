@@ -91,38 +91,38 @@ function ShoppingCheckout() {
   }
 
   return (
-    <div className="bg-slate-50 min-h-screen pb-20">
+    <div className="bg-slate-950 text-slate-100 min-h-screen pb-24">
       {/* Cinematic Banner */}
-      <div className="relative h-[40vh] w-full overflow-hidden bg-slate-900">
-          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1483181957632-8bda974cbc91?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40 scale-110" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/40 to-transparent" />
+      <div className="relative h-[36vh] w-full overflow-hidden bg-slate-950 border-b border-slate-800/80">
+          <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1483181957632-8bda974cbc91?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-25 scale-105" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-              <Badge className="bg-primary/20 text-primary border-primary/30 py-1.5 px-6 rounded-full mb-4 text-[10px] font-black tracking-[0.4em] uppercase backdrop-blur-md">
+              <Badge className="bg-white/10 text-slate-200 border border-white/20 py-1.5 px-6 rounded-full mb-3 text-[10px] font-bold tracking-[0.3em] uppercase backdrop-blur-md">
                 Secure Procurement
               </Badge>
-              <h1 className="text-3xl sm:text-5xl md:text-7xl font-black text-white tracking-tighter leading-none mb-4">Finalizing <span className="text-primary italic">Checkout</span></h1>
-              <div className="flex items-center gap-2 text-slate-400 font-bold text-sm uppercase tracking-widest">
-                  <span>Cart</span>
-                  <ChevronRight size={14} />
+              <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-none mb-3">Finalizing <span className="text-slate-400 italic">Checkout</span></h1>
+              <div className="flex items-center gap-2 text-slate-400 font-bold text-xs uppercase tracking-widest">
+                  <span>Bag</span>
+                  <ChevronRight size={12} />
                   <span className="text-white">Review</span>
-                  <ChevronRight size={14} />
+                  <ChevronRight size={12} />
                   <span>Payment</span>
               </div>
           </div>
       </div>
 
-      <div className="container mx-auto max-w-7xl px-6 -mt-20 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+      <div className="container mx-auto max-w-7xl px-4 sm:px-6 -mt-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Left Column: Address Selection */}
             <div className="lg:col-span-7 space-y-8">
-                <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 overflow-hidden border border-slate-100 p-6 sm:p-12">
-                   <div className="flex items-center gap-4 mb-6 md:mb-10">
-                        <div className="bg-primary p-3 rounded-2xl shadow-lg shadow-primary/20">
-                            <MapPin className="h-6 w-6 text-white" />
+                <div className="bg-slate-900/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-slate-800 p-6 sm:p-10">
+                   <div className="flex items-center gap-4 mb-8">
+                        <div className="bg-white text-slate-950 p-3 rounded-2xl shadow-md">
+                            <MapPin className="h-6 w-6" />
                         </div>
                         <div>
-                             <h2 className="text-2xl font-black text-slate-900 tracking-tighter">DELIVERY DESTINATION</h2>
-                             <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-1 text-primary">Where shall we send your treasures?</p>
+                             <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">DELIVERY DESTINATION</h2>
+                             <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">Where shall we send your order?</p>
                         </div>
                    </div>
                    
@@ -135,66 +135,66 @@ function ShoppingCheckout() {
 
             {/* Right Column: Order Summary */}
             <div className="lg:col-span-5">
-                <div className="bg-white rounded-[2.5rem] shadow-xl shadow-slate-200/50 border border-slate-100 p-6 sm:p-10 sticky top-24">
-                   <div className="flex items-center gap-4 mb-8">
-                        <div className="bg-slate-900 p-3 rounded-2xl">
-                            <Package className="h-6 w-6 text-white" />
+                <div className="bg-slate-900/80 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-slate-800 p-6 sm:p-8 sticky top-24">
+                   <div className="flex items-center gap-4 mb-6">
+                        <div className="bg-white text-slate-950 p-3 rounded-2xl shadow-md">
+                            <Package className="h-6 w-6" />
                         </div>
                         <div>
-                             <h2 className="text-xl font-black text-slate-900 tracking-tight">ORDER MANIFEST</h2>
-                             <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">{cartItems?.items?.length} Items Staged</p>
+                             <h2 className="text-lg sm:text-xl font-black text-white tracking-tight">ORDER MANIFEST</h2>
+                             <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mt-0.5">{cartItems?.items?.length || 0} Items Staged</p>
                         </div>
                    </div>
 
-                   <div className="space-y-4 max-h-[400px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-100">
+                   <div className="space-y-3 max-h-[380px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-800">
                     {cartItems && cartItems.items && cartItems.items.length > 0 ? (
                         cartItems.items.map((item) => (
                             <UserCartItemsContent key={item.productId} cartItem={item} />
                         ))
                     ) : (
                         <div className="text-center py-10">
-                            <p className="text-slate-400 font-bold italic">Your manifest is currently empty.</p>
+                            <p className="text-slate-400 font-medium italic text-sm">Your manifest is currently empty.</p>
                         </div>
                     )}
                    </div>
 
-                   <div className="mt-10 pt-8 border-t border-slate-100 space-y-4">
-                      <div className="flex justify-between items-center px-2">
-                        <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Subtotal</span>
-                        <span className="text-lg font-black text-slate-900">${totalCartAmount.toLocaleString()}</span>
+                   <div className="mt-8 pt-6 border-t border-slate-800 space-y-3">
+                      <div className="flex justify-between items-center px-1">
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Subtotal</span>
+                        <span className="text-base font-bold text-white">${totalCartAmount.toLocaleString()}</span>
                       </div>
-                      <div className="flex justify-between items-center px-2">
-                        <span className="text-sm font-bold text-slate-400 uppercase tracking-widest">Global Logistics</span>
-                        <span className="text-sm font-black text-emerald-600 uppercase">FREE SHIPPING</span>
+                      <div className="flex justify-between items-center px-1">
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-widest">Complimentary Shipping</span>
+                        <span className="text-xs font-bold text-emerald-400 uppercase tracking-wider">FREE</span>
                       </div>
-                      <div className="flex justify-between items-center bg-slate-50 p-6 rounded-2xl border border-slate-100 mt-6 shadow-sm">
-                        <span className="text-lg font-black text-slate-900">Total Commitment</span>
-                        <span className="text-3xl font-black text-primary tracking-tighter">${totalCartAmount.toLocaleString()}</span>
+                      <div className="flex justify-between items-center bg-slate-950/80 p-5 rounded-2xl border border-slate-800/80 mt-4">
+                        <span className="text-sm font-bold text-slate-300">Total Commitment</span>
+                        <span className="text-2xl font-black text-white tracking-tight">${totalCartAmount.toLocaleString()}</span>
                       </div>
                    </div>
 
-                   <div className="mt-10 space-y-6">
+                   <div className="mt-8 space-y-4">
                         <Button 
                             onClick={handleInitiatePaypalPayment} 
                             disabled={isPaymentStart}
-                            className="w-full py-8 rounded-2xl font-black text-lg tracking-tighter uppercase shadow-2xl shadow-primary/20 transform hover:-translate-y-1 transition-all flex items-center justify-center gap-4 group"
+                            className="w-full py-6 rounded-2xl font-black text-sm tracking-wider uppercase bg-white hover:bg-slate-200 text-slate-950 shadow-xl transition-all flex items-center justify-center gap-3 group"
                         >
                             {isPaymentStart ? (
                                 <>
-                                    <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                                    Synchronizing...
+                                    <div className="w-5 h-5 border-2 border-slate-950/30 border-t-slate-950 rounded-full animate-spin" />
+                                    Processing...
                                 </>
                             ) : (
                                 <>
-                                    <CreditCard className="w-6 h-6 group-hover:rotate-12 transition-transform" />
+                                    <CreditCard className="w-5 h-5 group-hover:rotate-12 transition-transform" />
                                     SECURE PAYPAL CHECKOUT
                                 </>
                             )}
                         </Button>
                         
-                        <div className="flex items-center justify-center gap-2 py-2">
-                            <ShieldCheck className="h-4 w-4 text-emerald-500" />
-                            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">Bank-Level 256-bit Encryption</span>
+                        <div className="flex items-center justify-center gap-2 py-1">
+                            <ShieldCheck className="h-4 w-4 text-emerald-400" />
+                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Encrypted 256-Bit SSL Checkout</span>
                         </div>
                    </div>
                 </div>
@@ -206,3 +206,4 @@ function ShoppingCheckout() {
 }
 
 export default ShoppingCheckout;
+

@@ -17,31 +17,14 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { ShoppingContext } from "@/context/shopping-context";
 import { AuthContext } from "@/context/auth-context";
-import { Badge } from "@/components/ui/badge";
-
-function createSearchParamsHelper(filterParams) {
-  const queryParams = [];
-
-  for (const [key, value] of Object.entries(filterParams)) {
-    if (Array.isArray(value) && value.length > 0) {
-      const paramValue = value.join(",");
-
-      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
-    }
-  }
-
-  return queryParams.join("&");
-}
 
 function ShoppingListing() {
   const {
     productList,
     productDetails,
-    cartItems,
     fetchAllFilteredProducts,
     fetchProductDetails,
     addToCart,
-    fetchCartItems,
     isLoading,
   } = useContext(ShoppingContext);
   const { user } = useContext(AuthContext);
@@ -85,35 +68,14 @@ function ShoppingListing() {
     fetchProductDetails(getCurrentProductId);
   }
 
-  function handleAddtoCart(getCurrentProductId, getTotalStock) {
+  function handleAddtoCart(getCurrentProductId, totalStock = 10) {
     if (!user) {
       navigate('/auth/login');
       return;
     }
-    let getCartItems = cartItems.items || [];
-
-    if (getCartItems.length) {
-      const indexOfCurrentItem = getCartItems.findIndex(
-        (item) => item.productId === getCurrentProductId
-      );
-      if (indexOfCurrentItem > -1) {
-        const getQuantity = getCartItems[indexOfCurrentItem].quantity;
-        if (getQuantity + 1 > getTotalStock) {
-          toast({
-            title: `Only ${getQuantity} quantity can be added for this item`,
-            variant: "destructive",
-          });
-
-          return;
-        }
-      }
-    }
-
     addToCart(user?.id, getCurrentProductId, 1).then((data) => {
       if (data?.success) {
-        toast({
-          title: "Product is added to cart",
-        });
+        toast({ title: "Product added to cart" });
       }
     });
   }
@@ -122,13 +84,6 @@ function ShoppingListing() {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
   }, [categorySearchParam]);
-
-  useEffect(() => {
-    if (filters && Object.keys(filters).length > 0) {
-      const createQueryString = createSearchParamsHelper(filters);
-      setSearchParams(new URLSearchParams(createQueryString));
-    }
-  }, [filters]);
 
   useEffect(() => {
     if (filters !== null && sort !== null)
@@ -140,8 +95,8 @@ function ShoppingListing() {
   }, [productDetails]);
 
   return (
-    <div className="bg-slate-50">
-        <div className=" mx-auto w-full px-6 py-12">
+    <div className="bg-slate-950 text-slate-100 min-h-screen">
+        <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Sidebar - Hidden on mobile, shown on desktop */}
                 <aside className="hidden md:block w-[280px] shrink-0">
@@ -153,14 +108,14 @@ function ShoppingListing() {
                 {/* Main Content */}
                 <main className="flex-1 space-y-8">
                     {/* Header Bar */}
-                    <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="bg-slate-900/80 p-5 sm:p-6 rounded-2xl shadow-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-3.5">
-                             <div className="bg-slate-100 p-2.5 rounded-xl text-slate-800">
+                             <div className="bg-slate-800 p-2.5 rounded-xl text-white">
                                 <Layers className="h-5 w-5" />
                              </div>
                              <div>
-                                <h1 className="text-xl sm:text-2xl font-bold text-slate-900">All Products</h1>
-                                <p className="text-xs text-slate-500 font-normal">Showing {productList?.length || 0} items</p>
+                                <h1 className="text-xl sm:text-2xl font-extrabold text-white">All Products</h1>
+                                <p className="text-xs text-slate-400 font-normal">Showing {productList?.length || 0} items</p>
                              </div>
                         </div>
 
@@ -170,12 +125,12 @@ function ShoppingListing() {
                                     <Button
                                         variant="outline"
                                         size="icon"
-                                        className="md:hidden rounded-xl border-slate-300 text-slate-700 h-10 w-10"
+                                        className="md:hidden rounded-xl border-slate-700 bg-slate-800 text-white h-10 w-10 hover:bg-slate-700"
                                     >
                                         <Filter className="h-4 w-4" />
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side="left" className="w-full max-w-[300px] p-0 border-none">
+                                <SheetContent side="left" className="w-full max-w-[300px] p-0 border-none bg-slate-950">
                                     <ProductFilter filters={filters} handleFilter={handleFilter} />
                                 </SheetContent>
                             </Sheet>
@@ -184,19 +139,19 @@ function ShoppingListing() {
                                 <DropdownMenuTrigger asChild>
                                     <Button
                                     variant="outline"
-                                    className="rounded-xl border-slate-300 text-slate-700 font-medium gap-2 px-4 h-10 hover:bg-slate-50 transition-all text-xs"
+                                    className="rounded-xl border-slate-700 bg-slate-800 text-white font-semibold gap-2 px-4 h-10 hover:bg-slate-700 transition-all text-xs"
                                     >
-                                    <ArrowUpDownIcon className="h-3.5 w-3.5 text-slate-600" />
+                                    <ArrowUpDownIcon className="h-3.5 w-3.5 text-slate-300" />
                                     <span>Sort By</span>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-[220px] p-2 rounded-xl border border-slate-200 shadow-xl bg-white">
+                                <DropdownMenuContent align="end" className="w-[220px] p-2 rounded-xl border border-slate-800 shadow-2xl bg-slate-900 text-white">
                                     <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>
                                     {sortOptions.map((sortItem) => (
                                         <DropdownMenuRadioItem
                                             value={sortItem.id}
                                             key={sortItem.id}
-                                            className="p-2.5 rounded-lg cursor-pointer font-medium text-xs text-slate-700 hover:bg-slate-100 transition-all"
+                                            className="p-2.5 rounded-lg cursor-pointer font-medium text-xs text-slate-200 hover:bg-slate-800 hover:text-white transition-all"
                                         >
                                             {sortItem.label}
                                         </DropdownMenuRadioItem>
@@ -208,19 +163,19 @@ function ShoppingListing() {
                     </div>
 
                     {/* Product Grid */}
-                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4 sm:gap-6">
                         {isLoading ? (
-                            Array.from({ length: 12 }).map((_, index) => (
-                                <div key={index} className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm p-0 animate-pulse border border-slate-100">
-                                    <div className="aspect-[4/5] bg-slate-200 w-full" />
-                                    <div className="p-3.5 space-y-2.5">
+                            Array.from({ length: 10 }).map((_, index) => (
+                                <div key={index} className="flex flex-col bg-slate-900/60 rounded-2xl sm:rounded-3xl overflow-hidden shadow-md p-0 animate-pulse border border-white/10">
+                                    <div className="aspect-[3/4] bg-slate-800 w-full" />
+                                    <div className="p-4 sm:p-5 space-y-3">
                                         <div className="flex justify-between items-center">
-                                            <div className="h-2.5 bg-slate-200 rounded w-12" />
-                                            <div className="h-2.5 bg-slate-200 rounded w-12" />
+                                            <div className="h-2.5 bg-slate-800 rounded w-16" />
+                                            <div className="h-2.5 bg-slate-800 rounded w-10" />
                                         </div>
-                                        <div className="h-4 bg-slate-200 rounded w-3/4" />
-                                        <div className="h-4 bg-slate-200 rounded w-1/3" />
-                                        <div className="h-9 bg-slate-200 rounded-xl w-full mt-2" />
+                                        <div className="h-4 bg-slate-800 rounded w-3/4" />
+                                        <div className="h-4 bg-slate-800 rounded w-1/3" />
+                                        <div className="h-10 bg-slate-800 rounded-xl sm:rounded-2xl w-full mt-2" />
                                     </div>
                                 </div>
                             ))
@@ -234,13 +189,13 @@ function ShoppingListing() {
                                 />
                             ))
                         ) : (
-                            <div className="col-span-full bg-white rounded-3xl p-20 flex flex-col items-center justify-center text-center space-y-6 border border-slate-100 border-dashed">
-                                <div className="bg-slate-50 p-6 rounded-full">
-                                    <SearchX className="h-16 w-16 text-slate-300" />
+                            <div className="col-span-full bg-slate-900/60 rounded-3xl p-20 flex flex-col items-center justify-center text-center space-y-6 border border-slate-800 border-dashed">
+                                <div className="bg-slate-800 p-6 rounded-full">
+                                    <SearchX className="h-16 w-16 text-slate-400" />
                                 </div>
                                 <div className="space-y-2">
-                                    <h3 className="text-2xl font-black text-slate-900">No Treasures Found</h3>
-                                    <p className="text-slate-500 font-medium max-w-xs">We couldn't find any products matching your current filters. Try adjusting them!</p>
+                                    <h3 className="text-2xl font-bold text-white">No Products Found</h3>
+                                    <p className="text-slate-400 font-normal max-w-xs">We couldn't find any products matching your current filters. Try adjusting them!</p>
                                 </div>
                                 <Button 
                                     onClick={() => {
@@ -248,7 +203,7 @@ function ShoppingListing() {
                                         sessionStorage.removeItem('filters');
                                     }}
                                     variant="outline" 
-                                    className="rounded-2xl border-primary text-primary hover:bg-primary hover:text-white font-black px-8 h-12 transition-all"
+                                    className="rounded-2xl border-white bg-white text-slate-950 hover:bg-slate-200 font-bold px-8 h-12 transition-all"
                                 >
                                     CLEAR ALL FILTERS
                                 </Button>

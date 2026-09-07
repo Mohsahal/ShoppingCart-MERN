@@ -47,7 +47,7 @@ function UserCartItemsContent({ cartItem }) {
     ).then((data) => {
       if (data?.success) {
         toast({
-          title: "Cart item is updated successfully",
+          title: "Cart item updated",
         });
       }
     });
@@ -57,43 +57,43 @@ function UserCartItemsContent({ cartItem }) {
     deleteCartItem(user?.id, getCartItem?.productId).then((data) => {
       if (data?.success) {
         toast({
-          title: "Cart item is deleted successfully",
+          title: "Cart item removed",
         });
       }
     });
   }
 
   return (
-    <div className="flex items-center gap-6 p-4 bg-white rounded-2xl border border-slate-100 hover:shadow-md transition-all group">
-      <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-slate-50">
+    <div className="flex items-center gap-4 p-3.5 bg-slate-900/80 rounded-2xl border border-slate-800 hover:border-slate-700 transition-all group">
+      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-slate-950">
           <img
             src={cartItem?.image}
             alt={cartItem?.title}
-            className="h-full w-full object-cover transition-transform group-hover:scale-110"
+            className="h-full w-full object-cover transition-transform group-hover:scale-105"
           />
       </div>
       
-      <div className="flex-1 space-y-1">
-        <h3 className="font-black text-slate-800 tracking-tight leading-none truncate max-w-[200px]">{cartItem?.title}</h3>
-        <p className="text-xs text-slate-400 font-bold uppercase tracking-tighter">Unit Price: ${((cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) || 0).toLocaleString()}</p>
+      <div className="flex-1 min-w-0 space-y-1">
+        <h3 className="font-bold text-white text-sm truncate">{cartItem?.title}</h3>
+        <p className="text-xs text-slate-400 font-medium">${((cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) || 0).toLocaleString()}</p>
         
-        <div className="flex items-center gap-4 pt-2">
-            <div className="flex items-center gap-1 bg-slate-50 p-1 rounded-full border border-slate-100">
+        <div className="flex items-center gap-3 pt-1.5">
+            <div className="flex items-center gap-1 bg-slate-950 p-1 rounded-lg border border-slate-800">
                 <Button
                     variant="ghost"
-                    className="h-7 w-7 rounded-full p-0 text-slate-500 hover:bg-white hover:text-primary transition-all"
+                    className="h-6 w-6 rounded-md p-0 text-slate-400 hover:text-white hover:bg-slate-800"
                     disabled={cartItem?.quantity === 1}
                     onClick={() => handleUpdateQuantity(cartItem, "minus")}
                 >
-                    <Minus className="w-3.5 h-3.5" />
+                    <Minus className="w-3 h-3" />
                 </Button>
-                <span className="font-black text-slate-800 text-sm px-2">{cartItem?.quantity}</span>
+                <span className="font-bold text-white text-xs px-1.5">{cartItem?.quantity}</span>
                 <Button
                     variant="ghost"
-                    className="h-7 w-7 rounded-full p-0 text-slate-500 hover:bg-white hover:text-primary transition-all"
+                    className="h-6 w-6 rounded-md p-0 text-slate-400 hover:text-white hover:bg-slate-800"
                     onClick={() => handleUpdateQuantity(cartItem, "plus")}
                 >
-                    <Plus className="w-3.5 h-3.5" />
+                    <Plus className="w-3 h-3" />
                 </Button>
             </div>
             
@@ -101,15 +101,15 @@ function UserCartItemsContent({ cartItem }) {
                 variant="ghost"
                 size="icon"
                 onClick={() => handleCartItemDelete(cartItem)}
-                className="h-9 w-9 rounded-xl text-slate-300 hover:text-rose-500 hover:bg-rose-50 transition-all opacity-0 group-hover:opacity-100"
+                className="h-8 w-8 rounded-lg text-slate-500 hover:text-rose-400 hover:bg-rose-950/30 transition-all"
             >
-                <Trash2 className="w-4 h-4" />
+                <Trash2 className="w-3.5 h-3.5" />
             </Button>
         </div>
       </div>
 
-      <div className="text-right">
-        <p className="font-black text-slate-900 text-lg tracking-tighter">
+      <div className="text-right shrink-0">
+        <p className="font-black text-white text-base">
           $
           {(
             ((cartItem?.salePrice > 0 ? cartItem?.salePrice : cartItem?.price) *
@@ -117,9 +117,6 @@ function UserCartItemsContent({ cartItem }) {
             0
           ).toLocaleString()}
         </p>
-        {cartItem?.salePrice > 0 && (
-             <p className="text-[10px] text-emerald-600 font-black uppercase tracking-tighter animate-pulse">Saved ${( (cartItem.price - cartItem.salePrice) * cartItem.quantity ).toFixed(2)}</p>
-        )}
       </div>
     </div>
   );
