@@ -38,15 +38,18 @@ function AuthRegister() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-6">
-      <div className="space-y-1.5">
-        <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-          Create an Account
+    <div className="mx-auto w-full space-y-6">
+      <div className="space-y-2">
+        <span className="inline-block text-[11px] font-bold tracking-widest text-slate-400 uppercase bg-slate-800/80 px-2.5 py-0.5 rounded-full border border-slate-700/50">
+          Exclusive Membership
+        </span>
+        <h1 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
+          Create Account
         </h1>
         <p className="text-sm text-slate-400 font-normal">
           Already have an account?{" "}
           <Link
-            className="font-semibold text-white hover:text-slate-300 underline"
+            className="font-medium text-white hover:text-slate-300 underline underline-offset-4 transition-colors"
             to="/auth/login"
           >
             Sign in
@@ -54,7 +57,7 @@ function AuthRegister() {
         </p>
       </div>
       
-      <div className="pt-2">
+      <div>
         <CommonForm
           formControls={registerFormControls}
           buttonText={"Create Account"}

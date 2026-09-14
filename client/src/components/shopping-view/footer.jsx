@@ -66,15 +66,15 @@ function ShoppingFooter() {
             <div className="space-y-3">
                <div className="flex items-start gap-2.5">
                   <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                  <p className="text-slate-400 text-sm">123 Fashion Ave, Suite 500, New York, NY</p>
+                  <p className="text-slate-400 text-sm">Veloura Luxury Avenue, Marine Drive, Kochi, Kerala 682031, India</p>
                </div>
                <div className="flex items-center gap-2.5">
                   <Phone className="w-4 h-4 text-slate-400 shrink-0" />
-                  <p className="text-slate-400 text-sm">+1 (800) 555-0199</p>
+                  <p className="text-slate-400 text-sm">+91 7306093151</p>
                </div>
                <div className="flex items-center gap-2.5">
                   <Mail className="w-4 h-4 text-slate-400 shrink-0" />
-                  <p className="text-slate-400 text-sm">support@veloura.com</p>
+                  <p className="text-slate-400 text-sm">contact@veloura.in</p>
                </div>
             </div>
           </div>
