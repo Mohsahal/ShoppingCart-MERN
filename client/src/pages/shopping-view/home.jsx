@@ -1,12 +1,6 @@
-import bannerOne from "../../assets/banner-1.webp";
-import bannerTwo from "../../assets/banner-2.webp";
-import bannerThree from "../../assets/banner-3.webp";
-
 import { Button } from "@/components/ui/button";
 import {
   ArrowRight,
-  ChevronLeft,
-  ChevronRight,
   Truck,
   ShieldCheck,
   RotateCcw,
@@ -16,7 +10,6 @@ import {
   Watch,
   Footprints,
   UserCircle,
-  Sparkles,
 } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -26,7 +19,7 @@ import { ShoppingContext } from "@/context/shopping-context";
 import { CommonContext } from "@/context/common-context";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
-import { Badge } from "@/components/ui/badge";
+import VideoScrollHero from "@/components/shopping-view/video-scroll-hero";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: Shirt },
@@ -54,10 +47,9 @@ function ShoppingHome() {
     addToCart,
     isLoading,
   } = useContext(ShoppingContext);
-  const { featureImageList, getFeatureImages } = useContext(CommonContext);
+  const { getFeatureImages } = useContext(CommonContext);
   const { user } = useContext(AuthContext);
 
-  const [currentSlide, setCurrentSlide] = useState(0);
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -89,26 +81,6 @@ function ShoppingHome() {
     if (productDetails !== null) setOpenDetailsDialog(true);
   }, [productDetails]);
 
-  const toHttps = (url) => (url ? url.replace(/^http:\/\//, "https://") : url);
-
-  const slides = featureImageList && featureImageList.length > 0 
-    ? featureImageList.map(item => toHttps(item.image)) 
-    : [bannerOne, bannerTwo, bannerThree];
-
-  const mobileSlides = [
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=800&h=1000&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=800&h=1000&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=800&h=1000&auto=format&fit=crop"
-  ];
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length);
-    }, 5000);
-
-    return () => clearInterval(timer);
-  }, [slides]);
-
   useEffect(() => {
     fetchAllFilteredProducts({}, "price-lowtohigh");
     getFeatureImages();
@@ -116,87 +88,8 @@ function ShoppingHome() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Hero Banner Section */}
-      <section className="relative w-full h-[460px] sm:h-[560px] overflow-hidden bg-slate-900">
-        {/* Desktop Images */}
-        {slides.map((slide, index) => (
-          <img
-            src={slide}
-            key={`desktop-${index}`}
-            className={`${
-              index === currentSlide ? "opacity-100 scale-100" : "opacity-0 scale-105"
-            } absolute top-0 left-0 w-full h-full object-cover transition-all duration-1000 ease-in-out hidden sm:block`}
-            alt="Hero Banner"
-          />
-        ))}
-
-        {/* Mobile Images */}
-        {mobileSlides.map((slide, index) => (
-          <img
-            src={slide}
-            key={`mobile-${index}`}
-            className={`${
-              index === currentSlide % mobileSlides.length ? "opacity-100 scale-100" : "opacity-0 scale-105"
-            } absolute top-0 left-0 w-full h-full object-cover object-top transition-all duration-1000 ease-in-out sm:hidden`}
-            alt="Hero Banner Mobile"
-          />
-        ))}
-        
-        {/* Dark Gradient Overlay & Text */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20 flex flex-col items-center justify-center text-center px-4">
-            <Badge className="bg-white/20 backdrop-blur-md text-white border-none rounded-full px-4 py-1 font-medium text-xs tracking-wider mb-4">
-                <Sparkles className="w-3.5 h-3.5 mr-1.5 inline" /> New Season Collection
-            </Badge>
-            <h1 className="text-3xl sm:text-6xl font-extrabold text-white tracking-tight mb-4 max-w-3xl leading-tight">
-                Elevate Your Everyday Style
-            </h1>
-            <p className="text-sm sm:text-lg text-slate-200 max-w-xl mb-8 font-normal">
-                Discover curated apparel, footwear, and luxury essentials tailored for modern comfort and versatility.
-            </p>
-            <Button 
-                onClick={() => navigate("/shop/listing")}
-                className="bg-white text-slate-900 hover:bg-slate-100 font-semibold px-8 py-6 rounded-xl text-sm transition-all duration-200 shadow-xl flex items-center gap-2"
-            >
-                Shop Collection
-                <ArrowRight className="w-4 h-4" />
-            </Button>
-        </div>
-
-        {/* Slider Controls */}
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide(
-              (prevSlide) => (prevSlide - 1 + slides.length) % slides.length
-            )
-          }
-          className="absolute top-1/2 left-4 -translate-y-1/2 bg-white/70 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-10 w-10 hidden sm:flex items-center justify-center transition-all shadow-md"
-        >
-          <ChevronLeft className="w-5 h-5" />
-        </Button>
-        <Button
-          variant="outline"
-          size="icon"
-          onClick={() =>
-            setCurrentSlide((prevSlide) => (prevSlide + 1) % slides.length)
-          }
-          className="absolute top-1/2 right-4 -translate-y-1/2 bg-white/70 backdrop-blur-md border-none hover:bg-white text-slate-900 rounded-full h-10 w-10 hidden sm:flex items-center justify-center transition-all shadow-md"
-        >
-          <ChevronRight className="w-5 h-5" />
-        </Button>
-
-        {/* Slide Indicators */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2">
-            {slides.map((_, index) => (
-                <button 
-                    key={index}
-                    onClick={() => setCurrentSlide(index)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${index === currentSlide ? 'w-6 bg-white' : 'w-2 bg-white/40'}`}
-                />
-            ))}
-        </div>
-      </section>
+      {/* Hero Video Section */}
+      <VideoScrollHero />
 
       {/* Trust & Service Highlights */}
       <div className="bg-slate-50 border-b border-slate-200 py-6 sm:py-8">
