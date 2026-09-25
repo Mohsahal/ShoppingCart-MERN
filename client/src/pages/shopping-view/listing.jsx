@@ -140,7 +140,7 @@ function ShoppingListing() {
   }, [productDetails]);
 
   return (
-    <div className="bg-slate-50">
+    <div className="bg-bone-50 min-h-screen text-stone-900">
         <div className=" mx-auto w-full px-6 py-12">
             <div className="flex flex-col md:flex-row gap-8">
                 {/* Sidebar - Hidden on mobile, shown on desktop */}
@@ -153,14 +153,14 @@ function ShoppingListing() {
                 {/* Main Content */}
                 <main className="flex-1 space-y-8">
                     {/* Header Bar */}
-                    <div className="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div className="bg-bone-50 p-5 sm:p-6 rounded-2xl shadow-sm border border-bone-200 flex flex-col sm:flex-row items-center justify-between gap-4">
                         <div className="flex items-center gap-3.5">
-                             <div className="bg-slate-100 p-2.5 rounded-xl text-slate-800">
+                             <div className="bg-bone-200 p-2.5 rounded-xl text-bone-900">
                                 <Layers className="h-5 w-5" />
                              </div>
                              <div>
-                                <h1 className="text-xl sm:text-2xl font-bold text-slate-900">All Products</h1>
-                                <p className="text-xs text-slate-500 font-normal">Showing {productList?.length || 0} items</p>
+                                <h1 className="text-xl sm:text-2xl font-bold text-bone-950">All Products</h1>
+                                <p className="text-xs text-stone-500 font-normal">Showing {productList?.length || 0} items</p>
                              </div>
                         </div>
 
@@ -170,12 +170,12 @@ function ShoppingListing() {
                                     <Button
                                         variant="outline"
                                         size="icon"
-                                        className="md:hidden rounded-xl border-slate-300 text-slate-700 h-10 w-10"
+                                        className="md:hidden rounded-xl border-bone-300 text-bone-900 h-10 w-10 hover:bg-bone-100"
                                     >
                                         <Filter className="h-4 w-4" />
                                     </Button>
                                 </SheetTrigger>
-                                <SheetContent side="left" className="w-full max-w-[300px] p-0 border-none">
+                                <SheetContent side="left" className="w-full max-w-[300px] p-0 border-r border-bone-200 bg-bone-50">
                                     <ProductFilter filters={filters} handleFilter={handleFilter} />
                                 </SheetContent>
                             </Sheet>
@@ -184,19 +184,19 @@ function ShoppingListing() {
                                 <DropdownMenuTrigger asChild>
                                     <Button
                                     variant="outline"
-                                    className="rounded-xl border-slate-300 text-slate-700 font-medium gap-2 px-4 h-10 hover:bg-slate-50 transition-all text-xs"
+                                    className="rounded-xl border-bone-300 text-bone-900 font-medium gap-2 px-4 h-10 hover:bg-bone-100 transition-all text-xs"
                                     >
-                                    <ArrowUpDownIcon className="h-3.5 w-3.5 text-slate-600" />
+                                    <ArrowUpDownIcon className="h-3.5 w-3.5 text-stone-600" />
                                     <span>Sort By</span>
                                     </Button>
                                 </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end" className="w-[220px] p-2 rounded-xl border border-slate-200 shadow-xl bg-white">
+                                <DropdownMenuContent align="end" className="w-[220px] p-2 rounded-xl border border-bone-200 shadow-xl bg-bone-50">
                                     <DropdownMenuRadioGroup value={sort} onValueChange={handleSort}>
                                     {sortOptions.map((sortItem) => (
                                         <DropdownMenuRadioItem
                                             value={sortItem.id}
                                             key={sortItem.id}
-                                            className="p-2.5 rounded-lg cursor-pointer font-medium text-xs text-slate-700 hover:bg-slate-100 transition-all"
+                                            className="p-2.5 rounded-lg cursor-pointer font-medium text-xs text-stone-700 hover:bg-bone-100 transition-all"
                                         >
                                             {sortItem.label}
                                         </DropdownMenuRadioItem>
@@ -211,16 +211,16 @@ function ShoppingListing() {
                     <div className="grid grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 2xl:grid-cols-6 gap-4 sm:gap-6">
                         {isLoading ? (
                             Array.from({ length: 12 }).map((_, index) => (
-                                <div key={index} className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm p-0 animate-pulse border border-slate-100">
-                                    <div className="aspect-[4/5] bg-slate-200 w-full" />
+                                <div key={index} className="flex flex-col bg-bone-50 rounded-2xl overflow-hidden shadow-sm p-0 animate-pulse border border-bone-200">
+                                    <div className="aspect-[4/5] bg-bone-200 w-full" />
                                     <div className="p-3.5 space-y-2.5">
                                         <div className="flex justify-between items-center">
-                                            <div className="h-2.5 bg-slate-200 rounded w-12" />
-                                            <div className="h-2.5 bg-slate-200 rounded w-12" />
+                                            <div className="h-2.5 bg-bone-200 rounded w-12" />
+                                            <div className="h-2.5 bg-bone-200 rounded w-12" />
                                         </div>
-                                        <div className="h-4 bg-slate-200 rounded w-3/4" />
-                                        <div className="h-4 bg-slate-200 rounded w-1/3" />
-                                        <div className="h-9 bg-slate-200 rounded-xl w-full mt-2" />
+                                        <div className="h-4 bg-bone-200 rounded w-3/4" />
+                                        <div className="h-4 bg-bone-200 rounded w-1/3" />
+                                        <div className="h-9 bg-bone-200 rounded-xl w-full mt-2" />
                                     </div>
                                 </div>
                             ))
@@ -234,13 +234,13 @@ function ShoppingListing() {
                                 />
                             ))
                         ) : (
-                            <div className="col-span-full bg-white rounded-3xl p-20 flex flex-col items-center justify-center text-center space-y-6 border border-slate-100 border-dashed">
-                                <div className="bg-slate-50 p-6 rounded-full">
-                                    <SearchX className="h-16 w-16 text-slate-300" />
+                            <div className="col-span-full bg-bone-50 rounded-3xl p-20 flex flex-col items-center justify-center text-center space-y-6 border border-bone-200 border-dashed">
+                                <div className="bg-bone-100 p-6 rounded-full border border-bone-200">
+                                    <SearchX className="h-16 w-16 text-stone-400" />
                                 </div>
                                 <div className="space-y-2">
-                                    <h3 className="text-2xl font-black text-slate-900">No Treasures Found</h3>
-                                    <p className="text-slate-500 font-medium max-w-xs">We couldn't find any products matching your current filters. Try adjusting them!</p>
+                                    <h3 className="text-2xl font-black text-bone-950">No Treasures Found</h3>
+                                    <p className="text-stone-500 font-medium max-w-xs">We couldn't find any products matching your current filters. Try adjusting them!</p>
                                 </div>
                                 <Button 
                                     onClick={() => {
@@ -248,7 +248,7 @@ function ShoppingListing() {
                                         sessionStorage.removeItem('filters');
                                     }}
                                     variant="outline" 
-                                    className="rounded-2xl border-primary text-primary hover:bg-primary hover:text-white font-black px-8 h-12 transition-all"
+                                    className="rounded-2xl border-bone-900 text-bone-900 hover:bg-bone-900 hover:text-bone-50 font-bold px-8 h-12 transition-all"
                                 >
                                     CLEAR ALL FILTERS
                                 </Button>

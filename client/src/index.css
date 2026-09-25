@@ -6,26 +6,26 @@
 
 @layer base {
   :root {
-    --background: 210 40% 98%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    /* Modern Slate/Indigo hybrid primary */
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --background: 38 25% 97%;
+    --foreground: 30 15% 12%;
+    --card: 40 33% 99%;
+    --card-foreground: 30 15% 12%;
+    --popover: 40 33% 99%;
+    --popover-foreground: 30 15% 12%;
+    /* Warm Noir / Espresso Charcoal primary for bone palette */
+    --primary: 30 15% 12%;
+    --primary-foreground: 38 25% 97%;
+    --secondary: 38 22% 93%;
+    --secondary-foreground: 30 15% 12%;
+    --muted: 38 22% 93%;
+    --muted-foreground: 30 8% 46%;
+    --accent: 38 22% 90%;
+    --accent-foreground: 30 15% 12%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 47.4% 11.2%;
+    --destructive-foreground: 38 25% 97%;
+    --border: 38 18% 88%;
+    --input: 38 18% 88%;
+    --ring: 30 15% 12%;
     --radius: 1.5rem;
   }
 

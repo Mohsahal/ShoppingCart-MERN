@@ -20,27 +20,27 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
       : 0;
 
   return (
-    <SheetContent className="sm:max-w-md w-full flex flex-col p-0 border-none shadow-2xl">
-      <SheetHeader className="p-6 border-b border-slate-50">
-        <SheetTitle className="text-2xl font-black text-slate-900 tracking-tighter uppercase italic">
-          Your <span className="text-primary">Manifest</span>
+    <SheetContent className="sm:max-w-md w-full flex flex-col p-0 border-l border-bone-200 bg-bone-50 shadow-2xl">
+      <SheetHeader className="p-6 border-b border-bone-200">
+        <SheetTitle className="text-2xl font-black text-bone-950 tracking-tighter uppercase italic">
+          Your <span className="text-stone-700">Manifest</span>
         </SheetTitle>
       </SheetHeader>
       
-      <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-slate-100">
+      <div className="flex-1 overflow-y-auto p-6 space-y-4 scrollbar-thin scrollbar-thumb-bone-200">
         {cartItems && cartItems.length > 0 ? (
           cartItems.map((item) => <UserCartItemsContent key={item.productId} cartItem={item} />)
         ) : (
           <div className="h-full flex flex-col items-center justify-center text-center p-10 opacity-40">
-              <p className="font-bold underline italic">Your manifest is currently empty.</p>
+              <p className="font-bold underline italic text-stone-600">Your manifest is currently empty.</p>
           </div>
         )}
       </div>
 
-      <div className="p-6 border-t border-slate-50 bg-slate-50/50 space-y-6">
+      <div className="p-6 border-t border-bone-200 bg-bone-100/70 space-y-6">
         <div className="flex justify-between items-center">
-          <span className="text-xs font-black text-slate-400 uppercase tracking-widest">Aggregate Total</span>
-          <span className="text-2xl font-black text-slate-900 tracking-tighter">${totalCartAmount.toLocaleString()}</span>
+          <span className="text-xs font-black text-stone-500 uppercase tracking-widest">Aggregate Total</span>
+          <span className="text-2xl font-black text-bone-950 tracking-tighter">${totalCartAmount.toLocaleString()}</span>
         </div>
         
         <Button
@@ -48,7 +48,7 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
             navigate("/shop/checkout");
             setOpenCartSheet(false);
           }}
-          className="w-full py-7 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-primary/20 transform hover:-translate-y-0.5 transition-all"
+          className="w-full py-7 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl bg-bone-900 hover:bg-bone-800 text-bone-50 transform hover:-translate-y-0.5 transition-all"
         >
           Proceed to Checkout
         </Button>

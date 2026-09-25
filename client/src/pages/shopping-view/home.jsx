@@ -88,12 +88,12 @@ function ShoppingHome() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-bone-50 text-stone-900">
       {/* Hero Video Section */}
       <VideoScrollHero />
 
       {/* Trust & Service Highlights */}
-      <div className="bg-slate-50 border-b border-slate-200 py-6 sm:py-8">
+      <div className="bg-bone-100 border-b border-bone-200 py-6 sm:py-8">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
             {[
@@ -103,12 +103,12 @@ function ShoppingHome() {
               { icon: Headphones, title: "24/7 Support", desc: "Dedicated customer service" }
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-3.5 p-2">
-                <div className="bg-white p-3 rounded-xl shadow-sm border border-slate-200 shrink-0 text-slate-900">
+                <div className="bg-bone-50 p-3 rounded-xl shadow-sm border border-bone-200 shrink-0 text-bone-900">
                   <item.icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="font-semibold text-slate-900 text-sm">{item.title}</p>
-                  <p className="text-xs text-slate-500">{item.desc}</p>
+                  <p className="font-semibold text-bone-950 text-sm">{item.title}</p>
+                  <p className="text-xs text-stone-500">{item.desc}</p>
                 </div>
               </div>
             ))}
@@ -117,13 +117,13 @@ function ShoppingHome() {
       </div>
 
       {/* Shop by Category */}
-      <section id="category-section" className="py-14 sm:py-20 bg-white">
+      <section id="category-section" className="py-14 sm:py-20 bg-bone-50">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-bone-950 tracking-tight mb-2">
               Shop by Category
             </h2>
-            <p className="text-sm text-slate-500 max-w-md mx-auto">
+            <p className="text-sm text-stone-500 max-w-md mx-auto">
               Explore our wide selection of essentials across all styles and categories.
             </p>
           </div>
@@ -133,12 +133,12 @@ function ShoppingHome() {
               <div
                 key={categoryItem.id}
                 onClick={() => handleNavigateToListingPage(categoryItem, "category")}
-                className="group cursor-pointer border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-900 transition-all duration-200 rounded-2xl bg-white p-6 flex flex-col items-center justify-center text-center"
+                className="group cursor-pointer border border-bone-200 shadow-sm hover:shadow-md hover:border-bone-900 transition-all duration-200 rounded-2xl bg-bone-100/60 hover:bg-bone-50 p-6 flex flex-col items-center justify-center text-center"
               >
-                <div className="mb-4 bg-slate-100 group-hover:bg-slate-900 group-hover:text-white transition-colors duration-200 p-4 rounded-2xl text-slate-700">
+                <div className="mb-4 bg-bone-200 group-hover:bg-bone-900 group-hover:text-bone-50 transition-colors duration-200 p-4 rounded-2xl text-bone-900">
                   <categoryItem.icon className="w-7 h-7 transition-transform duration-200 group-hover:scale-110" />
                 </div>
-                <span className="font-semibold text-sm sm:text-base text-slate-900">
+                <span className="font-semibold text-sm sm:text-base text-bone-950">
                   {categoryItem.label}
                 </span>
               </div>
@@ -148,21 +148,21 @@ function ShoppingHome() {
       </section>
 
       {/* Trending Products Section */}
-      <section className="py-14 sm:py-20 bg-slate-50 border-y border-slate-200">
+      <section className="py-14 sm:py-20 bg-bone-100/50 border-y border-bone-200">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-1">
+              <h2 className="text-2xl sm:text-3xl font-bold text-bone-950 tracking-tight mb-1">
                 Trending Products
               </h2>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-stone-500">
                 Discover our top selling styles and newest arrivals.
               </p>
             </div>
             <Button 
               variant="outline"
               onClick={() => navigate("/shop/listing")}
-              className="border-slate-300 text-slate-800 hover:bg-white hover:border-slate-900 font-semibold px-5 rounded-xl text-xs flex items-center gap-1.5"
+              className="border-bone-300 text-bone-900 hover:bg-bone-50 hover:border-bone-900 font-semibold px-5 rounded-xl text-xs flex items-center gap-1.5"
             >
               View All Products
               <ArrowRight className="w-3.5 h-3.5" />
@@ -172,16 +172,16 @@ function ShoppingHome() {
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
             {isLoading ? (
               Array.from({ length: 8 }).map((_, index) => (
-                <div key={index} className="flex flex-col bg-white rounded-2xl overflow-hidden shadow-sm p-0 animate-pulse border border-slate-100">
-                  <div className="aspect-[4/5] bg-slate-200 w-full" />
+                <div key={index} className="flex flex-col bg-bone-50 rounded-2xl overflow-hidden shadow-sm p-0 animate-pulse border border-bone-200">
+                  <div className="aspect-[4/5] bg-bone-200 w-full" />
                   <div className="p-4 space-y-2.5">
                     <div className="flex justify-between items-center">
-                      <div className="h-2.5 bg-slate-200 rounded w-12" />
-                      <div className="h-2.5 bg-slate-200 rounded w-12" />
+                      <div className="h-2.5 bg-bone-200 rounded w-12" />
+                      <div className="h-2.5 bg-bone-200 rounded w-12" />
                     </div>
-                    <div className="h-4 bg-slate-200 rounded w-3/4" />
-                    <div className="h-4 bg-slate-200 rounded w-1/3" />
-                    <div className="h-9 bg-slate-200 rounded-xl w-full mt-2" />
+                    <div className="h-4 bg-bone-200 rounded w-3/4" />
+                    <div className="h-4 bg-bone-200 rounded w-1/3" />
+                    <div className="h-9 bg-bone-200 rounded-xl w-full mt-2" />
                   </div>
                 </div>
               ))
@@ -195,7 +195,7 @@ function ShoppingHome() {
                 />
               ))
             ) : (
-              <div className="col-span-full bg-white rounded-2xl p-12 text-center text-slate-500 border border-slate-200">
+              <div className="col-span-full bg-bone-50 rounded-2xl p-12 text-center text-stone-500 border border-bone-200">
                 No products available at the moment.
               </div>
             )}
@@ -204,29 +204,29 @@ function ShoppingHome() {
       </section>
 
       {/* Featured Promo Banner */}
-      <section className="py-14 sm:py-20 bg-white">
+      <section className="py-14 sm:py-20 bg-bone-50">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
             <div 
-              className="relative rounded-3xl overflow-hidden group cursor-pointer shadow-lg" 
+              className="relative rounded-3xl overflow-hidden group cursor-pointer shadow-lg border border-bone-200" 
               onClick={() => navigate("/shop/listing")}
             >
-                <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/50 to-transparent z-10" />
+                <div className="absolute inset-0 bg-gradient-to-r from-bone-950/85 via-bone-950/50 to-transparent z-10" />
                 <img 
                     src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop" 
                     alt="Featured Collection" 
                     className="w-full h-[360px] sm:h-[440px] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 z-20 flex flex-col justify-center p-6 sm:p-14 space-y-4 max-w-lg">
-                    <Badge className="w-fit bg-white/20 text-white backdrop-blur-md border-none rounded-full px-3 py-1 text-xs font-medium">
+                    <Badge className="w-fit bg-bone-100/20 text-bone-50 backdrop-blur-md border-none rounded-full px-3 py-1 text-xs font-medium">
                         Exclusive Release
                     </Badge>
-                    <h3 className="text-2xl sm:text-4xl font-bold text-white tracking-tight leading-snug">
+                    <h3 className="text-2xl sm:text-4xl font-bold text-bone-50 tracking-tight leading-snug">
                         Timeless Aesthetics & Modern Essentials
                     </h3>
-                    <p className="text-slate-200 text-sm sm:text-base font-normal leading-relaxed">
+                    <p className="text-stone-300 text-sm sm:text-base font-normal leading-relaxed">
                         Upgrade your wardrobe with tailored silhouettes, premium fabrics, and understated luxury.
                     </p>
-                    <Button className="w-fit bg-white text-slate-900 hover:bg-slate-100 font-semibold px-6 py-2.5 rounded-xl text-xs tracking-wider transition-all mt-2">
+                    <Button className="w-fit bg-bone-50 text-bone-950 hover:bg-bone-200 font-semibold px-6 py-2.5 rounded-xl text-xs tracking-wider transition-all mt-2">
                         Explore Collection
                     </Button>
                 </div>
@@ -235,13 +235,13 @@ function ShoppingHome() {
       </section>
 
       {/* Shop by Brand Section */}
-      <section className="py-14 sm:py-20 bg-slate-50 border-t border-slate-200">
+      <section className="py-14 sm:py-20 bg-bone-100 border-t border-bone-200">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
           <div className="text-center mb-10">
-            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-2">
+            <h2 className="text-2xl sm:text-3xl font-bold text-bone-950 tracking-tight mb-2">
               Shop by Brand
             </h2>
-            <p className="text-sm text-slate-500 max-w-md mx-auto">
+            <p className="text-sm text-stone-500 max-w-md mx-auto">
               Authentic collections from world-renowned fashion and sportswear labels.
             </p>
           </div>
@@ -251,12 +251,12 @@ function ShoppingHome() {
               <div
                 key={brandItem.id}
                 onClick={() => handleNavigateToListingPage(brandItem, "brand")}
-                className="cursor-pointer group bg-white hover:bg-slate-900 transition-all duration-200 p-6 sm:p-8 rounded-2xl flex flex-col items-center justify-center border border-slate-200 hover:border-slate-900 shadow-sm hover:shadow-md text-center"
+                className="cursor-pointer group bg-bone-50 hover:bg-bone-900 transition-all duration-200 p-6 sm:p-8 rounded-2xl flex flex-col items-center justify-center border border-bone-200 hover:border-bone-900 shadow-sm hover:shadow-md text-center"
               >
-                <span className="font-bold text-base sm:text-lg text-slate-800 group-hover:text-white transition-colors">
+                <span className="font-bold text-base sm:text-lg text-bone-900 group-hover:text-bone-50 transition-colors">
                   {brandItem.label}
                 </span>
-                <span className="text-[11px] text-slate-400 group-hover:text-slate-300 mt-1 transition-colors">
+                <span className="text-[11px] text-stone-400 group-hover:text-stone-300 mt-1 transition-colors">
                   View Collection
                 </span>
               </div>
@@ -266,20 +266,20 @@ function ShoppingHome() {
       </section>
 
       {/* Style Journal / Blog Section */}
-      <section className="py-14 sm:py-20 bg-white border-t border-slate-200">
+      <section className="py-14 sm:py-20 bg-bone-50 border-t border-bone-200">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-10 gap-4">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-1">
+              <h2 className="text-2xl sm:text-3xl font-bold text-bone-950 tracking-tight mb-1">
                 Style Journal
               </h2>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-stone-500">
                 Trends, styling advice, and seasonal lookbooks.
               </p>
             </div>
             <Button 
               variant="link" 
-              className="text-slate-900 font-semibold hover:no-underline flex items-center gap-1.5 p-0 text-sm"
+              className="text-bone-950 font-semibold hover:no-underline flex items-center gap-1.5 p-0 text-sm"
               onClick={() => toast({ title: "Style Journal coming soon", description: "Stay tuned for fresh fashion editorials." })}
             >
               Read All Articles <ArrowRight className="w-4 h-4" />
@@ -305,17 +305,17 @@ function ShoppingHome() {
               }
             ].map((article, i) => (
               <div key={i} className="group cursor-pointer">
-                <div className="overflow-hidden rounded-2xl mb-4 relative aspect-[16/10]">
+                <div className="overflow-hidden rounded-2xl mb-4 relative aspect-[16/10] border border-bone-200">
                   <img 
                     src={article.image} 
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                     alt={article.title} 
                   />
-                  <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-slate-800 shadow-sm">
+                  <div className="absolute top-3 left-3 bg-bone-50/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold text-bone-900 shadow-sm border border-bone-200">
                     {article.category}
                   </div>
                 </div>
-                <h3 className="text-base sm:text-lg font-bold text-slate-900 leading-snug group-hover:text-slate-600 transition-colors">
+                <h3 className="text-base sm:text-lg font-bold text-bone-950 leading-snug group-hover:text-stone-600 transition-colors">
                   {article.title}
                 </h3>
               </div>
@@ -325,13 +325,13 @@ function ShoppingHome() {
       </section>
 
       {/* Newsletter Section */}
-      <section className="py-14 sm:py-20 bg-slate-900 text-white">
+      <section className="py-14 sm:py-20 bg-bone-950 text-bone-50">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6">
             <div className="max-w-xl mx-auto text-center space-y-4">
-                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-bone-50">
                     Get 20% Off Your First Order
                 </h2>
-                <p className="text-slate-400 text-sm font-normal">
+                <p className="text-stone-400 text-sm font-normal">
                     Subscribe to receive product updates, exclusive deals, and seasonal style drops directly to your inbox.
                 </p>
                 <form 
@@ -345,9 +345,9 @@ function ShoppingHome() {
                         type="email" 
                         required
                         placeholder="Enter your email address" 
-                        className="flex-1 bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-white text-sm"
+                        className="flex-1 bg-bone-900 border border-bone-800 rounded-xl px-4 py-3 text-bone-50 placeholder:text-stone-500 focus:outline-none focus:ring-2 focus:ring-bone-400 text-sm"
                     />
-                    <Button type="submit" className="bg-white text-slate-900 hover:bg-slate-100 font-semibold px-6 py-3 rounded-xl text-sm transition-colors">
+                    <Button type="submit" className="bg-bone-50 text-bone-950 hover:bg-bone-200 font-semibold px-6 py-3 rounded-xl text-sm transition-colors">
                         Subscribe
                     </Button>
                 </form>

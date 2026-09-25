@@ -78,29 +78,29 @@ function SearchProducts() {
   }, [productDetails]);
 
   return (
-    <div className="bg-slate-50 min-h-screen">
+    <div className="bg-bone-50 min-h-screen text-stone-900">
         <div className="container mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16 space-y-10">
             {/* Search Input Section */}
             <div className="max-w-2xl mx-auto space-y-6 text-center">
                  <div className="space-y-2">
-                    <h1 className="text-2xl sm:text-4xl font-bold text-slate-900 tracking-tight">Search Our Products</h1>
-                    <p className="text-slate-500 text-sm">Find apparel, footwear, accessories, and designer brands</p>
+                    <h1 className="text-2xl sm:text-4xl font-bold text-bone-950 tracking-tight">Search Our Products</h1>
+                    <p className="text-stone-500 text-sm">Find apparel, footwear, accessories, and designer brands</p>
                  </div>
                  
                  <div className="relative group">
                     <div className="absolute inset-y-0 left-5 flex items-center pointer-events-none">
-                        <Search className="h-5 w-5 text-slate-400 group-focus-within:text-slate-900 transition-colors" />
+                        <Search className="h-5 w-5 text-stone-400 group-focus-within:text-bone-950 transition-colors" />
                     </div>
                     <Input
                         value={keyword}
                         name="keyword"
                         onChange={(event) => setKeyword(event.target.value)}
-                        className="py-6 pl-14 pr-14 text-base font-normal bg-white border-slate-300 rounded-2xl shadow-sm focus-visible:ring-slate-900 focus-visible:border-slate-900 transition-all placeholder:text-slate-400"
+                        className="py-6 pl-14 pr-14 text-base font-normal bg-bone-50 border-bone-300 text-bone-950 rounded-2xl shadow-sm focus-visible:ring-bone-900 focus-visible:border-bone-900 transition-all placeholder:text-stone-400"
                         placeholder="Search by product name, brand, or category..."
                     />
                     <div className="absolute inset-y-0 right-5 flex items-center">
                          {isLoading ? (
-                            <Loader2 className="h-5 w-5 text-slate-700 animate-spin" />
+                            <Loader2 className="h-5 w-5 text-stone-700 animate-spin" />
                          ) : null}
                     </div>
                  </div>
@@ -108,11 +108,11 @@ function SearchProducts() {
 
             {/* Results Grid */}
             <div className="space-y-6">
-                <div className="flex items-center justify-between border-b border-slate-200 pb-4">
+                <div className="flex items-center justify-between border-b border-bone-200 pb-4">
                     <div className="flex items-center gap-3">
-                        <span className="text-sm font-semibold text-slate-900">Search Results</span>
-                        <div className="h-1 w-1 bg-slate-300 rounded-full" />
-                        <span className="text-xs text-slate-500">{searchResults.length} {searchResults.length === 1 ? 'Product' : 'Products'} Found</span>
+                        <span className="text-sm font-semibold text-bone-950">Search Results</span>
+                        <div className="h-1 w-1 bg-bone-300 rounded-full" />
+                        <span className="text-xs text-stone-500">{searchResults.length} {searchResults.length === 1 ? 'Product' : 'Products'} Found</span>
                     </div>
                 </div>
 
@@ -128,15 +128,15 @@ function SearchProducts() {
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-white rounded-2xl p-16 text-center border border-slate-200 flex flex-col items-center justify-center space-y-4">
-                         <div className="bg-slate-50 p-6 rounded-full text-slate-300">
+                    <div className="bg-bone-50 rounded-2xl p-16 text-center border border-bone-200 flex flex-col items-center justify-center space-y-4">
+                         <div className="bg-bone-100 p-6 rounded-full text-stone-400 border border-bone-200">
                             <FilterX className="h-10 w-10" />
                          </div>
                          <div className="space-y-1">
-                             <h3 className="text-lg font-bold text-slate-900">
+                             <h3 className="text-lg font-bold text-bone-950">
                                {keyword.trim().length > 0 ? "No Products Found" : "Start typing to search"}
                              </h3>
-                             <p className="text-slate-500 text-sm max-w-sm mx-auto">
+                             <p className="text-stone-500 text-sm max-w-sm mx-auto">
                                {keyword.trim().length > 0
                                  ? "We couldn't find any items matching your search. Try checking the spelling or searching for another term."
                                  : "Search across our collection of men, women, kids, footwear, and accessories."}
