@@ -20,6 +20,7 @@ import { CommonContext } from "@/context/common-context";
 import ShoppingProductTile from "@/components/shopping-view/product-tile";
 import ProductDetailsDialog from "@/components/shopping-view/product-details";
 import VideoScrollHero from "@/components/shopping-view/video-scroll-hero";
+import { Badge } from "@/components/ui/badge";
 
 const categoriesWithIcon = [
   { id: "men", label: "Men", icon: Shirt },
